@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZongDong — Import Products</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F1EC;--bg2:#ECEAE3;--bg3:#E2DFD6;
+  --ink:#1A1814;--ink2:#4A4640;--ink3:#8A857E;
+  --accent:#C4401A;--accent2:#E8531A;--accent-dim:rgba(196,64,26,.08);
+  --gold:#B8860B;--gold-dim:rgba(184,134,11,.1);
+  --green:#1A6B3A;--green-dim:rgba(26,107,58,.08);
+  --border:#D4D0C8;--border2:#C8C4BB;
+  --white:#FFFEFB;--radius:10px;
+  --font:'Epilogue',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh}
+
+/* HEADER */
+header{background:var(--ink);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.logo-txt{font-family:var(--mono);font-size:.88rem;font-weight:600;color:#fff}
+.logo-txt span{color:#F5C842}
+.header-badge{background:var(--accent-dim);border:1px solid rgba(196,64,26,.3);color:#E8531A;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--mono)}
+
+/* MAIN */
+.main{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+
+/* CONFIG */
+.config-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.config-card label{font-size:.72rem;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.config-input{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--ink);font-family:var(--mono);font-size:.78rem;outline:none;transition:border .2s}
+.config-input:focus{border-color:var(--accent)}
+.config-input.url{flex:1;min-width:260px}
+.config-input.secret{width:160px}
+.conn-pill{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;border:1px solid;white-space:nowrap}
+.conn-pill.ok{background:var(--green-dim);border-color:rgba(26,107,58,.25);color:var(--green)}
+.conn-pill.fail{background:rgba(196,64,26,.08);border-color:rgba(196,64,26,.2);color:var(--accent)}
+.conn-pill.idle{background:var(--bg2);border-color:var(--border);color:var(--ink3)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:var(--font);font-size:.78rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:var(--accent2)}
+.btn-ghost{background:var(--bg2);border:1px solid var(--border);color:var(--ink2)}.btn-ghost:hover{border-color:var(--border2);color:var(--ink)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{opacity:.9}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* SECTION TITLES */
+.sec{margin-bottom:1.5rem}
+.sec-title{font-size:.78rem;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* DROP ZONE */
+.dropzone{background:var(--white);border:2px dashed var(--border2);border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.dropzone:hover,.dropzone.drag{border-color:var(--accent);background:var(--accent-dim)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{font-size:2.5rem;margin-bottom:.75rem;opacity:.4}
+.dz-title{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
+.dz-sub{font-size:.78rem;color:var(--ink3)}
+.dz-types{display:flex;justify-content:center;gap:8px;margin-top:.75rem;flex-wrap:wrap}
+.dz-type{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:2px 9px;font-size:.68rem;font-weight:600;color:var(--ink3);font-family:var(--mono)}
+
+/* TEMPLATE */
+.template-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.template-info{font-size:.78rem;color:var(--ink3);flex:1}
+
+/* TABLE PREVIEW */
+.preview-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem}
+.preview-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.preview-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.row-count{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(196,64,26,.2);border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700;font-family:var(--mono)}
+.tbl-scroll{overflow-x:auto;max-height:360px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+thead{position:sticky;top:0;background:var(--bg2);z-index:1}
+th{padding:8px 12px;text-align:left;font-size:.65rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
+th.required::after{content:' *';color:var(--accent)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--bg)}
+td{padding:9px 12px;vertical-align:middle;white-space:nowrap}
+td.err{background:rgba(196,64,26,.06);color:var(--accent)}
+td.ok{color:var(--green)}
+.mono{font-family:var(--mono);font-size:.72rem}
+
+/* FIELD MAPPING */
+.mapping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:1.5rem}
+.map-row{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.map-label{font-size:.65rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+.map-req{color:var(--accent)}
+.map-sel{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--font);font-size:.75rem;color:var(--ink);outline:none;cursor:pointer;transition:border .15s;width:100%}
+.map-sel:focus{border-color:var(--accent)}
+.map-sel option{background:var(--bg)}
+
+/* PROGRESS */
+.progress-bar{background:var(--bg2);border-radius:20px;height:10px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:20px;transition:width .3s}
+.progress-txt{font-size:.75rem;color:var(--ink3);text-align:center}
+
+/* LOG */
+.log-box{background:var(--ink);border-radius:var(--radius);padding:14px 16px;max-height:240px;overflow-y:auto;font-family:var(--mono);font-size:.72rem;line-height:1.7}
+.log-entry{padding:1px 0}
+.log-ok{color:#22C55E}.log-err{color:#EF4444}.log-info{color:#F5C842}.log-dim{color:#5A6078}
+
+/* RESULT BANNER */
+.result-banner{border-radius:var(--radius);padding:14px 18px;margin-top:1rem;font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:10px;display:none}
+.result-banner.show{display:flex}
+.result-banner.success{background:var(--green-dim);border:1px solid rgba(26,107,58,.25);color:var(--green)}
+.result-banner.error{background:rgba(196,64,26,.08);border:1px solid rgba(196,64,26,.2);color:var(--accent)}
+
+/* TOOLTIP */
+.tip{font-size:.68rem;color:var(--ink3);margin-top:3px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">🪔</div>
+    <div class="logo-txt">Zong<span>Dong</span></div>
+  </div>
+  <div class="header-badge">📦 Products Importer</div>
+</header>
+
+<div class="main">
+
+  <!-- CONFIG -->
+  <div class="sec">
+    <div class="sec-title">API Connection</div>
+    <div class="config-card">
+      <label>API URL</label>
+      <input class="config-input url" type="text" id="apiUrl" placeholder="https://zongdong-api-xxxxx-uc.a.run.app" oninput="saveConfig()">
+      <label>Secret</label>
+      <input class="config-input secret" type="password" id="apiSecret" placeholder="your-secret" oninput="saveConfig()">
+      <button class="btn btn-accent" onclick="testConn()">Test</button>
+      <div class="conn-pill idle" id="connPill"><div class="dot"></div><span id="connTxt">Not tested</span></div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE DOWNLOAD -->
+  <div class="sec">
+    <div class="sec-title">Step 1 — Download Template</div>
+    <div class="template-row">
+      <button class="btn btn-ghost" onclick="downloadTemplate()">⬇ Download products_template.csv</button>
+      <span class="template-info">Fill the CSV with your product data, then upload below. Required fields are marked *</span>
+    </div>
+
+    <!-- FIELD REFERENCE -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:700;color:var(--ink2)">Field Reference</div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th class="required">name</th><th>brand</th><th class="required">asin</th>
+            <th>category</th><th class="required">price_inr</th><th>original_price_inr</th>
+            <th>weight_grams</th><th>stock_status</th><th>emoji</th><th>description</th><th>tags</th>
+          </tr></thead>
+          <tbody><tr>
+            <td class="mono">Patanjali Ashwagandha 60ct</td>
+            <td class="mono">Patanjali</td>
+            <td class="mono">B07X3K9VZQ</td>
+            <td class="mono">Ayurveda & Health</td>
+            <td class="mono">299</td>
+            <td class="mono">399</td>
+            <td class="mono">150</td>
+            <td class="mono">in</td>
+            <td class="mono">🌿</td>
+            <td class="mono">Pure ashwagandha extract</td>
+            <td class="mono">ayurvedic,herbal</td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div style="padding:8px 14px;font-size:.7rem;color:var(--ink3);background:var(--bg)">
+        stock_status: <b>in</b> / <b>out</b> / <b>limited</b> &nbsp;·&nbsp; weight_grams default = 500 &nbsp;·&nbsp; * = required
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="sec">
+    <div class="sec-title">Step 2 — Upload CSV or Excel</div>
+    <div class="dropzone" id="dropzone" ondragover="doDragOver(event)" ondragleave="doDragLeave(event)" ondrop="doDrop(event)">
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" onchange="handleFile(this.files[0])">
+      <div class="dz-icon">📂</div>
+      <div class="dz-title">Drop your file here or click to browse</div>
+      <div class="dz-sub">Supports CSV and Excel formats</div>
+      <div class="dz-types"><span class="dz-type">.csv</span><span class="dz-type">.xlsx</span><span class="dz-type">.xls</span></div>
+    </div>
+  </div>
+
+  <!-- PREVIEW + MAPPING -->
+  <div id="previewSection" style="display:none">
+    <div class="sec">
+      <div class="sec-title">Step 3 — Map Columns</div>
+      <div class="mapping-grid" id="mappingGrid"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Step 4 — Preview Data</div>
+      <div class="preview-wrap">
+        <div class="preview-head">
+          <div class="preview-title">
+            Parsed rows
+            <span class="row-count" id="rowCount">0 rows</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost" onclick="resetImport()">✕ Clear</button>
+            <button class="btn btn-green" id="importBtn" onclick="startImport()" disabled>⬆ Import to BigQuery</button>
+          </div>
+        </div>
+        <div class="tbl-scroll">
+          <table>
+            <thead id="previewHead"></thead>
+            <tbody id="previewBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="progressSection" style="display:none" class="sec">
+      <div class="sec-title">Importing...</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-txt" id="progressTxt">0 / 0</div>
+      <div class="log-box" id="logBox" style="margin-top:1rem"></div>
+    </div>
+
+    <div class="result-banner" id="resultBanner"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+let parsedRows = [], csvHeaders = [], mappings = {};
+let API_BASE = '', API_SECRET = '';
+
+// ── CONFIG ──
+function loadConfig() {
+  API_BASE   = localStorage.getItem('zd_api_url')    || '';
+  API_SECRET = localStorage.getItem('zd_api_secret') || '';
+  if (API_BASE)   document.getElementById('apiUrl').value    = API_BASE;
+  if (API_SECRET) document.getElementById('apiSecret').value = API_SECRET;
+}
+function saveConfig() {
+  API_BASE   = document.getElementById('apiUrl').value.trim().replace(/\/$/,'');
+  API_SECRET = document.getElementById('apiSecret').value.trim();
+  localStorage.setItem('zd_api_url', API_BASE);
+  localStorage.setItem('zd_api_secret', API_SECRET);
+}
+async function testConn() {
+  const pill = document.getElementById('connPill');
+  const txt  = document.getElementById('connTxt');
+  pill.className = 'conn-pill idle'; txt.textContent = 'Testing...';
+  try {
+    const r = await fetch(API_BASE + '/', { headers: { 'x-admin-secret': API_SECRET } });
+    if (r.ok) { pill.className = 'conn-pill ok'; txt.textContent = 'Connected'; }
+    else throw new Error(r.status);
+  } catch(e) { pill.className = 'conn-pill fail'; txt.textContent = 'Failed — check URL + secret'; }
+}
+
+// ── TEMPLATE ──
+const PRODUCTS_FIELDS = [
+  { key:'name',              label:'Name',               required:true  },
+  { key:'brand',             label:'Brand',              required:false },
+  { key:'asin',              label:'ASIN',               required:true  },
+  { key:'category',          label:'Category',           required:false },
+  { key:'price_inr',         label:'Price INR',          required:true  },
+  { key:'original_price_inr',label:'Original Price INR', required:false },
+  { key:'weight_grams',      label:'Weight (grams)',     required:false },
+  { key:'stock_status',      label:'Stock Status',       required:false },
+  { key:'emoji',             label:'Emoji',              required:false },
+  { key:'image_url',         label:'Image URL',          required:false },
+  { key:'description',       label:'Description',        required:false },
+  { key:'highlights',        label:'Highlights',         required:false },
+  { key:'tags',              label:'Tags',               required:false },
+];
+
+function downloadTemplate() {
+  const headers = PRODUCTS_FIELDS.map(f => f.key);
+  const example = ['Patanjali Ashwagandha 60ct','Patanjali','B07X3K9VZQ','Ayurveda & Health','299','399','150','in','🌿','','Pure ashwagandha extract','100% Natural|GMP Certified','ayurvedic,herbal'];
+  const csv = [headers.join(','), example.join(',')].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'products_template.csv';
+  a.click();
+}
+
+// ── DRAG + DROP ──
+function doDragOver(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('drag'); }
+function doDragLeave()  { document.getElementById('dropzone').classList.remove('drag'); }
+function doDrop(e) { e.preventDefault(); doDragLeave(); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }
+
+// ── FILE PARSE ──
+function handleFile(file) {
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      let rows;
+      if (ext === 'csv') {
+        rows = parseCSV(e.target.result);
+      } else {
+        const wb = XLSX.read(e.target.result, { type:'array' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      }
+      if (!rows.length) { alert('No data found in file'); return; }
+      csvHeaders = Object.keys(rows[0]);
+      parsedRows = rows;
+      buildMapping();
+      renderPreview();
+      document.getElementById('previewSection').style.display = 'block';
+      document.getElementById('importBtn').disabled = false;
+    } catch(err) { alert('Error parsing file: ' + err.message); }
+  };
+  if (ext === 'csv') reader.readAsText(file);
+  else reader.readAsArrayBuffer(file);
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n').filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g,''));
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = vals[i] || '');
+    return obj;
+  });
+}
+
+// ── MAPPING ──
+function buildMapping() {
+  const grid = document.getElementById('mappingGrid');
+  grid.innerHTML = '';
+  mappings = {};
+  PRODUCTS_FIELDS.forEach(f => {
+    const autoMatch = csvHeaders.find(h => h.toLowerCase().replace(/[^a-z0-9]/g,'') === f.key.toLowerCase().replace(/[^a-z0-9]/g,''));
+    mappings[f.key] = autoMatch || '';
+    const div = document.createElement('div');
+    div.className = 'map-row';
+    div.innerHTML = `
+      <div class="map-label">${f.label}${f.required?'<span class="map-req"> *</span>':''}</div>
+      <select class="map-sel" onchange="mappings['${f.key}']=this.value;renderPreview()">
+        <option value="">— skip —</option>
+        ${csvHeaders.map(h => `<option value="${h}" ${h===autoMatch?'selected':''}>${h}</option>`).join('')}
+      </select>
+      <div class="tip">${f.required?'Required':'Optional'} · BQ field: <span style="font-family:monospace;font-size:.68rem;color:var(--accent)">${f.key}</span></div>`;
+    grid.appendChild(div);
+  });
+}
+
+// ── PREVIEW ──
+function renderPreview() {
+  const mappedFields = PRODUCTS_FIELDS.filter(f => mappings[f.key]);
+  const head = document.getElementById('previewHead');
+  head.innerHTML = '<tr>' + mappedFields.map(f => `<th${f.required?' class="required"':''}>${f.label}</th>`).join('') + '<th>Status</th></tr>';
+  document.getElementById('rowCount').textContent = parsedRows.length + ' rows';
+  const tbody = document.getElementById('previewBody');
+  tbody.innerHTML = parsedRows.slice(0,50).map((row,i) => {
+    const missing = PRODUCTS_FIELDS.filter(f => f.required && !row[mappings[f.key]]);
+    const status = missing.length ? `<td class="err">⚠ Missing: ${missing.map(f=>f.label).join(', ')}</td>` : '<td class="ok mono">✓ Ready</td>';
+    return '<tr>' + mappedFields.map(f => `<td class="mono">${row[mappings[f.key]]||'—'}</td>`).join('') + status + '</tr>';
+  }).join('');
+  if (parsedRows.length > 50) {
+    tbody.innerHTML += `<tr><td colspan="${mappedFields.length+1}" style="text-align:center;color:var(--ink3);padding:10px;font-size:.75rem">... and ${parsedRows.length-50} more rows</td></tr>`;
+  }
+}
+
+// ── IMPORT ──
+async function startImport() {
+  if (!API_BASE) { alert('Please set your API URL first'); return; }
+  const btn = document.getElementById('importBtn');
+  btn.disabled = true;
+  document.getElementById('progressSection').style.display = 'block';
+  document.getElementById('resultBanner').className = 'result-banner';
+  const logBox = document.getElementById('logBox');
+  logBox.innerHTML = '';
+  let success = 0, errors = 0;
+  const BATCH = 10;
+
+  for (let i = 0; i < parsedRows.length; i++) {
+    const row = parsedRows[i];
+    // Map fields
+    const product = {};
+    PRODUCTS_FIELDS.forEach(f => {
+      if (mappings[f.key]) product[f.key] = row[mappings[f.key]] || '';
+    });
+    // Type coerce
+    if (product.price_inr) product.price_inr = parseFloat(product.price_inr) || 0;
+    if (product.original_price_inr) product.original_price_inr = parseFloat(product.original_price_inr) || 0;
+    if (product.weight_grams) product.weight_grams = parseInt(product.weight_grams) || 500;
+    if (product.highlights) product.highlights = product.highlights.split('|').filter(Boolean);
+    if (!product.stock_status) product.stock_status = 'in';
+
+    // Validate
+    if (!product.name || !product.asin || !product.price_inr) {
+      errors++;
+      log(logBox, `err`, `Row ${i+1}: SKIPPED — missing required field (name/asin/price_inr)`);
+      updateProgress(i+1, parsedRows.length, success, errors);
+      continue;
+    }
+
+    try {
+      const res = await fetch(API_BASE + '/products', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'x-admin-secret': API_SECRET },
+        body: JSON.stringify(product)
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        success++;
+        log(logBox, 'ok', `Row ${i+1}: ✓ ${product.name} → ${data.product_id}`);
+      } else {
+        errors++;
+        log(logBox, 'err', `Row ${i+1}: ✗ ${data.error || 'Unknown error'}`);
+      }
+    } catch(e) {
+      errors++;
+      log(logBox, 'err', `Row ${i+1}: ✗ Network error — ${e.message}`);
+    }
+
+    updateProgress(i+1, parsedRows.length, success, errors);
+    // Small delay every batch to avoid rate limiting
+    if ((i+1) % BATCH === 0) await sleep(200);
+  }
+
+  // Done
+  const banner = document.getElementById('resultBanner');
+  if (errors === 0) {
+    banner.className = 'result-banner success show';
+    banner.innerHTML = `✅ All ${success} products imported to BigQuery! ⏱ Wait 30–60 seconds then click Refresh in the dashboard — BigQuery streaming has a short delay before data appears in SELECT queries.`;
+  } else {
+    banner.className = 'result-banner error show';
+    banner.innerHTML = `⚠️ Completed: ${success} imported, ${errors} failed. Check the log above for details.`;
+  }
+  btn.disabled = false;
+  log(logBox, 'info', `─── Import complete: ${success} success, ${errors} errors ───`);
+}
+
+function log(box, type, msg) {
+  const div = document.createElement('div');
+  div.className = `log-entry log-${type}`;
+  div.textContent = msg;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function updateProgress(done, total, success, errors) {
+  const pct = Math.round((done/total)*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressTxt').textContent = `${done} / ${total}  (✓ ${success}  ✗ ${errors})`;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function resetImport() {
+  parsedRows = []; csvHeaders = []; mappings = {};
+  document.getElementById('previewSection').style.display = 'none';
+  document.getElementById('progressSection').style.display = 'none';
+  document.getElementById('resultBanner').className = 'result-banner';
+  document.getElementById('fileInput').value = '';
+}
+
+loadConfig();
+</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZongDong — Import Pricing Overrides</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0C0F0A;--bg2:#141810;--bg3:#1C211A;
+  --ink:#E4EBE0;--ink2:#8EA889;--ink3:#4F6B4A;
+  --accent:#22C55E;--accent2:#4ADE80;--accent-dim:rgba(34,197,94,.1);
+  --gold:#F5C842;--gold-dim:rgba(245,200,66,.1);
+  --red:#EF4444;--red-dim:rgba(239,68,68,.1);
+  --orange:#F59E0B;--orange-dim:rgba(245,158,11,.1);
+  --border:#243020;--border2:#2E3E28;
+  --radius:10px;--font:'Epilogue',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh}
+
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#22C55E,#F5C842);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.logo-txt{font-family:var(--mono);font-size:.88rem;font-weight:600;color:var(--ink)}
+.logo-txt span{color:var(--gold)}
+.header-badge{background:var(--accent-dim);border:1px solid rgba(34,197,94,.2);color:var(--accent2);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--mono)}
+
+.main{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+
+.config-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.config-card label{font-size:.7rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.config-input{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:7px 11px;color:var(--ink);font-family:var(--mono);font-size:.75rem;outline:none;transition:border .2s}
+.config-input:focus{border-color:var(--accent)}
+.config-input.url{flex:1;min-width:240px}
+.config-input.secret{width:150px}
+.conn-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:700;border:1px solid;white-space:nowrap}
+.conn-pill.ok{background:var(--accent-dim);border-color:rgba(34,197,94,.2);color:var(--accent)}
+.conn-pill.fail{background:var(--red-dim);border-color:rgba(239,68,68,.2);color:var(--red)}
+.conn-pill.idle{background:var(--bg3);border-color:var(--border);color:var(--ink3)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.btn{padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-family:var(--font);font-size:.75rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.btn-accent{background:var(--accent);color:#000}.btn-accent:hover{background:var(--accent2)}
+.btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--ink2)}.btn-ghost:hover{border-color:var(--border2);color:var(--ink)}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{opacity:.9}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+
+.sec{margin-bottom:1.5rem}
+.sec-title{font-size:.72rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* FORMULA BOX */
+.formula-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius);padding:14px 16px;margin-bottom:1rem;font-size:.78rem;line-height:1.8}
+.formula-box .f-title{font-weight:700;color:var(--gold);margin-bottom:6px;font-size:.8rem}
+.formula-box code{background:var(--bg3);padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:.72rem;color:var(--accent2)}
+.formula-example{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:.75rem}
+.fe-item{display:flex;flex-direction:column;gap:3px}
+.fe-label{font-size:.62rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px}
+.fe-val{font-family:var(--mono);color:var(--gold);font-size:.78rem;font-weight:600}
+
+.dropzone{background:var(--bg2);border:2px dashed var(--border2);border-radius:12px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.dropzone:hover,.dropzone.drag{border-color:var(--accent);background:var(--accent-dim)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{font-size:2rem;margin-bottom:.6rem;opacity:.35}
+.dz-title{font-size:.88rem;font-weight:600;margin-bottom:.3rem}
+.dz-sub{font-size:.72rem;color:var(--ink3)}
+.dz-types{display:flex;justify-content:center;gap:7px;margin-top:.5rem}
+.dz-type{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:2px 8px;font-size:.63rem;font-weight:600;color:var(--ink3);font-family:var(--mono)}
+
+.field-ref{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.fr-head{padding:9px 14px;border-bottom:1px solid var(--border);font-size:.72rem;font-weight:700;color:var(--ink2)}
+table{width:100%;border-collapse:collapse;font-size:.72rem}
+thead{background:var(--bg3)}
+th{padding:7px 11px;text-align:left;font-size:.62rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+th.req::after{content:' *';color:var(--accent)}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--bg3)}
+td{padding:8px 11px;vertical-align:middle}
+td.err{background:rgba(239,68,68,.07);color:var(--red)}
+td.ok{color:var(--accent)}
+.mono{font-family:var(--mono);font-size:.7rem;color:var(--ink2)}
+
+.mapping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:1.25rem}
+.map-row{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 11px;display:flex;flex-direction:column;gap:4px}
+.map-label{font-size:.63rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+.map-req{color:var(--accent)}
+.map-sel{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-family:var(--font);font-size:.72rem;color:var(--ink);outline:none;cursor:pointer;width:100%}
+.map-sel:focus{border-color:var(--accent)}
+.map-sel option{background:var(--bg3)}
+.tip{font-size:.63rem;color:var(--ink3);margin-top:2px}
+
+.preview-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem}
+.preview-head{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.preview-title{font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:7px}
+.row-count{background:var(--accent-dim);color:var(--accent2);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:2px 9px;font-size:.65rem;font-weight:700;font-family:var(--mono)}
+.tbl-scroll{overflow-x:auto;max-height:320px;overflow-y:auto}
+
+/* CALC PREVIEW COLUMN */
+.calc-col{color:var(--gold);font-weight:600}
+
+.progress-bar{background:var(--bg3);border-radius:20px;height:9px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:20px;transition:width .3s}
+.progress-txt{font-size:.72rem;color:var(--ink3);text-align:center}
+.log-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;max-height:200px;overflow-y:auto;font-family:var(--mono);font-size:.7rem;line-height:1.7;margin-top:.75rem}
+.log-ok{color:var(--accent)}.log-err{color:var(--red)}.log-info{color:var(--gold)}.log-dim{color:var(--ink3)}
+
+.result-banner{border-radius:var(--radius);padding:13px 16px;margin-top:1rem;font-size:.8rem;font-weight:500;display:none;align-items:center;gap:9px}
+.result-banner.show{display:flex}
+.result-banner.success{background:var(--accent-dim);border:1px solid rgba(34,197,94,.2);color:var(--accent)}
+.result-banner.error{background:var(--red-dim);border:1px solid rgba(239,68,68,.2);color:var(--red)}
+
+.warn-box{background:var(--orange-dim);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:10px 14px;font-size:.75rem;color:var(--orange);line-height:1.6;margin-bottom:1rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">💰</div>
+    <div class="logo-txt">Zong<span>Dong</span></div>
+  </div>
+  <div class="header-badge">💰 Pricing Overrides Importer</div>
+</header>
+
+<div class="main">
+
+  <div class="sec">
+    <div class="sec-title">API Connection</div>
+    <div class="config-card">
+      <label>API URL</label>
+      <input class="config-input url" type="text" id="apiUrl" placeholder="https://zongdong-api-xxxxx-uc.a.run.app" oninput="saveConfig()">
+      <label>Secret</label>
+      <input class="config-input secret" type="password" id="apiSecret" placeholder="your-secret" oninput="saveConfig()">
+      <button class="btn btn-accent" onclick="testConn()">Test</button>
+      <div class="conn-pill idle" id="connPill"><div class="dot"></div><span id="connTxt">Not tested</span></div>
+    </div>
+  </div>
+
+  <!-- FORMULA REMINDER -->
+  <div class="sec">
+    <div class="sec-title">Pricing Formula Reference</div>
+    <div class="formula-box">
+      <div class="f-title">Auto-calculated price (no override needed)</div>
+      <div>Logistics = <code>16 AED/kg</code> · min charge <code>500g</code></div>
+      <div>Margin = <code>min(10% × (base + logistics), 20 AED)</code></div>
+      <div>Final = base_AED + logistics + margin + <code>5% VAT</code></div>
+      <div class="formula-example">
+        <div class="fe-item"><div class="fe-label">Example: ₹299, 150g</div><div class="fe-val">AED 13.16 + AED 8.00 + AED 2.12 + AED 1.16 = <span style="color:var(--gold-dim);color:#F5C842">AED 25</span></div></div>
+      </div>
+    </div>
+    <div class="warn-box">
+      ⚠️ <strong>Override only when needed.</strong> Importing a custom price replaces the auto-formula for that product. Leave <code>custom_price_aed</code> blank to use auto pricing. Each import row will <strong>delete then replace</strong> any existing override for that product_id.
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Step 1 — Download Template</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:.75rem">
+      <button class="btn btn-ghost" onclick="downloadTemplate()">⬇ Download pricing_overrides_template.csv</button>
+      <span style="font-size:.75rem;color:var(--ink3)">You need the product_id from your BigQuery products table</span>
+    </div>
+    <div class="field-ref">
+      <div class="fr-head">Field Reference — pricing_overrides table</div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th class="req">product_id</th>
+            <th class="req">custom_price_aed</th>
+            <th>override_reason</th>
+            <th>set_by</th>
+          </tr></thead>
+          <tbody><tr>
+            <td class="mono">p_1234567890</td>
+            <td class="mono">45.00</td>
+            <td class="mono">Seasonal promotion</td>
+            <td class="mono">admin</td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div style="padding:7px 14px;font-size:.68rem;color:var(--ink3);background:var(--bg3);border-top:1px solid var(--border)">
+        * = required &nbsp;·&nbsp; product_id comes from BQ products table &nbsp;·&nbsp; custom_price_aed = final price shown to customer in AED
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Step 2 — Upload CSV or Excel</div>
+    <div class="dropzone" id="dropzone" ondragover="doDragOver(event)" ondragleave="doDragLeave()" ondrop="doDrop(event)">
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" onchange="handleFile(this.files[0])">
+      <div class="dz-icon">💹</div>
+      <div class="dz-title">Drop pricing file here or click to browse</div>
+      <div class="dz-sub">CSV and Excel supported</div>
+      <div class="dz-types"><span class="dz-type">.csv</span><span class="dz-type">.xlsx</span><span class="dz-type">.xls</span></div>
+    </div>
+  </div>
+
+  <div id="previewSection" style="display:none">
+    <div class="sec">
+      <div class="sec-title">Step 3 — Map Columns</div>
+      <div class="mapping-grid" id="mappingGrid"></div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Step 4 — Preview & Import</div>
+      <div class="preview-wrap">
+        <div class="preview-head">
+          <div class="preview-title">Pricing overrides <span class="row-count" id="rowCount">0 rows</span></div>
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-ghost" onclick="resetImport()">✕ Clear</button>
+            <button class="btn btn-gold" id="importBtn" onclick="startImport()" disabled>⬆ Import Prices to BigQuery</button>
+          </div>
+        </div>
+        <div class="tbl-scroll"><table><thead id="previewHead"></thead><tbody id="previewBody"></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="progressSection" style="display:none" class="sec">
+      <div class="sec-title">Importing...</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-txt" id="progressTxt">0 / 0</div>
+      <div class="log-box" id="logBox"></div>
+    </div>
+    <div class="result-banner" id="resultBanner"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+let parsedRows = [], csvHeaders = [], mappings = {};
+let API_BASE = '', API_SECRET = '';
+
+function loadConfig() {
+  API_BASE   = localStorage.getItem('zd_api_url')    || '';
+  API_SECRET = localStorage.getItem('zd_api_secret') || '';
+  if (API_BASE)   document.getElementById('apiUrl').value    = API_BASE;
+  if (API_SECRET) document.getElementById('apiSecret').value = API_SECRET;
+}
+function saveConfig() {
+  API_BASE   = document.getElementById('apiUrl').value.trim().replace(/\/$/,'');
+  API_SECRET = document.getElementById('apiSecret').value.trim();
+  localStorage.setItem('zd_api_url', API_BASE);
+  localStorage.setItem('zd_api_secret', API_SECRET);
+}
+async function testConn() {
+  const pill = document.getElementById('connPill'), txt = document.getElementById('connTxt');
+  pill.className = 'conn-pill idle'; txt.textContent = 'Testing...';
+  try {
+    const r = await fetch(API_BASE + '/', { headers:{ 'x-admin-secret': API_SECRET } });
+    if (r.ok) { pill.className='conn-pill ok'; txt.textContent='Connected'; }
+    else throw new Error(r.status);
+  } catch(e) { pill.className='conn-pill fail'; txt.textContent='Failed'; }
+}
+
+const PRICING_FIELDS = [
+  { key:'product_id',       label:'Product ID',        required:true  },
+  { key:'custom_price_aed', label:'Custom Price (AED)', required:true  },
+  { key:'override_reason',  label:'Override Reason',   required:false },
+  { key:'set_by',           label:'Set By',            required:false },
+];
+
+function downloadTemplate() {
+  const headers = PRICING_FIELDS.map(f=>f.key);
+  const ex1 = ['p_1234567890','45.00','Seasonal promotion','admin'];
+  const ex2 = ['p_9876543210','99.50','Bulk import price','admin'];
+  const csv = [headers.join(','), ex1.join(','), ex2.join(',')].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'pricing_overrides_template.csv'; a.click();
+}
+
+function doDragOver(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('drag'); }
+function doDragLeave()  { document.getElementById('dropzone').classList.remove('drag'); }
+function doDrop(e) { e.preventDefault(); doDragLeave(); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }
+
+function handleFile(file) {
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      let rows;
+      if (ext === 'csv') { rows = parseCSV(e.target.result); }
+      else {
+        const wb = XLSX.read(e.target.result, { type:'array' });
+        rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval:'' });
+      }
+      if (!rows.length) { alert('No data found'); return; }
+      csvHeaders = Object.keys(rows[0]);
+      parsedRows = rows;
+      buildMapping();
+      renderPreview();
+      document.getElementById('previewSection').style.display = 'block';
+      document.getElementById('importBtn').disabled = false;
+    } catch(err) { alert('Parse error: ' + err.message); }
+  };
+  if (ext === 'csv') reader.readAsText(file);
+  else reader.readAsArrayBuffer(file);
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n').filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v=>v.trim().replace(/^"|"$/g,''));
+    const obj = {}; headers.forEach((h,i)=>obj[h]=vals[i]||''); return obj;
+  });
+}
+
+function buildMapping() {
+  const grid = document.getElementById('mappingGrid');
+  grid.innerHTML = ''; mappings = {};
+  PRICING_FIELDS.forEach(f => {
+    const auto = csvHeaders.find(h=>h.toLowerCase().replace(/[^a-z0-9]/g,'')=== f.key.toLowerCase().replace(/[^a-z0-9]/g,''));
+    mappings[f.key] = auto || '';
+    const div = document.createElement('div');
+    div.className = 'map-row';
+    div.innerHTML = `
+      <div class="map-label">${f.label}${f.required?'<span class="map-req"> *</span>':''}</div>
+      <select class="map-sel" onchange="mappings['${f.key}']=this.value;renderPreview()">
+        <option value="">— skip —</option>
+        ${csvHeaders.map(h=>`<option value="${h}" ${h===auto?'selected':''}>${h}</option>`).join('')}
+      </select>
+      <div class="tip">BQ: <span style="font-family:monospace;font-size:.63rem;color:var(--accent2)">${f.key}</span></div>`;
+    grid.appendChild(div);
+  });
+}
+
+function renderPreview() {
+  const mapped = PRICING_FIELDS.filter(f=>mappings[f.key]);
+  document.getElementById('previewHead').innerHTML = '<tr>' + mapped.map(f=>`<th${f.required?' class="req"':''}>${f.label}</th>`).join('') + '<th>Status</th></tr>';
+  document.getElementById('rowCount').textContent = parsedRows.length + ' rows';
+  const tbody = document.getElementById('previewBody');
+  tbody.innerHTML = parsedRows.slice(0,50).map((row,i) => {
+    const missing = PRICING_FIELDS.filter(f=>f.required&&!row[mappings[f.key]]);
+    const isValidPrice = !isNaN(parseFloat(row[mappings['custom_price_aed']]));
+    const status = missing.length ? `<td class="err">⚠ ${missing.map(f=>f.label).join(', ')}</td>`
+      : !isValidPrice ? '<td class="err">⚠ Invalid price</td>'
+      : '<td class="ok mono">✓ Ready</td>';
+    return '<tr>' + mapped.map(f=>`<td class="mono${f.key==='custom_price_aed'?' calc-col':''}">${row[mappings[f.key]]||'—'}</td>`).join('') + status + '</tr>';
+  }).join('');
+  if (parsedRows.length > 50) tbody.innerHTML += `<tr><td colspan="${mapped.length+1}" style="text-align:center;color:var(--ink3);padding:8px;font-size:.72rem">... and ${parsedRows.length-50} more rows</td></tr>`;
+}
+
+async function startImport() {
+  if (!API_BASE) { alert('Set your API URL first'); return; }
+  document.getElementById('importBtn').disabled = true;
+  document.getElementById('progressSection').style.display = 'block';
+  document.getElementById('resultBanner').className = 'result-banner';
+  const logBox = document.getElementById('logBox');
+  logBox.innerHTML = '';
+  let success = 0, errors = 0;
+
+  for (let i = 0; i < parsedRows.length; i++) {
+    const row = parsedRows[i];
+    const override = {};
+    PRICING_FIELDS.forEach(f => { if (mappings[f.key]) override[f.key] = row[mappings[f.key]] || ''; });
+    if (override.custom_price_aed) override.custom_price_aed = parseFloat(override.custom_price_aed);
+    if (!override.set_by) override.set_by = 'import';
+
+    if (!override.product_id || isNaN(override.custom_price_aed)) {
+      errors++;
+      log(logBox,'err',`Row ${i+1}: SKIPPED — missing product_id or invalid price`);
+      updateProgress(i+1, parsedRows.length, success, errors);
+      continue;
+    }
+
+    try {
+      const res = await fetch(API_BASE + '/pricing', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'x-admin-secret': API_SECRET },
+        body: JSON.stringify(override)
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        success++;
+        log(logBox,'ok',`Row ${i+1}: ✓ ${override.product_id} → AED ${override.custom_price_aed}`);
+      } else {
+        errors++;
+        log(logBox,'err',`Row ${i+1}: ✗ ${data.error||'Unknown error'}`);
+      }
+    } catch(e) { errors++; log(logBox,'err',`Row ${i+1}: ✗ ${e.message}`); }
+
+    updateProgress(i+1, parsedRows.length, success, errors);
+    if ((i+1) % 10 === 0) await sleep(200);
+  }
+
+  const banner = document.getElementById('resultBanner');
+  if (errors === 0) { banner.className='result-banner success show'; banner.innerHTML=`✅ All ${success} pricing overrides imported to BigQuery!`; }
+  else { banner.className='result-banner error show'; banner.innerHTML=`⚠️ ${success} imported, ${errors} failed. Check log above.`; }
+  document.getElementById('importBtn').disabled = false;
+  log(logBox,'info',`─── Done: ${success} success, ${errors} errors ───`);
+}
+
+function log(box,type,msg){ const d=document.createElement('div'); d.className=`log-entry log-${type}`; d.textContent=msg; box.appendChild(d); box.scrollTop=box.scrollHeight; }
+function updateProgress(done,total,s,e){ const p=Math.round((done/total)*100); document.getElementById('progressFill').style.width=p+'%'; document.getElementById('progressTxt').textContent=`${done} / ${total}  (✓ ${s}  ✗ ${e})`; }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function resetImport(){ parsedRows=[];csvHeaders=[];mappings={};document.getElementById('previewSection').style.display='none';document.getElementById('progressSection').style.display='none';document.getElementById('resultBanner').className='result-banner';document.getElementById('fileInput').value=''; }
+
+loadConfig();
+</script>
+</body>
+</html>
