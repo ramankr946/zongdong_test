@@ -1,0 +1,47 @@
+name: Deploy API to Cloud Run
+
+on:
+  push:
+      branches: [main]
+          paths:
+                - 'server.js'
+                      - 'package.json'
+                            - 'Dockerfile'
+                                  - '.github/workflows/deploy-api.yml'
+                                    workflow_dispatch:
+
+                                    jobs:
+                                      deploy:
+                                          runs-on: ubuntu-latest
+                                              steps:
+                                                    - name: Checkout
+                                                            uses: actions/checkout@v4
+
+                                                                  - name: Authenticate to Google Cloud
+                                                                          uses: google-github-actions/auth@v2
+                                                                                  with:
+                                                                                            credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+                                                                                                  - name: Set up Cloud SDK
+                                                                                                          uses: google-github-actions/setup-gcloud@v2
+                                                                                                          
+                                                                                                                - name: Authorize Docker to push to GCR
+                                                                                                                        run: gcloud auth configure-docker gcr.io --quiet
+                                                                                                                        
+                                                                                                                              - name: Build Docker image
+                                                                                                                                      run: |
+                                                                                                                                                docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/zongdong-api:${{ github.sha }} .
+                                                                                                                                                
+                                                                                                                                                      - name: Push Docker image
+                                                                                                                                                              run: |
+                                                                                                                                                                        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/zongdong-api:${{ github.sha }}
+                                                                                                                                                                        
+                                                                                                                                                                              - name: Deploy to Cloud Run
+                                                                                                                                                                                      run: |
+                                                                                                                                                                                                gcloud run deploy zongdong-api \
+                                                                                                                                                                                                            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/zongdong-api:${{ github.sha }} \
+                                                                                                                                                                                                                        --platform managed \
+                                                                                                                                                                                                                                    --region us-central1 \
+                                                                                                                                                                                                                                                --allow-unauthenticated \
+                                                                                                                                                                                                                                                            --set-env-vars GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},ADMIN_SECRET=${{ secrets.ADMIN_SECRET }} \
+                                                                                                                                                                                                                                                                        --project ${{ secrets.GCP_PROJECT_ID }}
