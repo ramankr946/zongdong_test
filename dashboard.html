@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZongDong Admin — BigQuery Dashboard</title>
+<title>ZongDong Admin â BigQuery Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -221,18 +221,18 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sb-logo">
-    <div class="sb-logo-icon">🪔</div>
+    <div class="sb-logo-icon">ðª</div>
     <div class="sb-logo-txt">Zong<span>Dong</span></div>
   </div>
   <div class="sb-label">Catalog</div>
-  <div class="sb-item active" onclick="nav('catalog')"><span class="icon">📦</span> Products <span class="sb-badge orange" id="sb-prod">0</span></div>
-  <div class="sb-item" onclick="nav('banned')"><span class="icon">🚫</span> Banned <span class="sb-badge red" id="sb-banned">0</span></div>
+  <div class="sb-item active" onclick="nav('catalog')"><span class="icon">ð¦</span> Products <span class="sb-badge orange" id="sb-prod">0</span></div>
+  <div class="sb-item" onclick="nav('banned')"><span class="icon">ð«</span> Banned <span class="sb-badge red" id="sb-banned">0</span></div>
   <div class="sb-label">Operations</div>
-  <div class="sb-item" onclick="nav('pricing')"><span class="icon">💰</span> Pricing Engine</div>
-  <div class="sb-item" onclick="nav('orders')"><span class="icon">🚚</span> Orders <span class="sb-badge green" id="sb-orders">0</span></div>
+  <div class="sb-item" onclick="nav('pricing')"><span class="icon">ð°</span> Pricing Engine</div>
+  <div class="sb-item" onclick="nav('orders')"><span class="icon">ð</span> Orders <span class="sb-badge green" id="sb-orders">0</span></div>
   <div class="sb-label">System</div>
-  <div class="sb-item" onclick="nav('setup')"><span class="icon">⚙️</span> BQ Connection</div>
-  <div class="sb-footer">ZongDong Admin v2.0<br>BigQuery Live · GitHub Pages<br><a href="./importers/" style="color:var(--accent2);text-decoration:none;font-size:.65rem">↗ Import Data</a></div>
+  <div class="sb-item" onclick="nav('setup')"><span class="icon">âï¸</span> BQ Connection</div>
+  <div class="sb-footer">ZongDong Admin v2.0<br>BigQuery Live Â· GitHub Pages<br><a href="./importers/" style="color:var(--accent2);text-decoration:none;font-size:.65rem">â Import Data</a></div>
 </div>
 
 <!-- MAIN -->
@@ -252,8 +252,8 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
   <div class="topbar">
     <div class="topbar-title"><span class="live-dot"></span><span id="topTitleTxt">Product Catalog</span></div>
     <div class="topbar-right">
-      <div class="tb-pill">🕐 <span id="clock"></span></div>
-      <div class="tb-pill live" id="bqPill">● Local Mode</div>
+      <div class="tb-pill">ð <span id="clock"></span></div>
+      <div class="tb-pill live" id="bqPill">â Local Mode</div>
       <button class="refresh-btn" id="refreshBtn" onclick="refreshPage()">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
         Refresh
@@ -263,12 +263,12 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 
   <div class="content">
 
-    <!-- ══ CATALOG ══ -->
+    <!-- ââ CATALOG ââ -->
     <div class="page active" id="page-catalog">
       <div class="stat-row" id="catalog-stats"></div>
       <div class="tcard">
         <div class="tcard-head">
-          <div class="tcard-title">📦 Product Catalog</div>
+          <div class="tcard-title">ð¦ Product Catalog</div>
           <div class="tcard-actions">
             <input class="search-box" type="text" placeholder="Name, ASIN, brand..." oninput="filterCatalog(this.value)" id="catSearch">
             <select class="sel-box" onchange="filterCatalogStatus(this.value)" id="catStatusSel">
@@ -292,11 +292,11 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
       </div>
     </div>
 
-    <!-- ══ BANNED ══ -->
+    <!-- ââ BANNED ââ -->
     <div class="page" id="page-banned">
       <div class="tcard">
         <div class="tcard-head">
-          <div class="tcard-title">🚫 Banned Products</div>
+          <div class="tcard-title">ð« Banned Products</div>
           <div class="tcard-actions">
             <input class="search-box" type="text" placeholder="Search banned..." oninput="filterBanned(this.value)">
           </div>
@@ -310,36 +310,36 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
       </div>
     </div>
 
-    <!-- ══ PRICING ══ -->
+    <!-- ââ PRICING ââ -->
     <div class="page" id="page-pricing">
       <div class="calc-card">
-        <h3>🧮 Live Pricing Calculator</h3>
+        <h3>ð§® Live Pricing Calculator</h3>
         <div class="formula-box">
-          <strong>Formula:</strong> Logistics = 16 AED/kg · Min charge = 500g · Margin = 10% of (base+logistics), capped at AED 20 · Final = base + logistics + margin + 5% VAT
+          <strong>Formula:</strong> Logistics = 16 AED/kg Â· Min charge = 500g Â· Margin = 10% of (base+logistics), capped at AED 20 Â· Final = base + logistics + margin + 5% VAT
         </div>
         <div class="calc-grid">
-          <div class="fg"><label>Source Price (₹ INR)</label><input type="number" id="calc-inr" value="1500" oninput="recalc()"></div>
+          <div class="fg"><label>Source Price (â¹ INR)</label><input type="number" id="calc-inr" value="1500" oninput="recalc()"></div>
           <div class="fg"><label>Weight (grams)</label><input type="number" id="calc-weight" value="350" oninput="recalc()"></div>
           <div class="fg"><label>Exchange Rate</label><input type="number" id="calc-rate" value="0.044" step="0.001" oninput="recalc()"></div>
           <div class="fg"><label>Custom Margin Override (AED)</label><input type="number" id="calc-override" placeholder="Blank = auto" oninput="recalc()"></div>
         </div>
         <div class="price-preview">
           <div class="pv-title">Breakdown</div>
-          <div class="calc-row"><span class="lbl">Source → AED</span><span class="val" id="r-base">—</span></div>
-          <div class="calc-row"><span class="lbl">Effective weight (min 500g)</span><span class="val" id="r-effwt">—</span></div>
-          <div class="calc-row"><span class="lbl">Logistics (16 AED/kg)</span><span class="val" id="r-logistics">—</span></div>
-          <div class="calc-row"><span class="lbl">Margin (10%, cap 20)</span><span class="val" id="r-margin">—</span></div>
-          <div class="calc-row"><span class="lbl">UAE VAT (5%)</span><span class="val" id="r-vat">—</span></div>
-          <div class="calc-row total"><span class="lbl">Final Customer Price</span><span class="val" id="r-total">—</span></div>
+          <div class="calc-row"><span class="lbl">Source â AED</span><span class="val" id="r-base">â</span></div>
+          <div class="calc-row"><span class="lbl">Effective weight (min 500g)</span><span class="val" id="r-effwt">â</span></div>
+          <div class="calc-row"><span class="lbl">Logistics (16 AED/kg)</span><span class="val" id="r-logistics">â</span></div>
+          <div class="calc-row"><span class="lbl">Margin (10%, cap 20)</span><span class="val" id="r-margin">â</span></div>
+          <div class="calc-row"><span class="lbl">UAE VAT (5%)</span><span class="val" id="r-vat">â</span></div>
+          <div class="calc-row total"><span class="lbl">Final Customer Price</span><span class="val" id="r-total">â</span></div>
         </div>
       </div>
       <div class="tcard">
         <div class="tcard-head">
-          <div class="tcard-title">💰 Bulk Pricing Manager</div>
+          <div class="tcard-title">ð° Bulk Pricing Manager</div>
           <div class="tcard-actions">
             <input class="search-box" type="text" placeholder="Filter products..." oninput="filterPricing(this.value)">
-            <button class="btn btn-green" onclick="clearAllOverrides()">↺ Clear All Overrides</button>
-            <button class="btn btn-ghost" onclick="exportCSV()">↓ Export CSV</button>
+            <button class="btn btn-green" onclick="clearAllOverrides()">âº Clear All Overrides</button>
+            <button class="btn btn-ghost" onclick="exportCSV()">â Export CSV</button>
           </div>
         </div>
         <div class="filter-row" id="pricing-cats"></div>
@@ -356,12 +356,12 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
       </div>
     </div>
 
-    <!-- ══ ORDERS ══ -->
+    <!-- ââ ORDERS ââ -->
     <div class="page" id="page-orders">
       <div class="stat-row" id="order-stats"></div>
       <div class="tcard">
         <div class="tcard-head">
-          <div class="tcard-title">🚚 Orders & Tracking</div>
+          <div class="tcard-title">ð Orders & Tracking</div>
           <div class="tcard-actions">
             <input class="search-box" type="text" placeholder="Order, customer, ASIN..." oninput="filterOrders(this.value)" id="ordSearch">
             <select class="sel-box" onchange="filterOrderStatus(this.value)" id="ordStatusSel">
@@ -379,10 +379,10 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
       </div>
     </div>
 
-    <!-- ══ SETUP ══ -->
+    <!-- ââ SETUP ââ -->
     <div class="page" id="page-setup">
       <div class="tcard" style="padding:20px">
-        <div class="tcard-title" style="margin-bottom:16px;font-size:.95rem">⚙️ BigQuery Connection Setup</div>
+        <div class="tcard-title" style="margin-bottom:16px;font-size:.95rem">âï¸ BigQuery Connection Setup</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
           <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
             <div style="font-size:.78rem;font-weight:700;margin-bottom:10px;color:var(--txt)">Quick Steps</div>
@@ -409,12 +409,12 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
         </div>
         <div style="font-size:.75rem;color:var(--txt3);background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;line-height:1.8">
           <strong style="color:var(--gold)">Files in your download:</strong><br>
-          📄 <code style="color:var(--accent2)">server.js</code> — Node.js API (deploy to Cloud Run)<br>
-          📄 <code style="color:var(--accent2)">package.json</code> — Dependencies<br>
-          📄 <code style="color:var(--accent2)">Dockerfile</code> — Container config<br>
-          📄 <code style="color:var(--accent2)">schema.sql</code> — BigQuery table schemas<br>
-          📄 <code style="color:var(--accent2)">deploy.sh</code> — One-command deployment script<br>
-          📄 <code style="color:var(--accent2)">dashboard.html</code> — This dashboard file
+          ð <code style="color:var(--accent2)">server.js</code> â Node.js API (deploy to Cloud Run)<br>
+          ð <code style="color:var(--accent2)">package.json</code> â Dependencies<br>
+          ð <code style="color:var(--accent2)">Dockerfile</code> â Container config<br>
+          ð <code style="color:var(--accent2)">schema.sql</code> â BigQuery table schemas<br>
+          ð <code style="color:var(--accent2)">deploy.sh</code> â One-command deployment script<br>
+          ð <code style="color:var(--accent2)">dashboard.html</code> â This dashboard file
         </div>
       </div>
     </div>
@@ -427,13 +427,13 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 <!-- Add/Edit Product -->
 <div class="modal-ov" id="productModal">
   <div class="modal-box">
-    <div class="modal-head"><h3 id="pmTitle">Add Product</h3><button class="modal-x" onclick="closeModal('productModal')">✕</button></div>
+    <div class="modal-head"><h3 id="pmTitle">Add Product</h3><button class="modal-x" onclick="closeModal('productModal')">â</button></div>
     <div class="modal-body">
       <div class="form-row"><div class="fg"><label>Name *</label><input type="text" id="pm-name" placeholder="Patanjali Ashwagandha 60 Caps'></div><div class="fg"><label>Brand</label><input type="text" id="pm-brand" placeholder="Patanjali"></div></div>
       <div class="form-row"><div class="fg"><label>Amazon ASIN *</label><input type="text" id="pm-asin" placeholder="B07X3K9VZQ" style="font-family:var(--mono)"></div><div class="fg"><label>Category</label><select id="pm-cat"><option>Ayurveda & Health</option><option>Spices & Food</option><option>Fashion</option><option>Electronics</option><option>Home & Kitchen</option><option>Books</option><option>Beauty & Skincare</option><option>Toys & Kids</option></select></div></div>
-      <div class="form-row"><div class="fg"><label>Price ₹ INR *</label><input type="number" id="pm-inr" placeholder="299"></div><div class="fg"><label>Original ₹ INR</label><input type="number" id="pm-inr-orig" placeholder="399"></div></div>
+      <div class="form-row"><div class="fg"><label>Price â¹ INR *</label><input type="number" id="pm-inr" placeholder="299"></div><div class="fg"><label>Original â¹ INR</label><input type="number" id="pm-inr-orig" placeholder="399"></div></div>
       <div class="form-row"><div class="fg"><label>Weight (grams) *</label><input type="number" id="pm-weight" placeholder="150"></div><div class="fg"><label>Stock</label><select id="pm-stock"><option value="in">In Stock</option><option value="out">Out of Stock</option><option value="limited">Limited</option></select></div></div>
-      <div class="form-row"><div class="fg"><label>Emoji</label><input type="text" id="pm-emoji" placeholder="🌿" maxlength="2"></div><div class="fg"><label>Image URL</label><input type="text" id="pm-img" placeholder="https://..."></div></div>
+      <div class="form-row"><div class="fg"><label>Emoji</label><input type="text" id="pm-emoji" placeholder="ð¿" maxlength="2"></div><div class="fg"><label>Image URL</label><input type="text" id="pm-img" placeholder="https://..."></div></div>
       <div class="form-row full"><div class="fg"><label>Description</label><textarea id="pm-desc" placeholder="Product description..."></textarea></div></div>
       <div class="form-row full"><div class="fg"><label>Highlights (one per line)</label><textarea id="pm-highlights" placeholder="100% Natural&#10;GMP Certified"></textarea></div></div>
       <div class="form-row full"><div class="fg"><label>Tags (comma separated)</label><input type="text" id="pm-tags" placeholder="organic, herbal, ayurvedic"></div></div>
@@ -448,14 +448,14 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 <!-- Ban Modal -->
 <div class="modal-ov" id="banModal">
   <div class="modal-box" style="max-width:360px">
-    <div class="modal-head"><h3>Ban Product</h3><button class="modal-x" onclick="closeModal('banModal')">✕</button></div>
+    <div class="modal-head"><h3>Ban Product</h3><button class="modal-x" onclick="closeModal('banModal')">â</button></div>
     <div class="modal-body">
       <div class="fg"><label>Reason</label><select id="ban-reason"><option>Restricted import item</option><option>Quality issues reported</option><option>Pricing not viable</option><option>Supplier discontinued</option><option>Other</option></select></div>
       <div class="fg" style="margin-top:10px"><label>Notes</label><textarea id="ban-notes" placeholder="Additional notes..."></textarea></div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('banModal')">Cancel</button>
-      <button class="btn btn-red" onclick="confirmBan()">🚫 Ban Product</button>
+      <button class="btn btn-red" onclick="confirmBan()">ð« Ban Product</button>
     </div>
   </div>
 </div>
@@ -463,10 +463,10 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 <!-- Add Order Modal -->
 <div class="modal-ov" id="orderModal">
   <div class="modal-box">
-    <div class="modal-head"><h3>New Order</h3><button class="modal-x" onclick="closeModal('orderModal')">✕</button></div>
+    <div class="modal-head"><h3>New Order</h3><button class="modal-x" onclick="closeModal('orderModal')">â</button></div>
     <div class="modal-body">
       <div class="form-row"><div class="fg"><label>Customer Name *</label><input type="text" id="om-cust" placeholder="Ahmed Al-Rashid"></div><div class="fg"><label>Email</label><input type="email" id="om-email" placeholder="ahmed@example.com"></div></div>
-      <div class="form-row"><div class="fg"><label>Product Name *</label><input type="text" id="om-prod" placeholder="Product name"></div><div class="fg"><label>Emoji</label><input type="text" id="om-emoji" placeholder="📦" maxlength="2"></div></div>
+      <div class="form-row"><div class="fg"><label>Product Name *</label><input type="text" id="om-prod" placeholder="Product name"></div><div class="fg"><label>Emoji</label><input type="text" id="om-emoji" placeholder="ð¦" maxlength="2"></div></div>
       <div class="form-row"><div class="fg"><label>ASIN *</label><input type="text" id="om-asin" placeholder="B07X3K9VZQ" style="font-family:var(--mono)"></div><div class="fg"><label>Amount (AED)</label><input type="number" id="om-aed" placeholder="125"></div></div>
       <div class="form-row"><div class="fg"><label>UAE Address</label><input type="text" id="om-addr" placeholder="Dubai Marina, Apt 302"></div><div class="fg"><label>Phone</label><input type="text" id="om-phone" placeholder="+971 50 000 0000"></div></div>
       <div class="form-row full"><div class="fg"><label>Notes</label><input type="text" id="om-notes" placeholder="Internal notes..."></div></div>
@@ -481,9 +481,9 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CONFIG & API
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let API_BASE = '', API_SECRET = '', isConnected = false;
 let products = [], orders = [], pricingOverrides = [];
 let editingProductId = null, pendingBanId = null;
@@ -492,7 +492,7 @@ let pricingCatFilter = 'All';
 const RATE = 0.044, LOGISTICS_PER_KG = 16, MARGIN_CAP = 20, VAT = 0.05;
 
 // Load saved config
-// ── Pre-configured API (GitHub Pages hosting) ──
+// ââ Pre-configured API (GitHub Pages hosting) ââ
 const PRESET_API    = 'https://zongdong-api-673989170541.us-central1.run.app';
 const PRESET_SECRET = 'Sallo@1212';
 
@@ -538,18 +538,18 @@ async function testConnection() {
     await apiFetch('/');
     setConnStatus('connected', 'Connected to BigQuery');
     isConnected = true;
-    document.getElementById('bqPill').textContent = '● BigQuery Live';
+    document.getElementById('bqPill').textContent = 'â BigQuery Live';
     document.getElementById('setup-status').innerHTML =
-      '<span style="color:var(--green)">✅ Connected successfully!</span><br>All data is synced live from BigQuery.';
-    toast('✅ Connected to BigQuery — loading data...', 'success');
+      '<span style="color:var(--green)">â Connected successfully!</span><br>All data is synced live from BigQuery.';
+    toast('â Connected to BigQuery â loading data...', 'success');
     await loadAll();
   } catch (e) {
     setConnStatus('disconnected', 'Connection failed');
     isConnected = false;
-    document.getElementById('bqPill').textContent = '● Local Mode';
+    document.getElementById('bqPill').textContent = 'â Local Mode';
     document.getElementById('setup-status').innerHTML =
-      '<span style="color:var(--red)">❌ ' + e.message + '</span><br>Running in local demo mode.';
-    toast('❌ ' + e.message, 'error');
+      '<span style="color:var(--red)">â ' + e.message + '</span><br>Running in local demo mode.';
+    toast('â ' + e.message, 'error');
   }
 }
 
@@ -559,24 +559,28 @@ function setConnStatus(state, txt) {
   document.getElementById('connTxt').textContent = txt;
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  DATA LOADING
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 async function loadAll() {
   showLoading('Loading from BigQuery...');
   try {
     if (isConnected) {
-      [products, orders, pricingOverrides] = await Promise.all([
+      const [prodResult, ordResult, pricingResult] = await Promise.allSettled([
         apiFetch('/products'),
         apiFetch('/orders'),
         apiFetch('/pricing')
       ]);
-      // Apply pricing overrides to products
-      const overrideMap = {};
-      pricingOverrides.forEach(o => overrideMap[o.product_id] = o.custom_price_aed);
-      products.forEach(p => {
-        if (overrideMap[p.product_id]) p.custom_price_aed = overrideMap[p.product_id];
-      });
+      if (prodResult.status === 'fulfilled') products = prodResult.value;
+      else { toast('Products error: ' + prodResult.reason.message, 'error'); seedDemoData(); }
+      if (ordResult.status === 'fulfilled') orders = ordResult.value;
+      else toast('Orders error: ' + ordResult.reason.message, 'error');
+      if (pricingResult.status === 'fulfilled') {
+        pricingOverrides = pricingResult.value;
+        const overrideMap = {};
+        pricingOverrides.forEach(o => overrideMap[o.product_id] = o.custom_price_aed);
+        products.forEach(p => { if (overrideMap[p.product_id]) p.custom_price_aed = overrideMap[p.product_id]; });
+      }
     } else {
       seedDemoData();
     }
@@ -591,24 +595,24 @@ async function loadAll() {
 
 function seedDemoData() {
   products = [
-    {product_id:'p1',name:'Patanjali Ashwagandha Capsules 60ct',brand:'Patanjali',asin:'B07X3K9VZQ',category:'Ayurveda & Health',price_inr:299,original_price_inr:399,weight_grams:150,stock_status:'in',is_banned:false,emoji:'🌿',description:'Pure Ashwagandha for stress relief.',highlights:'["100% Natural","GMP Certified"]',tags:'ayurvedic,herbal',custom_price_aed:null},
-    {product_id:'p2',name:'MTR Masala Biryani Ready to Eat 300g',brand:'MTR Foods',asin:'B08K9VXQNM',category:'Spices & Food',price_inr:145,original_price_inr:180,weight_grams:320,stock_status:'in',is_banned:false,emoji:'🍛',description:'Authentic Hyderabadi Biryani.',highlights:'["No preservatives","Ready in 3 min"]',tags:'food,ready-to-eat',custom_price_aed:null},
-    {product_id:'p3',name:'Kama Ayurveda Rose Water 200ml',brand:'Kama Ayurveda',asin:'B07K2MNVBP',category:'Beauty & Skincare',price_inr:495,original_price_inr:550,weight_grams:240,stock_status:'in',is_banned:false,emoji:'🌹',description:'Pure distilled rose water.',highlights:'["Steam distilled","No alcohol"]',tags:'skincare,rose',custom_price_aed:null},
-    {product_id:'p4',name:'India Gate Basmati Rice 5kg',brand:'India Gate',asin:'B09XKQ8PYV',category:'Spices & Food',price_inr:890,original_price_inr:1050,weight_grams:5100,stock_status:'in',is_banned:false,emoji:'🌾',description:'Premium aged Basmati rice.',highlights:'["Aged 2 years","GI certified"]',tags:'rice,basmati',custom_price_aed:null},
-    {product_id:'p5',name:'Woodland Leather Boots Size 42',brand:'Woodland',asin:'B07TQRZ4NM',category:'Fashion',price_inr:3499,original_price_inr:4500,weight_grams:1200,stock_status:'limited',is_banned:false,emoji:'👟',description:'Durable waterproof boots.',highlights:'["Full grain leather","Waterproof"]',tags:'shoes,leather',custom_price_aed:null},
-    {product_id:'p6',name:'Himalaya Stress Relief 60 Tabs',brand:'Himalaya',asin:'B07Z8WKXNL',category:'Ayurveda & Health',price_inr:180,original_price_inr:200,weight_grams:120,stock_status:'out',is_banned:false,emoji:'💊',description:'Clinically tested herbal supplement.',highlights:'["Clinically tested","No side effects"]',tags:'stress,herbal',custom_price_aed:null},
+    {product_id:'p1',name:'Patanjali Ashwagandha Capsules 60ct',brand:'Patanjali',asin:'B07X3K9VZQ',category:'Ayurveda & Health',price_inr:299,original_price_inr:399,weight_grams:150,stock_status:'in',is_banned:false,emoji:'ð¿',description:'Pure Ashwagandha for stress relief.',highlights:'["100% Natural","GMP Certified"]',tags:'ayurvedic,herbal',custom_price_aed:null},
+    {product_id:'p2',name:'MTR Masala Biryani Ready to Eat 300g',brand:'MTR Foods',asin:'B08K9VXQNM',category:'Spices & Food',price_inr:145,original_price_inr:180,weight_grams:320,stock_status:'in',is_banned:false,emoji:'ð',description:'Authentic Hyderabadi Biryani.',highlights:'["No preservatives","Ready in 3 min"]',tags:'food,ready-to-eat',custom_price_aed:null},
+    {product_id:'p3',name:'Kama Ayurveda Rose Water 200ml',brand:'Kama Ayurveda',asin:'B07K2MNVBP',category:'Beauty & Skincare',price_inr:495,original_price_inr:550,weight_grams:240,stock_status:'in',is_banned:false,emoji:'ð¹',description:'Pure distilled rose water.',highlights:'["Steam distilled","No alcohol"]',tags:'skincare,rose',custom_price_aed:null},
+    {product_id:'p4',name:'India Gate Basmati Rice 5kg',brand:'India Gate',asin:'B09XKQ8PYV',category:'Spices & Food',price_inr:890,original_price_inr:1050,weight_grams:5100,stock_status:'in',is_banned:false,emoji:'ð¾',description:'Premium aged Basmati rice.',highlights:'["Aged 2 years","GI certified"]',tags:'rice,basmati',custom_price_aed:null},
+    {product_id:'p5',name:'Woodland Leather Boots Size 42',brand:'Woodland',asin:'B07TQRZ4NM',category:'Fashion',price_inr:3499,original_price_inr:4500,weight_grams:1200,stock_status:'limited',is_banned:false,emoji:'ð',description:'Durable waterproof boots.',highlights:'["Full grain leather","Waterproof"]',tags:'shoes,leather',custom_price_aed:null},
+    {product_id:'p6',name:'Himalaya Stress Relief 60 Tabs',brand:'Himalaya',asin:'B07Z8WKXNL',category:'Ayurveda & Health',price_inr:180,original_price_inr:200,weight_grams:120,stock_status:'out',is_banned:false,emoji:'ð',description:'Clinically tested herbal supplement.',highlights:'["Clinically tested","No side effects"]',tags:'stress,herbal',custom_price_aed:null},
   ];
   orders = [
-    {order_id:'ZD-3041',customer_name:'Ahmed Al-Rashid',customer_email:'ahmed@example.com',customer_phone:'+971 50 123 4567',delivery_address:'Dubai Marina, Apt 302',product_name:'Patanjali Ashwagandha Capsules',product_emoji:'🌿',product_asin:'B07X3K9VZQ',amount_aed:89,status:'delivered',tracking_number:'AE123456789IN',notes:'',order_date:'2026-03-10'},
-    {order_id:'ZD-3040',customer_name:'Fatima Hassan',customer_email:'fatima@gmail.com',customer_phone:'+971 55 987 6543',delivery_address:'Sharjah Al Nahda',product_name:'India Gate Basmati Rice 5kg',product_emoji:'🌾',product_asin:'B09XKQ8PYV',amount_aed:145,status:'shipped',tracking_number:'AE987654321IN',notes:'Handle carefully',order_date:'2026-03-13'},
-    {order_id:'ZD-3039',customer_name:'Mohammed Al-Ali',customer_email:'m@example.com',customer_phone:'+971 52 456 7890',delivery_address:'Abu Dhabi Corniche',product_name:'Kama Ayurveda Rose Water',product_emoji:'🌹',product_asin:'B07K2MNVBP',amount_aed:112,status:'ordered',tracking_number:'',notes:'',order_date:'2026-03-14'},
-    {order_id:'ZD-3038',customer_name:'Sara Khan',customer_email:'sara@example.com',customer_phone:'+971 50 333 2211',delivery_address:'Dubai JLT Tower 5',product_name:'MTR Masala Biryani x3',product_emoji:'🍛',product_asin:'B08K9VXQNM',amount_aed:52,status:'pending',tracking_number:'',notes:'Gift wrap',order_date:'2026-03-15'},
+    {order_id:'ZD-3041',customer_name:'Ahmed Al-Rashid',customer_email:'ahmed@example.com',customer_phone:'+971 50 123 4567',delivery_address:'Dubai Marina, Apt 302',product_name:'Patanjali Ashwagandha Capsules',product_emoji:'ð¿',product_asin:'B07X3K9VZQ',amount_aed:89,status:'delivered',tracking_number:'AE123456789IN',notes:'',order_date:'2026-03-10'},
+    {order_id:'ZD-3040',customer_name:'Fatima Hassan',customer_email:'fatima@gmail.com',customer_phone:'+971 55 987 6543',delivery_address:'Sharjah Al Nahda',product_name:'India Gate Basmati Rice 5kg',product_emoji:'ð¾',product_asin:'B09XKQ8PYV',amount_aed:145,status:'shipped',tracking_number:'AE987654321IN',notes:'Handle carefully',order_date:'2026-03-13'},
+    {order_id:'ZD-3039',customer_name:'Mohammed Al-Ali',customer_email:'m@example.com',customer_phone:'+971 52 456 7890',delivery_address:'Abu Dhabi Corniche',product_name:'Kama Ayurveda Rose Water',product_emoji:'ð¹',product_asin:'B07K2MNVBP',amount_aed:112,status:'ordered',tracking_number:'',notes:'',order_date:'2026-03-14'},
+    {order_id:'ZD-3038',customer_name:'Sara Khan',customer_email:'sara@example.com',customer_phone:'+971 50 333 2211',delivery_address:'Dubai JLT Tower 5',product_name:'MTR Masala Biryani x3',product_emoji:'ð',product_asin:'B08K9VXQNM',amount_aed:52,status:'pending',tracking_number:'',notes:'Gift wrap',order_date:'2026-03-15'},
   ];
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  PRICING
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function calcPrice(inr, weightGrams, rate, overrideMargin) {
   const r = rate || RATE;
   const base = inr * r;
@@ -643,9 +647,9 @@ function recalc() {
   document.getElementById('r-total').textContent     = 'AED ' + c.total;
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  RENDER CATALOG
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function renderCatalog(search='', status='all') {
   const q = search.toLowerCase();
   const rows = products.filter(p => {
@@ -661,26 +665,26 @@ function renderCatalog(search='', status='all') {
   const outStock  = products.filter(p => p.stock_status === 'out').length;
   const banned    = products.filter(p => p.is_banned).length;
   document.getElementById('catalog-stats').innerHTML = `
-    <div class="stat-card"><div class="sc-icon">📦</div><div class="sc-val">${products.length}</div><div class="sc-lbl">Total Products</div></div>
-    <div class="stat-card"><div class="sc-icon">✅</div><div class="sc-val" style="color:var(--green)">${active}</div><div class="sc-lbl">Active & In Stock</div></div>
-    <div class="stat-card"><div class="sc-icon">⚠️</div><div class="sc-val" style="color:var(--yellow)">${outStock}</div><div class="sc-lbl">Out of Stock</div></div>
-    <div class="stat-card"><div class="sc-icon">🚫</div><div class="sc-val" style="color:var(--red)">${banned}</div><div class="sc-lbl">Banned</div></div>`;
+    <div class="stat-card"><div class="sc-icon">ð¦</div><div class="sc-val">${products.length}</div><div class="sc-lbl">Total Products</div></div>
+    <div class="stat-card"><div class="sc-icon">â</div><div class="sc-val" style="color:var(--green)">${active}</div><div class="sc-lbl">Active & In Stock</div></div>
+    <div class="stat-card"><div class="sc-icon">â ï¸</div><div class="sc-val" style="color:var(--yellow)">${outStock}</div><div class="sc-lbl">Out of Stock</div></div>
+    <div class="stat-card"><div class="sc-icon">ð«</div><div class="sc-val" style="color:var(--red)">${banned}</div><div class="sc-lbl">Banned</div></div>`;
 
   document.getElementById('catalog-tbody').innerHTML = rows.length ? rows.map(p => {
     const c = calcPrice(p.price_inr, p.weight_grams, RATE, p.custom_price_aed);
     const finalAed = p.custom_price_aed ? p.custom_price_aed : c.total;
     const stockBadge = p.is_banned
-      ? '<span class="badge badge-red">🚫 Banned</span>'
-      : p.stock_status === 'in'      ? '<span class="badge badge-green">● In Stock</span>'
-      : p.stock_status === 'out'     ? '<span class="badge badge-red">✕ Out</span>'
-                                     : '<span class="badge badge-yellow">⚠ Limited</span>';
+      ? '<span class="badge badge-red">ð« Banned</span>'
+      : p.stock_status === 'in'      ? '<span class="badge badge-green">â In Stock</span>'
+      : p.stock_status === 'out'     ? '<span class="badge badge-red">â Out</span>'
+                                     : '<span class="badge badge-yellow">â  Limited</span>';
     return `<tr style="${p.is_banned ? 'opacity:.5' : ''}">
-      <td><div class="img-thumb">${p.emoji||'📦'}<div class="wm-micro">ZD</div></div></td>
+      <td><div class="img-thumb">${p.emoji||'ð¦'}<div class="wm-micro">ZD</div></div></td>
       <td><div class="td-name" title="${p.name}">${p.name}</div><div style="font-size:.62rem;color:var(--txt3);margin-top:1px">${(p.tags||'').split(',').slice(0,3).map(t=>`<span style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:0 5px;margin:1px;display:inline-block">${t.trim()}</span>`).join('')}</div></td>
       <td><span class="td-mono">${p.asin}</span></td>
-      <td style="color:var(--txt2);font-size:.73rem">${p.brand||'—'}</td>
-      <td><span class="td-mono">₹${Number(p.price_inr).toLocaleString()}</span></td>
-      <td><span class="td-mono" style="color:var(--gold)">AED ${finalAed}${p.custom_price_aed ? ' ✎' : ''}</span></td>
+      <td style="color:var(--txt2);font-size:.73rem">${p.brand||'â'}</td>
+      <td><span class="td-mono">â¹${Number(p.price_inr).toLocaleString()}</span></td>
+      <td><span class="td-mono" style="color:var(--gold)">AED ${finalAed}${p.custom_price_aed ? ' â' : ''}</span></td>
       <td><span class="td-mono">${p.weight_grams}g</span></td>
       <td>${stockBadge}</td>
       <td><div style="display:flex;gap:4px;flex-wrap:wrap">
@@ -689,13 +693,13 @@ function renderCatalog(search='', status='all') {
           <option value="out" ${p.stock_status==='out'?'selected':''}>Out</option>
           <option value="limited" ${p.stock_status==='limited'?'selected':''}>Limited</option>
         </select>
-        <button class="btn btn-ghost btn-sm" onclick="editProduct('${p.product_id}')">✏️</button>
+        <button class="btn btn-ghost btn-sm" onclick="editProduct('${p.product_id}')">âï¸</button>
         ${!p.is_banned
-          ? `<button class="btn btn-red btn-sm" onclick="openBan('${p.product_id}')">🚫</button>`
-          : `<button class="btn btn-green btn-sm" onclick="unban('${p.product_id}')">✓</button>`}
+          ? `<button class="btn btn-red btn-sm" onclick="openBan('${p.product_id}')">ð«</button>`
+          : `<button class="btn btn-green btn-sm" onclick="unban('${p.product_id}')">â</button>`}
       </div></td>
     </tr>`;
-  }).join('') : '<tr><td colspan="9"><div class="empty-state"><div class="ei">📦</div><p>No products found</p></div></td></tr>';
+  }).join('') : '<tr><td colspan="9"><div class="empty-state"><div class="ei">ð¦</div><p>No products found</p></div></td></tr>';
 }
 
 function filterCatalog(v)       { renderCatalog(v, document.getElementById('catStatusSel').value); }
@@ -708,14 +712,14 @@ async function updateStock(id, val) {
   if (isConnected) {
     try {
       await apiFetch('/products/' + id, { method:'PUT', body:{ stock_status: val } });
-      toast('✓ Stock updated in BigQuery', 'success');
+      toast('â Stock updated in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
-  } else toast('✓ Stock updated (local)', 'success');
+  } else toast('â Stock updated (local)', 'success');
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  ADD / EDIT PRODUCT
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function openAddProduct() {
   editingProductId = null;
   document.getElementById('pmTitle').textContent = 'Add Product';
@@ -751,7 +755,7 @@ async function saveProduct() {
   const name  = document.getElementById('pm-name').value.trim();
   const asin  = document.getElementById('pm-asin').value.trim();
   const inr   = parseFloat(document.getElementById('pm-inr').value);
-  if (!name || !asin || !inr) { toast('⚠️ Name, ASIN and price are required', 'error'); return; }
+  if (!name || !asin || !inr) { toast('â ï¸ Name, ASIN and price are required', 'error'); return; }
 
   const data = {
     name, asin,
@@ -761,7 +765,7 @@ async function saveProduct() {
     original_price_inr: parseFloat(document.getElementById('pm-inr-orig').value) || inr,
     weight_grams:       parseInt(document.getElementById('pm-weight').value) || 500,
     stock_status:       document.getElementById('pm-stock').value,
-    emoji:              document.getElementById('pm-emoji').value || '📦',
+    emoji:              document.getElementById('pm-emoji').value || 'ð¦',
     image_url:          document.getElementById('pm-img').value.trim(),
     description:        document.getElementById('pm-desc').value.trim(),
     highlights:         document.getElementById('pm-highlights').value.split('\n').filter(Boolean),
@@ -777,20 +781,20 @@ async function saveProduct() {
         await apiFetch('/products/' + editingProductId, { method:'PUT', body:data });
         const idx = products.findIndex(p => p.product_id === editingProductId);
         if (idx >= 0) products[idx] = { ...products[idx], ...data };
-        toast('✓ Product updated in BigQuery', 'success');
+        toast('â Product updated in BigQuery', 'success');
       } else {
         const res = await apiFetch('/products', { method:'POST', body:data });
         products.unshift({ ...data, product_id: res.product_id, is_banned: false, custom_price_aed: null });
-        toast('✓ Product saved to BigQuery', 'success');
+        toast('â Product saved to BigQuery', 'success');
       }
     } else {
       if (editingProductId) {
         const idx = products.findIndex(p => p.product_id === editingProductId);
         if (idx >= 0) products[idx] = { ...products[idx], ...data };
-        toast('✓ Product updated (local mode)', 'success');
+        toast('â Product updated (local mode)', 'success');
       } else {
         products.unshift({ ...data, product_id:'p_'+Date.now(), is_banned:false, custom_price_aed:null });
-        toast('✓ Product added (local mode)', 'success');
+        toast('â Product added (local mode)', 'success');
       }
     }
     closeModal('productModal');
@@ -799,9 +803,9 @@ async function saveProduct() {
   finally { btn.disabled = false; btn.textContent = editingProductId ? 'Update in BigQuery' : 'Save to BigQuery'; }
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  BAN / UNBAN
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function openBan(id) { pendingBanId = id; openModal('banModal'); }
 
 async function confirmBan() {
@@ -814,9 +818,9 @@ async function confirmBan() {
   if (isConnected) {
     try {
       await apiFetch('/products/' + pendingBanId + '/ban', { method:'PATCH', body:{ reason } });
-      toast('🚫 Product banned in BigQuery', 'success');
+      toast('ð« Product banned in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
-  } else toast('🚫 Product banned (local)', 'success');
+  } else toast('ð« Product banned (local)', 'success');
 }
 
 async function unban(id) {
@@ -826,28 +830,28 @@ async function unban(id) {
   if (isConnected) {
     try {
       await apiFetch('/products/' + id + '/unban', { method:'PATCH', body:{} });
-      toast('✓ Product unbanned in BigQuery', 'success');
+      toast('â Product unbanned in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
-  } else toast('✓ Product unbanned (local)', 'success');
+  } else toast('â Product unbanned (local)', 'success');
 }
 
 function renderBanned(filter='') {
   const banned = products.filter(p => p.is_banned && (!filter || p.name.toLowerCase().includes(filter.toLowerCase())));
   document.getElementById('banned-tbody').innerHTML = banned.length ? banned.map(p => `
     <tr>
-      <td><div class="img-thumb">${p.emoji||'📦'}<div class="wm-micro">ZD</div></div></td>
+      <td><div class="img-thumb">${p.emoji||'ð¦'}<div class="wm-micro">ZD</div></div></td>
       <td><div class="td-name">${p.name}</div></td>
       <td><span class="td-mono">${p.asin}</span></td>
-      <td style="color:var(--txt2);font-size:.73rem">${p.ban_reason||'—'}</td>
-      <td><button class="btn btn-green btn-sm" onclick="unban('${p.product_id}')">✓ Unban</button></td>
+      <td style="color:var(--txt2);font-size:.73rem">${p.ban_reason||'â'}</td>
+      <td><button class="btn btn-green btn-sm" onclick="unban('${p.product_id}')">â Unban</button></td>
     </tr>`).join('')
-    : '<tr><td colspan="5"><div class="empty-state"><div class="ei">✅</div><p>No banned products</p></div></td></tr>';
+    : '<tr><td colspan="5"><div class="empty-state"><div class="ei">â</div><p>No banned products</p></div></td></tr>';
 }
 function filterBanned(v) { renderBanned(v); }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  PRICING
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function renderPricing(search='') {
   const cats = ['All', ...new Set(products.filter(p=>!p.is_banned).map(p=>p.category||'Other'))];
   document.getElementById('pricing-cats').innerHTML = cats.map(c =>
@@ -864,11 +868,11 @@ function renderPricing(search='') {
     const c = calcPrice(p.price_inr, p.weight_grams);
     return `<tr>
       <td><div style="display:flex;align-items:center;gap:7px">
-        <div class="img-thumb" style="width:28px;height:28px;font-size:.95rem">${p.emoji||'📦'}</div>
+        <div class="img-thumb" style="width:28px;height:28px;font-size:.95rem">${p.emoji||'ð¦'}</div>
         <span style="font-size:.74rem;font-weight:600">${p.name.slice(0,34)}${p.name.length>34?'...':''}</span>
       </div></td>
       <td><span class="td-mono">${p.weight_grams}g</span></td>
-      <td><span class="td-mono">₹${Number(p.price_inr).toLocaleString()}</span></td>
+      <td><span class="td-mono">â¹${Number(p.price_inr).toLocaleString()}</span></td>
       <td><span class="td-mono">AED ${c.base}</span></td>
       <td><span class="td-mono" style="color:var(--blue)">AED ${c.logistics}</span></td>
       <td><span class="td-mono" style="color:var(--green)">AED ${c.margin}</span></td>
@@ -892,15 +896,15 @@ async function applyCustomPrice(id) {
   if (isConnected) {
     try {
       await apiFetch('/pricing', { method:'POST', body:{ product_id:id, custom_price_aed: val||null, override_reason:'Manual override' } });
-      toast(val ? `✓ AED ${val} saved to BigQuery` : '✓ Override cleared in BigQuery', 'success');
+      toast(val ? `â AED ${val} saved to BigQuery` : 'â Override cleared in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
-  } else toast(val ? `✓ AED ${val} set (local)` : '✓ Override cleared', 'success');
+  } else toast(val ? `â AED ${val} set (local)` : 'â Override cleared', 'success');
 }
 
 async function clearAllOverrides() {
   products.forEach(p => p.custom_price_aed = null);
   renderPricing();
-  toast('✓ All overrides cleared', 'success');
+  toast('â All overrides cleared', 'success');
 }
 
 function exportCSV() {
@@ -914,18 +918,18 @@ function exportCSV() {
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
   a.download = 'zongdong_pricing.csv';
   a.click();
-  toast('✓ CSV exported', 'success');
+  toast('â CSV exported', 'success');
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  ORDERS
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const SS = {
-  pending:   { badge:'badge-gray',   label:'Pending Order',      icon:'🕐' },
-  ordered:   { badge:'badge-blue',   label:'Ordered on Source',  icon:'📋' },
-  shipped:   { badge:'badge-yellow', label:'Shipped',            icon:'✈️' },
-  delivered: { badge:'badge-green',  label:'Delivered',          icon:'✅' },
-  cancelled: { badge:'badge-red',    label:'Cancelled',          icon:'✕'  },
+  pending:   { badge:'badge-gray',   label:'Pending Order',      icon:'ð' },
+  ordered:   { badge:'badge-blue',   label:'Ordered on Source',  icon:'ð' },
+  shipped:   { badge:'badge-yellow', label:'Shipped',            icon:'âï¸' },
+  delivered: { badge:'badge-green',  label:'Delivered',          icon:'â' },
+  cancelled: { badge:'badge-red',    label:'Cancelled',          icon:'â'  },
 };
 
 function renderOrders(search='', statusFilter='all') {
@@ -943,11 +947,11 @@ function renderOrders(search='', statusFilter='all') {
   const revenue  = orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+(parseFloat(o.amount_aed)||0),0);
 
   document.getElementById('order-stats').innerHTML = `
-    <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-val" style="color:var(--gold)">AED ${Math.round(revenue)}</div><div class="sc-lbl">Total Revenue</div></div>
-    <div class="stat-card"><div class="sc-icon">📋</div><div class="sc-val">${total}</div><div class="sc-lbl">Total Orders</div></div>
-    <div class="stat-card"><div class="sc-icon">🕐</div><div class="sc-val" style="color:var(--yellow)">${pending}</div><div class="sc-lbl">Pending</div></div>
-    <div class="stat-card"><div class="sc-icon">✈️</div><div class="sc-val" style="color:var(--blue)">${shipped}</div><div class="sc-lbl">Shipped</div></div>
-    <div class="stat-card"><div class="sc-icon">✅</div><div class="sc-val" style="color:var(--green)">${delivered}</div><div class="sc-lbl">Delivered</div></div>`;
+    <div class="stat-card"><div class="sc-icon">ð°</div><div class="sc-val" style="color:var(--gold)">AED ${Math.round(revenue)}</div><div class="sc-lbl">Total Revenue</div></div>
+    <div class="stat-card"><div class="sc-icon">ð</div><div class="sc-val">${total}</div><div class="sc-lbl">Total Orders</div></div>
+    <div class="stat-card"><div class="sc-icon">ð</div><div class="sc-val" style="color:var(--yellow)">${pending}</div><div class="sc-lbl">Pending</div></div>
+    <div class="stat-card"><div class="sc-icon">âï¸</div><div class="sc-val" style="color:var(--blue)">${shipped}</div><div class="sc-lbl">Shipped</div></div>
+    <div class="stat-card"><div class="sc-icon">â</div><div class="sc-val" style="color:var(--green)">${delivered}</div><div class="sc-lbl">Delivered</div></div>`;
 
   document.getElementById('orders-list').innerHTML = visible.length ? visible.map(o => {
     const ss = SS[o.status] || SS.pending;
@@ -955,28 +959,28 @@ function renderOrders(search='', statusFilter='all') {
     return `<div class="order-card">
       <div class="order-top">
         <span class="order-id">#${o.order_id}</span>
-        <span class="order-product">${o.product_emoji||'📦'} ${o.product_name}</span>
-        <span class="order-customer">👤 ${o.customer_name}</span>
+        <span class="order-product">${o.product_emoji||'ð¦'} ${o.product_name}</span>
+        <span class="order-customer">ð¤ ${o.customer_name}</span>
         <span class="order-aed">AED ${o.amount_aed}</span>
         <span class="badge ${ss.badge}">${ss.icon} ${ss.label}</span>
       </div>
       <div class="order-meta">
-        <span class="meta-pill">📅 ${o.order_date||'—'}</span>
-        <span class="meta-pill">📍 ${o.delivery_address||'—'}</span>
-        <span class="meta-pill">📞 ${o.customer_phone||'—'}</span>
+        <span class="meta-pill">ð ${o.order_date||'â'}</span>
+        <span class="meta-pill">ð ${o.delivery_address||'â'}</span>
+        <span class="meta-pill">ð ${o.customer_phone||'â'}</span>
         <a class="amz-link" href="${amzUrl}" target="_blank">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-          Amazon India (${o.product_asin||'—'})
+          Amazon India (${o.product_asin||'â'})
         </a>
-        ${o.notes ? `<span style="font-size:.66rem;background:var(--gold-dim);color:var(--gold);padding:2px 7px;border-radius:3px">📝 ${o.notes}</span>` : ''}
+        ${o.notes ? `<span style="font-size:.66rem;background:var(--gold-dim);color:var(--gold);padding:2px 7px;border-radius:3px">ð ${o.notes}</span>` : ''}
       </div>
       <div class="tracking-row">
         <select class="status-sel" onchange="updateOrderStatus('${o.order_id}',this.value)">
-          <option value="pending"   ${o.status==='pending'  ?'selected':''}>🕐 Pending</option>
-          <option value="ordered"   ${o.status==='ordered'  ?'selected':''}>📋 Ordered on Source</option>
-          <option value="shipped"   ${o.status==='shipped'  ?'selected':''}>✈️ Shipped</option>
-          <option value="delivered" ${o.status==='delivered'?'selected':''}>✅ Delivered</option>
-          <option value="cancelled" ${o.status==='cancelled'?'selected':''}>✕ Cancelled</option>
+          <option value="pending"   ${o.status==='pending'  ?'selected':''}>ð Pending</option>
+          <option value="ordered"   ${o.status==='ordered'  ?'selected':''}>ð Ordered on Source</option>
+          <option value="shipped"   ${o.status==='shipped'  ?'selected':''}>âï¸ Shipped</option>
+          <option value="delivered" ${o.status==='delivered'?'selected':''}>â Delivered</option>
+          <option value="cancelled" ${o.status==='cancelled'?'selected':''}>â Cancelled</option>
         </select>
         <input class="track-input" type="text" id="trk-${o.order_id}"
           placeholder="Tracking number (e.g. AE123456789IN)"
@@ -984,9 +988,9 @@ function renderOrders(search='', statusFilter='all') {
           onchange="updateTracking('${o.order_id}')">
         <button class="btn btn-accent btn-sm" onclick="updateTracking('${o.order_id}')">Save Tracking</button>
       </div>
-      ${o.tracking_number ? `<div class="visible-tag">👁 Visible to customer: ${o.tracking_number} — ${ss.label}</div>` : ''}
+      ${o.tracking_number ? `<div class="visible-tag">ð Visible to customer: ${o.tracking_number} â ${ss.label}</div>` : ''}
     </div>`;
-  }).join('') : '<div class="empty-state"><div class="ei">🚚</div><p>No orders found</p></div>';
+  }).join('') : '<div class="empty-state"><div class="ei">ð</div><p>No orders found</p></div>';
 }
 
 function filterOrders(v)       { renderOrders(v.toLowerCase(), document.getElementById('ordStatusSel').value); }
@@ -999,7 +1003,7 @@ async function updateOrderStatus(id, status) {
   if (isConnected) {
     try {
       await apiFetch('/orders/' + id, { method:'PATCH', body:{ status } });
-      toast('✓ Status updated in BigQuery', 'success');
+      toast('â Status updated in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
   }
 }
@@ -1012,9 +1016,9 @@ async function updateTracking(id) {
   if (isConnected) {
     try {
       await apiFetch('/orders/' + id, { method:'PATCH', body:{ tracking_number: tracking } });
-      toast(tracking ? '✓ Tracking saved to BigQuery' : '✓ Tracking cleared', 'success');
+      toast(tracking ? 'â Tracking saved to BigQuery' : 'â Tracking cleared', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); }
-  } else toast(tracking ? '✓ Tracking saved (local)' : '✓ Tracking cleared', 'success');
+  } else toast(tracking ? 'â Tracking saved (local)' : 'â Tracking cleared', 'success');
 }
 
 function openAddOrder() { openModal('orderModal'); }
@@ -1023,12 +1027,12 @@ async function saveOrder() {
   const cust = document.getElementById('om-cust').value.trim();
   const prod = document.getElementById('om-prod').value.trim();
   const asin = document.getElementById('om-asin').value.trim();
-  if (!cust || !prod || !asin) { toast('⚠️ Customer, product and ASIN required', 'error'); return; }
+  if (!cust || !prod || !asin) { toast('â ï¸ Customer, product and ASIN required', 'error'); return; }
   const data = {
     customer_name: cust,
     customer_email: document.getElementById('om-email').value.trim(),
     product_name: prod,
-    product_emoji: document.getElementById('om-emoji').value || '📦',
+    product_emoji: document.getElementById('om-emoji').value || 'ð¦',
     product_asin: asin,
     amount_aed: parseFloat(document.getElementById('om-aed').value)||0,
     delivery_address: document.getElementById('om-addr').value.trim(),
@@ -1039,19 +1043,19 @@ async function saveOrder() {
     try {
       const res = await apiFetch('/orders', { method:'POST', body: data });
       orders.unshift({ ...data, order_id: res.order_id, status:'pending', tracking_number:'', order_date: new Date().toISOString().slice(0,10) });
-      toast('✓ Order created in BigQuery', 'success');
+      toast('â Order created in BigQuery', 'success');
     } catch (e) { toast('BQ error: ' + e.message, 'error'); return; }
   } else {
     orders.unshift({ ...data, order_id:'ZD-'+Math.floor(1000+Math.random()*9000), status:'pending', tracking_number:'', order_date:new Date().toISOString().slice(0,10) });
-    toast('✓ Order created (local)', 'success');
+    toast('â Order created (local)', 'success');
   }
   closeModal('orderModal');
   renderOrders(); updateSidebarCounts();
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  NAV + RENDER
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const PAGE_TITLES = { catalog:'Product Catalog', banned:'Banned Products', pricing:'Pricing Engine', orders:'Orders & Tracking', setup:'BQ Connection Setup' };
 
 function nav(page) {
@@ -1085,12 +1089,12 @@ async function refreshPage() {
   btn.classList.add('spinning');
   await loadAll();
   btn.classList.remove('spinning');
-  toast('✓ Refreshed', 'success');
+  toast('â Refreshed', 'success');
 }
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  UTILITIES
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
@@ -1117,15 +1121,15 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  INIT
-// ══════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 loadConfig();
 
 // Show loading state immediately instead of demo data
 showLoading('Connecting to BigQuery...');
 
-// Always auto-connect on page load — preset URL is always set
+// Always auto-connect on page load â preset URL is always set
 setTimeout(async () => {
   try {
     await testConnection();
