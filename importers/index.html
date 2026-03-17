@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZongDong — Import Data</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0b0d11;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.wrap{max-width:480px;width:100%;padding:2rem}
+.logo{font-size:1.5rem;font-weight:700;text-align:center;margin-bottom:.25rem}
+.logo span{color:#e8531a}
+.sub{text-align:center;color:#64748b;font-size:.8rem;margin-bottom:2rem}
+.card{background:#1a1f2e;border:1px solid #2d3748;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:#e8531a}
+.icon{font-size:1.5rem;width:44px;height:44px;background:#0b0d11;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info h3{font-size:.88rem;font-weight:600;margin-bottom:.2rem}
+.info p{font-size:.73rem;color:#64748b}
+.back{display:block;text-align:center;margin-top:1.5rem;color:#64748b;font-size:.75rem;text-decoration:none}
+.back:hover{color:#e8531a}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Zong<span>Dong</span></div>
+  <div class="sub">Data Import Tools</div>
+  <a class="card" href="../import-products.html">
+    <div class="icon">📦</div>
+    <div class="info"><h3>Import Products</h3><p>Upload product catalog via CSV or paste JSON</p></div>
+  </a>
+  <a class="card" href="../import-orders.html">
+    <div class="icon">🛒</div>
+    <div class="info"><h3>Import Orders</h3><p>Bulk import customer orders into BigQuery</p></div>
+  </a>
+  <a class="card" href="../import-pricing.html">
+    <div class="icon">💰</div>
+    <div class="info"><h3>Import Pricing Overrides</h3><p>Set custom AED prices for products</p></div>
+  </a>
+  <a class="back" href="../dashboard.html">← Back to Dashboard</a>
+</div>
+</body>
+</html>
