@@ -112,6 +112,26 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
 .img-thumb{width:38px;height:38px;background:var(--bg3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;border:1px solid var(--border);position:relative;overflow:hidden}
 .wm-micro{position:absolute;bottom:0;right:0;font-size:.26rem;font-family:var(--mono);font-weight:700;color:rgba(232,83,26,.6);letter-spacing:.3px;background:rgba(0,0,0,.3);padding:1px 2px;line-height:1}
 
+/* IMAGE UPLOAD SLOTS */
+.img-thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.img-count-badge{position:absolute;top:1px;right:1px;font-size:.48rem;font-family:var(--mono);font-weight:700;color:#fff;background:rgba(0,0,0,.65);padding:0 3px;border-radius:3px;line-height:1.6;pointer-events:none}
+.img-slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 4px}
+.img-slot{position:relative;background:var(--bg3);border:2px dashed var(--border2);border-radius:10px;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;overflow:hidden;min-height:80px}
+.img-slot:hover{border-color:var(--accent);background:var(--bg4)}
+.img-slot.main-slot{grid-column:1/-1;aspect-ratio:16/7;min-height:100px;border-color:rgba(232,83,26,.4)}
+.img-slot.has-img{border-style:solid;border-color:var(--border2)}
+.img-slot img.slot-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.img-slot-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;z-index:2}
+.img-slot.has-img .img-slot-overlay{display:none}
+.img-slot-label{font-size:.58rem;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px}
+.img-slot-icon{font-size:1.4rem}
+.img-slot-del{position:absolute;top:4px;right:4px;background:rgba(239,68,68,.9);border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;color:#fff;font-size:.75rem;display:none;align-items:center;justify-content:center;z-index:4;line-height:1;padding:0}
+.img-slot.has-img .img-slot-del{display:flex}
+.img-slot-del:hover{background:var(--red)}
+.img-file-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:3}
+.img-slot.has-img .img-file-input{z-index:0;pointer-events:none}
+.img-slot-uploading{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:#fff;z-index:5;gap:6px;border-radius:8px}
+.img-upload-note{font-size:.6rem;color:var(--txt3);margin-top:3px}
 /* BADGES */
 .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:700;white-space:nowrap}
 .badge-green{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.2)}
@@ -433,11 +453,37 @@ td{padding:10px 12px;font-size:.77rem;vertical-align:middle}
       <div class="form-row"><div class="fg"><label>Amazon ASIN *</label><input type="text" id="pm-asin" placeholder="B07X3K9VZQ" style="font-family:var(--mono)"></div><div class="fg"><label>Category</label><select id="pm-cat"><option>Ayurveda & Health</option><option>Spices & Food</option><option>Fashion</option><option>Electronics</option><option>Home & Kitchen</option><option>Books</option><option>Beauty & Skincare</option><option>Toys & Kids</option></select></div></div>
       <div class="form-row"><div class="fg"><label>Price â¹ INR *</label><input type="number" id="pm-inr" placeholder="299"></div><div class="fg"><label>Original â¹ INR</label><input type="number" id="pm-inr-orig" placeholder="399"></div></div>
       <div class="form-row"><div class="fg"><label>Weight (grams) *</label><input type="number" id="pm-weight" placeholder="150"></div><div class="fg"><label>Stock</label><select id="pm-stock"><option value="in">In Stock</option><option value="out">Out of Stock</option><option value="limited">Limited</option></select></div></div>
-      <div class="form-row"><div class="fg"><label>Emoji</label><input type="text" id="pm-emoji" placeholder="ð¿" maxlength="2"></div><div class="fg"><label>Image URL</label><input type="text" id="pm-img" placeholder="https://..."></div></div>
+      <div class="form-row"><div class="fg"><label>Emoji</label><input type="text" id="pm-emoji" placeholder="ð¿" maxlength="2"></div><div class="fg"><label>Main Image URL</label><input type="text" id="pm-img" placeholder="Auto-set from upload" readonly style="font-size:.65rem;color:var(--txt3);cursor:default"></div></div>
       <div class="form-row full"><div class="fg"><label>Description</label><textarea id="pm-desc" placeholder="Product description..."></textarea></div></div>
       <div class="form-row full"><div class="fg"><label>Highlights (one per line)</label><textarea id="pm-highlights" placeholder="100% Natural&#10;GMP Certified"></textarea></div></div>
       <div class="form-row full"><div class="fg"><label>Tags (comma separated)</label><input type="text" id="pm-tags" placeholder="organic, herbal, ayurvedic"></div></div>
     </div>
+      <div class="form-row full"><div class="fg">
+        <label>Product Images <span style="color:var(--txt3);font-weight:400;font-size:.65rem">(click a slot to upload · image 1 = main/featured)</span></label>
+        <div class="img-slots" id="pm-img-slots">
+          <div class="img-slot main-slot" id="pm-slot-1">
+            <input class="img-file-input" type="file" accept="image/*" id="pm-file-1" onchange="handleImgSelect(event,1)">
+            <div class="img-slot-overlay"><div class="img-slot-icon">🖼️</div><div class="img-slot-label">Main Image (1)</div></div>
+            <button class="img-slot-del" onclick="event.stopPropagation();deleteImg(1)">✕</button>
+          </div>
+          <div class="img-slot" id="pm-slot-2">
+            <input class="img-file-input" type="file" accept="image/*" id="pm-file-2" onchange="handleImgSelect(event,2)">
+            <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 2</div></div>
+            <button class="img-slot-del" onclick="event.stopPropagation();deleteImg(2)">✕</button>
+          </div>
+          <div class="img-slot" id="pm-slot-3">
+            <input class="img-file-input" type="file" accept="image/*" id="pm-file-3" onchange="handleImgSelect(event,3)">
+            <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 3</div></div>
+            <button class="img-slot-del" onclick="event.stopPropagation();deleteImg(3)">✕</button>
+          </div>
+          <div class="img-slot" id="pm-slot-4">
+            <input class="img-file-input" type="file" accept="image/*" id="pm-file-4" onchange="handleImgSelect(event,4)">
+            <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 4</div></div>
+            <button class="img-slot-del" onclick="event.stopPropagation();deleteImg(4)">✕</button>
+          </div>
+        </div>
+        <div class="img-upload-note">JPG/PNG/WEBP · max 10MB · stored in Google Cloud Storage · save product first before uploading</div>
+      </div></div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('productModal')">Cancel</button>
       <button class="btn btn-accent" id="pmSaveBtn" onclick="saveProduct()">Save to BigQuery</button>
@@ -679,7 +725,7 @@ function renderCatalog(search='', status='all') {
       : p.stock_status === 'out'     ? '<span class="badge badge-red">â Out</span>'
                                      : '<span class="badge badge-yellow">â  Limited</span>';
     return `<tr style="${p.is_banned ? 'opacity:.5' : ''}">
-      <td><div class="img-thumb">${p.emoji||'ð¦'}<div class="wm-micro">ZD</div></div></td>
+      <td><div class="img-thumb" onclick="openImgModal('${p.product_id}')" style="cursor:pointer" title="Manage images">${p.image_1?'<img class="slot-preview" loading="lazy" src="'+p.image_1+'" onerror="this.style.display=\'none\'">':(p.emoji||'📦')}${[p.image_1,p.image_2,p.image_3,p.image_4].filter(Boolean).length?'<div class="img-count-badge">'+[p.image_1,p.image_2,p.image_3,p.image_4].filter(Boolean).length+'</div>':''}<div class="wm-micro">ZD</div></div></div></td>
       <td><div class="td-name" title="${p.name}">${p.name}</div><div style="font-size:.62rem;color:var(--txt3);margin-top:1px">${(p.tags||'').split(',').slice(0,3).map(t=>`<span style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:0 5px;margin:1px;display:inline-block">${t.trim()}</span>`).join('')}</div></td>
       <td><span class="td-mono">${p.asin}</span></td>
       <td style="color:var(--txt2);font-size:.73rem">${p.brand||'â'}</td>
@@ -723,6 +769,8 @@ async function updateStock(id, val) {
 function openAddProduct() {
   editingProductId = null;
   document.getElementById('pmTitle').textContent = 'Add Product';
+  window._editingProductId = null;
+  [1,2,3,4].forEach(n=>{_clearSlot(document.getElementById('pm-slot-'+n));const fi=document.getElementById('pm-file-'+n);if(fi)fi.value='';});
   document.getElementById('pmSaveBtn').textContent = 'Save to BigQuery';
   ['pm-name','pm-brand','pm-asin','pm-inr','pm-inr-orig','pm-weight','pm-emoji','pm-img','pm-desc','pm-highlights','pm-tags'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('pm-stock').value = 'in';
@@ -733,6 +781,7 @@ function editProduct(id) {
   const p = products.find(x => x.product_id === id);
   if (!p) return;
   editingProductId = id;
+  window._editingProductId = id;
   document.getElementById('pmTitle').textContent = 'Edit Product';
   document.getElementById('pmSaveBtn').textContent = 'Update in BigQuery';
   document.getElementById('pm-name').value = p.name;
@@ -744,7 +793,8 @@ function editProduct(id) {
   document.getElementById('pm-weight').value = p.weight_grams;
   document.getElementById('pm-stock').value = p.stock_status;
   document.getElementById('pm-emoji').value = p.emoji || '';
-  document.getElementById('pm-img').value = p.image_url || '';
+  document.getElementById('pm-img').value = p.image_1 || p.image_url || '';
+  populateImgSlots(p);
   document.getElementById('pm-desc').value = p.description || '';
   try { document.getElementById('pm-highlights').value = (JSON.parse(p.highlights || '[]')).join('\n'); } catch { document.getElementById('pm-highlights').value = p.highlights || ''; }
   document.getElementById('pm-tags').value = p.tags || '';
@@ -1143,6 +1193,143 @@ setTimeout(async () => {
 }, 400);
 
 recalc();
+</script>
+
+<!-- Image Manager Modal -->
+<div class="modal-ov" id="imgModal">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-head"><h3 id="imgModal-title">Product Images</h3><button class="modal-x" onclick="closeModal('imgModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:.72rem;color:var(--txt3);margin-bottom:12px">Click a slot to upload a new image. Image 1 is the main/featured image shown in the catalog.</p>
+      <div class="img-slots">
+        <div class="img-slot main-slot" id="im-slot-1">
+          <input class="img-file-input" type="file" accept="image/*" id="im-file-1" onchange="handleImgSelectModal(event,1)">
+          <div class="img-slot-overlay"><div class="img-slot-icon">🖼️</div><div class="img-slot-label">Main Image (1)</div></div>
+          <button class="img-slot-del" onclick="event.stopPropagation();deleteImgModal(1)">✕</button>
+        </div>
+        <div class="img-slot" id="im-slot-2">
+          <input class="img-file-input" type="file" accept="image/*" id="im-file-2" onchange="handleImgSelectModal(event,2)">
+          <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 2</div></div>
+          <button class="img-slot-del" onclick="event.stopPropagation();deleteImgModal(2)">✕</button>
+        </div>
+        <div class="img-slot" id="im-slot-3">
+          <input class="img-file-input" type="file" accept="image/*" id="im-file-3" onchange="handleImgSelectModal(event,3)">
+          <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 3</div></div>
+          <button class="img-slot-del" onclick="event.stopPropagation();deleteImgModal(3)">✕</button>
+        </div>
+        <div class="img-slot" id="im-slot-4">
+          <input class="img-file-input" type="file" accept="image/*" id="im-file-4" onchange="handleImgSelectModal(event,4)">
+          <div class="img-slot-overlay"><div class="img-slot-icon">➕</div><div class="img-slot-label">Image 4</div></div>
+          <button class="img-slot-del" onclick="event.stopPropagation();deleteImgModal(4)">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('imgModal')">Done</button></div>
+  </div>
+</div>
+<script>
+// ── IMAGE UPLOAD SYSTEM ──────────────────────────────────────────────────────
+let _imgModalPid = null;
+
+function _setSlot(slot, url) {
+  if (!slot) return;
+  slot.classList.add('has-img');
+  let img = slot.querySelector('img.slot-preview');
+  if (!img) { img = document.createElement('img'); img.className = 'slot-preview'; slot.insertBefore(img, slot.firstChild); }
+  img.src = url;
+  img.onerror = () => { img.remove(); slot.classList.remove('has-img'); };
+}
+function _clearSlot(slot) {
+  if (!slot) return;
+  slot.classList.remove('has-img');
+  const img = slot.querySelector('img.slot-preview');
+  if (img) img.remove();
+}
+function populateImgSlots(p) {
+  [1,2,3,4].forEach(n => {
+    const url = p['image_'+n];
+    _setSlot(document.getElementById('pm-slot-'+n), url || '');
+    if (!url) _clearSlot(document.getElementById('pm-slot-'+n));
+  });
+}
+function openImgModal(pid) {
+  const p = products.find(x => x.product_id === pid);
+  if (!p) return;
+  _imgModalPid = pid;
+  document.getElementById('imgModal-title').textContent = p.name.slice(0,40) + ' — Images';
+  [1,2,3,4].forEach(n => {
+    const url = p['image_'+n];
+    const slot = document.getElementById('im-slot-'+n);
+    if (url) _setSlot(slot, url); else _clearSlot(slot);
+  });
+  openModal('imgModal');
+}
+async function uploadImgToSlot(pid, n, file, slotId) {
+  const slot = document.getElementById(slotId);
+  let spin = document.createElement('div');
+  spin.className = 'img-slot-uploading';
+  spin.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Uploading...';
+  if (slot) slot.appendChild(spin);
+  try {
+    const fd = new FormData();
+    fd.append('image_'+n, file);
+    const resp = await fetch(API+'/products/'+pid+'/images/'+n, {method:'POST', headers:{'x-admin-secret':SECRET}, body:fd});
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error||'Upload failed');
+    const url = data.urls?.['image_'+n];
+    if (!url) throw new Error('No URL in response');
+    const p = products.find(x => x.product_id === pid);
+    if (p) { p['image_'+n] = url; if (n===1){p.image_url=url;p.image_1=url;} }
+    if (slot) { spin.remove(); _setSlot(slot, url); }
+    // Sync both modals
+    _setSlot(document.getElementById('pm-slot-'+n), url);
+    _setSlot(document.getElementById('im-slot-'+n), url);
+    if (n===1) { const pi=document.getElementById('pm-img'); if(pi) pi.value=url; }
+    toast('Image '+n+' uploaded!','success');
+    renderAll();
+  } catch(e) {
+    if (slot && spin.parentNode) spin.remove();
+    toast('Upload failed: '+e.message,'error');
+  }
+}
+async function handleImgSelect(event, n) {
+  const file = event.target.files?.[0]; if (!file) return;
+  const pid = window._editingProductId;
+  if (!pid) { toast('Save the product first, then upload images','error'); event.target.value=''; return; }
+  await uploadImgToSlot(pid, n, file, 'pm-slot-'+n);
+  event.target.value = '';
+}
+async function handleImgSelectModal(event, n) {
+  const file = event.target.files?.[0]; if (!file) return;
+  if (!_imgModalPid) return;
+  await uploadImgToSlot(_imgModalPid, n, file, 'im-slot-'+n);
+  event.target.value = '';
+}
+async function deleteImg(n) {
+  const pid = window._editingProductId; if (!pid) return;
+  if (!confirm('Remove image '+n+'?')) return;
+  try {
+    await fetch(API+'/products/'+pid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':SECRET}});
+    const p = products.find(x=>x.product_id===pid);
+    if (p) { p['image_'+n]=null; if(n===1){p.image_url=null;p.image_1=null;} }
+    _clearSlot(document.getElementById('pm-slot-'+n));
+    _clearSlot(document.getElementById('im-slot-'+n));
+    if (n===1) { const pi=document.getElementById('pm-img'); if(pi) pi.value=''; }
+    toast('Image removed','success'); renderAll();
+  } catch(e) { toast('Delete failed: '+e.message,'error'); }
+}
+async function deleteImgModal(n) {
+  if (!_imgModalPid) return;
+  if (!confirm('Remove image '+n+'?')) return;
+  try {
+    await fetch(API+'/products/'+_imgModalPid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':SECRET}});
+    const p = products.find(x=>x.product_id===_imgModalPid);
+    if (p) { p['image_'+n]=null; if(n===1){p.image_url=null;p.image_1=null;} }
+    _clearSlot(document.getElementById('im-slot-'+n));
+    _clearSlot(document.getElementById('pm-slot-'+n));
+    toast('Image removed','success'); renderAll();
+  } catch(e) { toast('Delete failed: '+e.message,'error'); }
+}
 </script>
 </body>
 </html>
