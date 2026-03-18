@@ -1273,7 +1273,7 @@ async function uploadImgToSlot(pid, n, file, slotId) {
   try {
     const fd = new FormData();
     fd.append('image_'+n, file);
-    const resp = await fetch(API+'/products/'+pid+'/images/'+n, {method:'POST', headers:{'x-admin-secret':SECRET}, body:fd});
+    const resp = await fetch(document.getElementById('apiUrl').value+'/products/'+pid+'/images/'+n, {method:'POST', headers:{'x-admin-secret':document.getElementById('apiSecret').value}, body:fd});
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error||'Upload failed');
     const url = data.urls?.['image_'+n];
@@ -1309,7 +1309,7 @@ async function deleteImg(n) {
   const pid = window._editingProductId; if (!pid) return;
   if (!confirm('Remove image '+n+'?')) return;
   try {
-    await fetch(API+'/products/'+pid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':SECRET}});
+    await fetch(document.getElementById('apiUrl').value+'/products/'+pid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':document.getElementById('apiSecret').value}});
     const p = products.find(x=>x.product_id===pid);
     if (p) { p['image_'+n]=null; if(n===1){p.image_url=null;p.image_1=null;} }
     _clearSlot(document.getElementById('pm-slot-'+n));
@@ -1322,7 +1322,7 @@ async function deleteImgModal(n) {
   if (!_imgModalPid) return;
   if (!confirm('Remove image '+n+'?')) return;
   try {
-    await fetch(API+'/products/'+_imgModalPid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':SECRET}});
+    await fetch(document.getElementById('apiUrl').value+'/products/'+_imgModalPid+'/images/image_'+n,{method:'DELETE',headers:{'x-admin-secret':document.getElementById('apiSecret').value}});
     const p = products.find(x=>x.product_id===_imgModalPid);
     if (p) { p['image_'+n]=null; if(n===1){p.image_url=null;p.image_1=null;} }
     _clearSlot(document.getElementById('im-slot-'+n));
