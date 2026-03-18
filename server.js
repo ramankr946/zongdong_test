@@ -49,9 +49,10 @@ function normTags(t) {
 }
 
 function normHL(h) {
-  if (!h) return '[]';
-  if (Array.isArray(h)) return JSON.stringify(h);
-  try { JSON.parse(h); return h; } catch { return JSON.stringify(String(h).split('|').filter(Boolean)); }
+  if (!h) return [];
+  if (Array.isArray(h)) return h.map(String).filter(Boolean);
+  try { const p = JSON.parse(h); if (Array.isArray(p)) return p.map(String).filter(Boolean); } catch {}
+  return String(h).split(/[\n|]/).map(s => s.trim()).filter(Boolean);
 }
 
 app.get('/', (req, res) => res.json({ status: 'ok', service: 'ZongDong API v2.1', project: PROJECT }));
@@ -98,8 +99,14 @@ app.put('/products/:id', auth, async (req, res) => {
     const allowed = ['name','brand','asin','category','price_inr','original_price_inr','weight_grams','stock_status','emoji','image_url','image_1','image_2','image_3','image_4','description','highlights','tags','custom_price_aed'];
     for (const k of allowed) {
       if (p[k] !== undefined) {
-        fields.push(k + ' = @' + k);
-        params[k] = k==='highlights' ? normHL(p[k]) : k==='tags' ? normTags(p[k]) : p[k];
+        if (k === 'highlights') {
+          const arr = normHL(p[k]);
+          const hlSql = arr.length ? '[' + arr.map(s => "'" + s.replace(/'/g, "\\'") + "'").join(',') + ']' : '[]';
+          fields.push('highlights = ' + hlSql);
+        } else {
+          fields.push(k + ' = @' + k);
+          params[k] = k === 'tags' ? normTags(p[k]) : p[k];
+        }
       }
     }
     if (!fields.length) return res.json({ success: true });
