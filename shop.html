@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZongDong — Shop Indian Products, Delivered to UAE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--saffron:#E8531A;--saffron-l:#FF6B35;--gold:#C9953A;--gold-l:#F5C842;--ink:#0F0D0A;--sand:#F7F3ED;--sand-d:#EDE5D8;--muted:#8A7F72;--white:#FFFFFF;--card:#FFFCF8;--border:#E8E0D0;--green:#2E7D32;--green-l:#E8F5E9;--radius:12px;}
+body{font-family:"DM Sans",sans-serif;background:var(--sand);color:var(--ink);min-height:100vh;overflow-x:hidden}
+nav{background:var(--ink);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;gap:1rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo{width:34px;height:34px;background:linear-gradient(135deg,var(--saffron),var(--gold));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-brand-text{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:700;color:#fff}
+.nav-brand-text span{color:var(--gold-l)}
+.nav-center{flex:1;max-width:480px}
+.search-wrap{position:relative;display:flex}
+.search-wrap input{width:100%;padding:9px 14px;padding-right:46px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-family:inherit;font-size:.875rem;outline:none;}
+.search-wrap input::placeholder{color:rgba(255,255,255,.35)}
+.search-wrap input:focus{background:rgba(255,255,255,.13);border-color:var(--saffron)}
+.search-btn{position:absolute;right:0;top:0;bottom:0;width:42px;background:var(--saffron);border:none;border-radius:0 8px 8px 0;cursor:pointer;color:#fff;font-size:.95rem;display:flex;align-items:center;justify-content:center}
+.nav-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.nav-btn{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.cart-btn{background:var(--saffron);color:#fff;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.cart-badge{background:var(--gold-l);color:var(--ink);border-radius:50%;width:17px;height:17px;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.hero{background:linear-gradient(135deg,var(--ink),#2C2820 60%,#3D2B1A);padding:2.5rem 2rem;text-align:center;position:relative}
+.hero h1{font-family:"Playfair Display",serif;font-size:2.4rem;font-weight:700;color:#fff;line-height:1.15;margin-bottom:.6rem}
+.hero h1 span{color:var(--gold-l)}
+.hero p{color:rgba(255,255,255,.5);font-size:.9rem;max-width:480px;margin:0 auto 1.2rem;line-height:1.6}
+.hero-badge{display:inline-block;background:rgba(232,83,26,.2);color:var(--saffron-l);border:1px solid rgba(232,83,26,.4);padding:3px 13px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem}
+.hero-stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+.hero-stat .num{font-family:"Playfair Display",serif;font-size:1.4rem;font-weight:700;color:var(--gold-l)}
+.hero-stat .lbl{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:1px}
+.cat-strip{background:var(--white);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;overflow-x:auto;scrollbar-width:none}
+.cat-chip{padding:13px 18px;font-size:.82rem;font-weight:500;color:var(--muted);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.cat-chip:hover{color:var(--saffron)}
+.cat-chip.active{color:var(--saffron);border-bottom-color:var(--saffron);font-weight:600}
+.main{max-width:1200px;margin:0 auto;padding:1.75rem 1.5rem}
+.live-bar{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:9px 13px;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted)}
+.live-dot{width:7px;height:7px;background:#22C55E;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.sec-title{font-family:"Playfair Display",serif;font-size:1.4rem;font-weight:600}
+.sec-sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.see-all{font-size:.82rem;color:var(--saffron);font-weight:600;cursor:pointer;background:none;border:none;padding:0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.1rem}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s;cursor:pointer;position:relative}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 10px 35px rgba(15,13,10,.11)}
+.pcard-img{width:100%;aspect-ratio:1;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+.pcard-em{position:relative;z-index:1;transition:transform .3s}
+.pcard:hover .pcard-em{transform:scale(1.1)}
+.pbadge{position:absolute;top:9px;left:9px;background:var(--saffron);color:#fff;font-size:.62rem;font-weight:700;padding:3px 7px;border-radius:4px;text-transform:uppercase;z-index:3}
+.wish-btn{position:absolute;top:9px;right:9px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s}
+.wish-btn.wished{background:#fff0f0}
+.pinfo{padding:12px}
+.pname{font-size:.84rem;font-weight:500;line-height:1.35;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prating{display:flex;align-items:center;gap:4px;margin-bottom:6px}
+.stars{color:var(--gold);font-size:.75rem}
+.rcount{font-size:.68rem;color:var(--muted)}
+.ppricing{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin-bottom:3px}
+.p-aed{font-size:1.05rem;font-weight:700}
+.disc{font-size:.67rem;color:var(--green);font-weight:600;background:var(--green-l);padding:1px 5px;border-radius:3px}
+.p-inr{font-size:.7rem;color:var(--muted);margin-bottom:7px}
+.ship{font-size:.68rem;color:var(--muted);margin-bottom:8px}
+.free-s{color:var(--green);font-weight:600}
+.add-btn{width:100%;padding:8px;background:var(--saffron);color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+.add-btn:hover{background:var(--saffron-l)}
+.add-btn.added{background:var(--green)}
+.skel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.1rem}
+.skel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.skel{background:linear-gradient(90deg,var(--sand) 25%,var(--sand-d) 50%,var(--sand) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-img{aspect-ratio:1;width:100%}
+.skel-lines{padding:12px;display:flex;flex-direction:column;gap:7px}
+.sl{height:11px}.sl.s{width:55%}.sl.p{height:16px;width:38%}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:all}
+.side-panel{position:fixed;top:0;bottom:0;width:380px;background:var(--white);z-index:201;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.15);transition:transform .35s}
+.side-panel.right{right:0;transform:translateX(110%)}
+.side-panel.open{transform:translateX(0)}
+.panel-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-head h2{font-family:"Playfair Display",serif;font-size:1.1rem}
+.close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.cart-body{flex:1;overflow-y:auto;padding:.9rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.citem{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.cimg{width:54px;height:54px;background:var(--sand);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.cinfo{flex:1;min-width:0}
+.cname{font-size:.79rem;font-weight:500;line-height:1.3;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cprice{font-size:.88rem;font-weight:700;color:var(--saffron)}
+.cqty{display:flex;align-items:center;gap:7px;margin-top:5px}
+.qbtn{width:22px;height:22px;border:1px solid var(--border);background:var(--sand);border-radius:4px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.qnum{font-size:.8rem;font-weight:600;min-width:18px;text-align:center}
+.rm-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.72rem;margin-left:auto}
+.cart-foot{padding:1.25rem 1.5rem;border-top:1px solid var(--border)}
+.sum-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:5px;color:var(--muted)}
+.sum-row.tot{font-size:.95rem;font-weight:700;color:var(--ink);margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.co-btn{width:100%;padding:13px;background:var(--saffron);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px}
+.ship-note{font-size:.7rem;color:var(--muted);text-align:center;margin-top:7px}
+.wish-body{flex:1;overflow-y:auto;padding:.9rem}
+.wish-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.wi-img{width:54px;height:54px;background:var(--sand);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.wi-info{flex:1}
+.wi-name{font-size:.79rem;font-weight:500;margin-bottom:4px}
+.wi-price{font-size:.88rem;font-weight:700;color:var(--saffron);margin-bottom:6px}
+.wi-btns{display:flex;gap:6px}
+.wi-add{flex:1;padding:6px;background:var(--saffron);color:#fff;border:none;border-radius:6px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer}
+.wi-rm{padding:6px 9px;background:none;border:1px solid var(--border);border-radius:6px;font-size:.75rem;cursor:pointer;color:var(--muted)}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;transform:scale(.95);transition:transform .3s;position:relative}
+.modal-ov.open .modal{transform:scale(1)}
+.modal-x{position:absolute;top:12px;right:12px;background:var(--sand);border:none;width:30px;height:30px;border-radius:50%;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:4}
+.modal-img{width:100%;aspect-ratio:16/9;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:5rem;border-radius:16px 16px 0 0;position:relative;overflow:hidden}
+.mbody{padding:1.25rem}
+.msrc{font-size:.72rem;color:var(--muted);margin-bottom:5px}
+.mtitle{font-family:"Playfair Display",serif;font-size:1.3rem;margin-bottom:8px;line-height:1.3}
+.mrating{display:flex;align-items:center;gap:7px;margin-bottom:12px;font-size:.82rem}
+.mpricing{background:var(--sand);border-radius:9px;padding:12px;margin-bottom:12px}
+.maed{font-size:1.5rem;font-weight:700}
+.mbrk{font-size:.74rem;color:var(--muted);line-height:1.8;margin-top:8px}
+.mbrk span{font-weight:600;color:var(--ink)}
+.mdesc{font-size:.84rem;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.mhl{margin-bottom:12px}
+.mhl-t{font-size:.77rem;font-weight:700;margin-bottom:5px}
+.mhl-item{font-size:.79rem;color:var(--muted);padding:2px 0;display:flex;gap:5px}
+.mhl-item::before{content:"\u2713";color:var(--green);flex-shrink:0}
+.m-add-btn{width:100%;padding:13px;background:var(--saffron);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer}
+.m-add-btn.added{background:var(--green)}
+.toast{position:fixed;bottom:1.75rem;left:50%;transform:translateX(-50%) translateY(70px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:9px;font-size:.82rem;font-weight:500;z-index:600;transition:transform .3s;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.trust{background:#2C2820;padding:.9rem 2rem;display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.55);font-size:.75rem}
+footer{background:var(--ink);color:rgba(255,255,255,.35);text-align:center;padding:1.25rem;font-size:.75rem}
+footer strong{color:rgba(255,255,255,.65)}
+footer a{color:rgba(255,255,255,.25);font-size:.7rem;text-decoration:none;margin-left:.5rem}
+@media(max-width:700px){.nav-center{display:none}.hero h1{font-size:1.7rem}.side-panel{width:100%}.nav-btn span{display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">🪔</div>
+    <div class="nav-brand-text">Zong<span>Dong</span></div>
+  </a>
+  <div class="nav-center">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search products... (Ashwagandha, spices, saree...)" />
+      <button class="search-btn" onclick="doSearch()">🔍</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn" id="wishNavBtn" onclick="openPanel('wishPanel')">❤️ <span id="wishCount">0</span></button>
+    <button class="cart-btn" onclick="openPanel('cartPanel')">🛒 <span class="cart-badge" id="cartCount">0</span></button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-badge">🛍️ Premium Indian Products · UAE Delivered</div>
+  <h1>Shop India's Best Products,<br><span>Delivered Across UAE & GCC</span></h1>
+  <p>Curated products from India — Ayurveda, fashion, food & more. We handle customs & last-mile. All prices in AED.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" id="totalCount">...</div><div class="lbl">Live Products</div></div>
+    <div class="hero-stat"><div class="num">7–14</div><div class="lbl">Days Delivery</div></div>
+    <div class="hero-stat"><div class="num">0</div><div class="lbl">Hidden Duties</div></div>
+    <div class="hero-stat"><div class="num">AED</div><div class="lbl">All Prices</div></div>
+  </div>
+</div>
+<div class="cat-strip">
+  <div class="cat-chip active" onclick="loadCat(this,'featured')">⭐ Featured</div>
+  <div class="cat-chip" onclick="loadCat(this,'ayurveda')">🌿 Ayurveda</div>
+  <div class="cat-chip" onclick="loadCat(this,'spices')">🌶️ Spices & Food</div>
+  <div class="cat-chip" onclick="loadCat(this,'fashion')">👗 Fashion</div>
+  <div class="cat-chip" onclick="loadCat(this,'electronics')">📱 Electronics</div>
+  <div class="cat-chip" onclick="loadCat(this,'home')">🏠 Home & Kitchen</div>
+  <div class="cat-chip" onclick="loadCat(this,'beauty')">💄 Beauty</div>
+</div>
+<div class="main">
+  <div class="live-bar"><div class="live-dot" id="liveDot"></div><span id="liveTxt">🔄 Connecting to live catalog...</span></div>
+  <div class="sec-hdr">
+    <div><div class="sec-title" id="secTitle">Featured Products</div><div class="sec-sub" id="secSub">Loading...</div></div>
+    <button class="see-all" onclick="loadMore()">Load more →</button>
+  </div>
+  <div id="skelGrid" class="skel-grid"><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div></div>
+  <div class="pgrid" id="pGrid" style="display:none"></div>
+  <div id="emptyState" style="display:none;text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.75rem">🔍</div><p>No products found. Try a different search.</p></div>
+</div>
+<div class="trust"><div class="ti">🛃 Customs Handled</div><div class="ti">💳 Pay in AED</div><div class="ti">↩️ 14-Day Returns</div><div class="ti">🔒 Secure Checkout</div></div>
+<footer><strong>ZongDong</strong> — Your gateway to Indian products, delivered to UAE & GCC<a href="dashboard.html">Admin ⚙️</a></footer>
+<div class="overlay" id="mainOverlay" onclick="closeAll()"></div>
+<div class="side-panel right" id="cartPanel"><div class="panel-head"><h2>🛒 Cart</h2><button class="close-btn" onclick="closeAll()">✕</button></div><div class="cart-body" id="cartBody"><div class="cart-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">🛍️</div><p>Your cart is empty</p></div></div><div id="cartFoot" style="display:none" class="cart-foot"><div class="sum-row"><span>Subtotal</span><span id="cSub">AED 0</span></div><div class="sum-row"><span>Shipping</span><span id="cShip">AED 0</span></div><div class="sum-row"><span>VAT 5%</span><span id="cVAT">AED 0</span></div><div class="sum-row tot"><span>Total</span><span id="cTot">AED 0</span></div><button class="co-btn" onclick="checkout()">Checkout →</button><div class="ship-note">🚚 7-14 days to UAE</div></div></div>
+<div class="side-panel right" id="wishPanel"><div class="panel-head"><h2>❤️ Wishlist</h2><button class="close-btn" onclick="closeAll()">✕</button></div><div class="wish-body" id="wishBody"><div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.75rem">💛</div><p>Save products you love</p></div></div></div>
+<div class="modal-ov" id="modalOv" onclick="if(event.target===this)closeMd()"><div class="modal"><button class="modal-x" onclick="closeMd()">✕</button><div id="modalContent"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const API_BASE="https://zongdong-api-673989170541.us-central1.run.app";
+const R=0.044,SHIP=25;
+let cart=[],wishlist=[],products=[],_all=null;
+function bqToCard(p){
+  const inr=parseFloat(p.price_inr)||0,orig=parseFloat(p.original_price_inr)||inr*1.2;
+  const hl=(()=>{if(!p.highlights)return[];if(Array.isArray(p.highlights))return p.highlights;try{return JSON.parse(p.highlights);}catch{return String(p.highlights).split("|").filter(Boolean);}})();
+  const disc=Math.round((1-inr/orig)*100);
+  return{id:p.product_id,name:p.name,emoji:p.emoji||"\uD83D\uDCE6",brand:p.brand||"",priceINR:inr,originalPriceINR:orig,rating:4.2,reviewCount:Math.floor(Math.random()*5000)+200,badge:p.stock_status==="limited"?"Deal":disc>=20?"Best Seller":"",freeShipping:inr>500,description:p.description||p.name,highlights:hl,asin:p.asin,img:p.image_1||p.image_url||null,cat:(p.category||"").toLowerCase()};
+}
+async function loadAll(){
+  if(_all)return _all;
+  try{
+    const res=await fetch(API_BASE+"/products");
+    if(!res.ok)throw new Error("API "+res.status);
+    const data=await res.json();
+    _all=data.filter(p=>!p.is_banned&&p.stock_status!=="out").map(bqToCard);
+    document.getElementById("totalCount").textContent=_all.length+"+";
+    document.getElementById("liveTxt").textContent="\uD83D\uDFE2 Live catalog \u00B7 "+_all.length+" products \u00B7 Prices in AED \u00B7 All duties included";
+    document.getElementById("liveDot").style.background="#22C55E";
+    return _all;
+  }catch(e){
+    console.warn("Live API failed:",e.message);
+    document.getElementById("liveTxt").textContent="\uD83E\uDD16 AI-powered catalog \u00B7 Prices in AED \u00B7 All duties & VAT included";
+    document.getElementById("liveDot").style.background="var(--gold)";
+    return null;
+  }
+}
+async function fetchProducts(q,isCat){
+  const all=await loadAll();
+  if(all&&all.length){
+    if(isCat){
+      const map={featured:null,ayurveda:"ayurveda",spices:"spices",fashion:"fashion",electronics:"electronics",home:"home",books:"books",beauty:"beauty"};
+      const k=map[q];
+      let f=k?all.filter(p=>p.cat.includes(k)):all;
+      if(!f.length)f=all;
+      return f.sort(()=>Math.random()-.5).slice(0,12);
+    } else {
+      const ql=q.toLowerCase();
+      let f=all.filter(p=>p.name.toLowerCase().includes(ql)||(p.brand||"").toLowerCase().includes(ql)||p.cat.includes(ql));
+      if(!f.length)f=all.slice(0,8);
+      return f.slice(0,12);
+    }
+  }
+  // AI fallback
+  const sys="You are a product catalog API. Return ONLY a valid JSON array of 8 products. No markdown. Each: {id,name,emoji,brand,priceINR,originalPriceINR,rating:4.2,reviewCount:1200,badge:\"\",freeShipping:false,description,highlights:[\"h1\",\"h2\"]}";
+  const msg=isCat?"Generate 8 popular "+q+" products for UAE customers.":"Generate 8 products for: "+q+" for UAE customers.";
+  const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:msg}]})});
+  const d=await res.json();
+  return JSON.parse(d.content[0].text.replace(/```json|```/g,"").trim());
+}
+function inrAed(n){return Math.round(n*R);}
+function stars(r){return "\u2605".repeat(Math.floor(r))+(r%1>=.5?"\u00BD":"")+"\u2606".repeat(5-Math.floor(r)-(r%1>=.5?1:0));}
+function fmtN(n){return n>=1000?(n/1000).toFixed(1)+"k":n;}
+function pcHTML(p,i){
+  const aed=inrAed(p.priceINR),disc=Math.round((1-p.priceINR/p.originalPriceINR)*100),wi=wishlist.some(w=>w.id===p.id);
+  return '<div class="pcard" onclick="openModal('+i+')">'  +'<div class="pcard-img">'  +(p.img?'<img src="'+p.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" onerror="this.style.display=\'none\'">':"")
+  +'<span class="pcard-em">'+p.emoji+"</span>"
+  +(p.badge?'<div class="pbadge">'+p.badge+"</div>":"")
+  +'<button class="wish-btn'+(wi?" wished":"")+'" onclick="event.stopPropagation();toggleWish('+i+',this)">'+(wi?"\u2764\uFE0F":"\u2661")+"</button>"
+  +"</div>"
+  +'<div class="pinfo"><div class="pname">'+p.name+"</div>"
+  +'<div class="prating"><span class="stars">'+stars(p.rating)+'</span><span class="rcount">('+fmtN(p.reviewCount)+")</span></div>"
+  +'<div class="ppricing"><span class="p-aed">AED '+aed+"</span>"+(disc>0?'<span class="disc">-'+disc+"%</span>":"")+("</div>")
+  +'<div class="p-inr">\u20B9'+p.priceINR.toLocaleString()+" on Amazon India</div>"
+  +'<div class="ship">'+(p.freeShipping?'<span class="free-s">\u2713 Free shipping</span>':'\uD83D\uDE9A +AED 25')+' \u00B7 7-14 days</div>'
+  +'<button class="add-btn" id="ab'+i+'" onclick="event.stopPropagation();addToCart('+i+',this)">Add to Cart</button></div></div>';
+}
+function renderProducts(prods){products=prods;document.getElementById("skelGrid").style.display="none";const g=document.getElementById("pGrid");g.style.display="grid";g.innerHTML=prods.map((p,i)=>pcHTML(p,i)).join("");}
+async function loadCat(el,cat){
+  document.querySelectorAll(".cat-chip").forEach(c=>c.classList.remove("active"));el.classList.add("active");
+  const ti={featured:"Featured Products",ayurveda:"Ayurveda & Health",spices:"Spices & Food",fashion:"Fashion",electronics:"Electronics",home:"Home & Kitchen",beauty:"Beauty & Skincare"};
+  document.getElementById("secTitle").textContent=ti[cat]||cat;
+  document.getElementById("secSub").textContent="Loading...";
+  document.getElementById("skelGrid").style.display="grid";
+  document.getElementById("pGrid").style.display="none";
+  document.getElementById("emptyState").style.display="none";
+  try{
+    const prods=await fetchProducts(cat,true);
+    renderProducts(prods);
+    document.getElementById("secSub").textContent=prods.length+" products"+(_all?" \u00B7 Live from BigQuery":" \u00B7 AI catalog");
+  }catch(e){document.getElementById("skelGrid").style.display="none";document.getElementById("emptyState").style.display="block";}
+}
+async function doSearch(){
+  const q=document.getElementById("searchInput").value.trim();if(!q)return;
+  document.getElementById("secTitle").textContent='"'+ q +'"';
+  document.getElementById("secSub").textContent="Searching...";
+  document.querySelectorAll(".cat-chip").forEach(c=>c.classList.remove("active"));
+  document.getElementById("skelGrid").style.display="grid";
+  document.getElementById("pGrid").style.display="none";
+  document.getElementById("emptyState").style.display="none";
+  try{const prods=await fetchProducts(q,false);renderProducts(prods);document.getElementById("secSub").textContent=prods.length+" results";}catch(e){document.getElementById("skelGrid").style.display="none";document.getElementById("emptyState").style.display="block";}
+}
+document.addEventListener("DOMContentLoaded",()=>{document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")doSearch();});});
+async function loadMore(){
+  const active=document.querySelector(".cat-chip.active");
+  const q=active?active.textContent.trim().split(" ").pop()||"featured":"featured";
+  try{const more=await fetchProducts(q.toLowerCase(),true);const start=products.length;products=[...products,...more];document.getElementById("pGrid").innerHTML+=more.map((p,i)=>pcHTML(p,start+i)).join("");}catch(e){}
+}
+function openModal(i){
+  const p=products[i],aed=inrAed(p.priceINR),ship=p.freeShipping?0:SHIP,vat=Math.round(aed*.05),tot=aed+ship+vat;
+  const disc=Math.round((1-p.priceINR/p.originalPriceINR)*100);
+  document.getElementById("modalContent").innerHTML='<div class="modal-img">'+(p.img?'<img src="'+p.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;border-radius:16px 16px 0 0" onerror="this.style.display=\'none\'">':"")+'<span style="position:relative;z-index:1;font-size:5rem">'+p.emoji+"</div>"
+    +'<div class="mbody"><div class="msrc">\uD83D\uDECD\uFE0F ZongDong \u00B7 ASIN: '+( p.asin||"ZD000")+"</div>"
+    +'<div class="mtitle">'+p.name+"</div>"
+    +'<div class="mrating"><span class="stars">'+stars(p.rating)+'</span><span>'+p.rating+' \u00B7 '+fmtN(p.reviewCount)+" reviews</span></div>"
+    +'<div class="mpricing"><div style="display:flex;align-items:center;gap:8px"><span class="maed">AED '+tot+"</span>"+(disc>0?'<span class="disc">-'+disc+"%</span>":"")+("</div>")
+    +'<div class="mbrk"><span>Price:</span> AED '+aed+" &nbsp;|&nbsp; <span>Shipping:</span> "+(p.freeShipping?"Free":"AED "+SHIP)+" &nbsp;|&nbsp; <span>VAT:</span> AED "+vat+"<br>\u2705 No hidden charges</div></div>"
+    +'<div class="mdesc">'+p.description+"</div>"
+    +(p.highlights&&p.highlights.length?'<div class="mhl"><div class="mhl-t">Highlights</div>'+p.highlights.map(h=>'<div class="mhl-item">'+h+"</div>").join("")+"</div>":"")
+    +'<button class="m-add-btn" id="mab" onclick="addToCart('+i+',document.getElementById(\'mab\'))">Add to Cart \u2014 AED '+tot+"</button></div>";
+  document.getElementById("modalOv").classList.add("open");
+}
+function closeMd(){document.getElementById("modalOv").classList.remove("open");}
+function addToCart(i,btn){
+  const p=products[i],aed=inrAed(p.priceINR),ship=p.freeShipping?0:SHIP,vat=Math.round(aed*.05),tot=aed+ship+vat;
+  const ex=cart.find(c=>c.id===p.id);
+  if(ex)ex.qty++;else cart.push({...p,qty:1,aed,ship,vat,tot});
+  btn.textContent="\u2713 Added";btn.classList.add("added");
+  setTimeout(()=>{btn.textContent="Add to Cart";btn.classList.remove("added");},1500);
+  document.getElementById("cartCount").textContent=cart.reduce((s,c)=>s+c.qty,0);
+  renderCart();showToast("\u2705 "+p.name.slice(0,30)+"...");
+}
+function renderCart(){
+  const body=document.getElementById("cartBody"),foot=document.getElementById("cartFoot");
+  if(!cart.length){body.innerHTML='<div class="cart-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">\uD83D\uDECD\uFE0F</div><p>Your cart is empty</p></div>';foot.style.display="none";return;}
+  body.innerHTML=cart.map((item,i)=>'<div class="citem"><div class="cimg">'+item.emoji+'</div><div class="cinfo"><div class="cname">'+item.name+'</div><div class="cprice">AED '+item.tot+'</div><div class="cqty"><button class="qbtn" onclick="upd('+i+',-1)">\u2212</button><span class="qnum">'+item.qty+'</span><button class="qbtn" onclick="upd('+i+',1)">+</button><button class="rm-btn" onclick="rmItem('+i+')">Remove</button></div></div></div>').join("");
+  const sub=cart.reduce((s,c)=>s+c.aed*c.qty,0),ship=cart.reduce((s,c)=>s+c.ship*c.qty,0),vat=cart.reduce((s,c)=>s+c.vat*c.qty,0);
+  document.getElementById("cSub").textContent="AED "+sub;
+  document.getElementById("cShip").textContent=ship?"AED "+ship:"Free";
+  document.getElementById("cVAT").textContent="AED "+vat;
+  document.getElementById("cTot").textContent="AED "+(sub+ship+vat);
+  foot.style.display="block";
+}
+function upd(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);document.getElementById("cartCount").textContent=cart.reduce((s,c)=>s+c.qty,0);renderCart();}
+function rmItem(i){cart.splice(i,1);document.getElementById("cartCount").textContent=cart.reduce((s,c)=>s+c.qty,0);renderCart();}
+function checkout(){showToast("\uD83D\uDEA7 Checkout integration coming soon");closeAll();}
+function toggleWish(i,btn){
+  const p=products[i],idx=wishlist.findIndex(w=>w.id===p.id);
+  if(idx>=0){wishlist.splice(idx,1);btn.textContent="\u2661";btn.classList.remove("wished");}else{wishlist.push({...p,_i:i});btn.textContent="\u2764\uFE0F";btn.classList.add("wished");}
+  document.getElementById("wishCount").textContent=wishlist.length;
+  renderWish();
+}
+function renderWish(){
+  const body=document.getElementById("wishBody");
+  if(!wishlist.length){body.innerHTML='<div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.75rem">\uD83D\uDC9B</div><p>Save products you love</p></div>';return;}
+  body.innerHTML=wishlist.map((p,wi)=>'<div class="wish-item"><div class="wi-img">'+p.emoji+'</div><div class="wi-info"><div class="wi-name">'+p.name+'</div><div class="wi-price">AED '+inrAed(p.priceINR)+'</div><div class="wi-btns"><button class="wi-add" onclick="addToCart('+(p._i||0)+',this)">Add to Cart</button><button class="wi-rm" onclick="rmWish('+wi+')">\u2715</button></div></div></div>').join("");
+}
+function rmWish(wi){wishlist.splice(wi,1);document.getElementById("wishCount").textContent=wishlist.length;renderWish();}
+function openPanel(id){closeAll(false);document.getElementById(id).classList.add("open");document.getElementById("mainOverlay").classList.add("open");}
+function closeAll(x=true){["cartPanel","wishPanel"].forEach(p=>document.getElementById(p).classList.remove("open"));document.getElementById("mainOverlay").classList.remove("open");}
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);}
+// INIT
+loadCat(document.querySelector(".cat-chip.active"),"featured");
+</script>
+</body>
+</html>
