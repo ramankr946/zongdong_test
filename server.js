@@ -146,7 +146,6 @@ app.post('/products/:id/images', auth, upload.fields([
 
       await gcsFile.save(file.buffer, {
         metadata: { contentType: file.mimetype },
-        public: true,
         resumable: false,
       });
 
