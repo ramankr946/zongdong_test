@@ -265,7 +265,7 @@ nav{background:var(--ink);padding:0 1.5rem;display:flex;align-items:center;justi
 .mhl{margin-bottom:12px}
 .mhl-t{font-size:.77rem;font-weight:700;margin-bottom:5px}
 .mhl-item{font-size:.79rem;color:var(--muted);padding:2px 0;display:flex;gap:5px}
-.mhl-item::before{content:'\u2713';color:var(--green);flex-shrink:0}
+.mhl-item::before{content:'✓';color:var(--green);flex-shrink:0}
 .m-add-btn{width:100%;padding:13px;background:var(--saffron);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:.92rem;font-weight:700;cursor:pointer;transition:all .2s}
 .m-add-btn:hover{background:var(--saffron-l)}
 .m-add-btn.added{background:var(--green)}
@@ -294,32 +294,32 @@ footer strong{color:rgba(255,255,255,.65)}
 <!-- NAV -->
 <nav>
   <a class="nav-brand" href="#">
-    <div class="nav-logo">\ud83e\ude94</div>
+    <div class="nav-logo">🪔</div>
     <div class="nav-brand-text">Zong<span>Dong</span></div>
   </a>
   <div class="nav-center">
     <div class="search-wrap">
       <input type="text" id="searchInput" placeholder="Search products..." />
-      <button class="search-btn" onclick="doSearch()">\ud83d\udd0d</button>
+      <button class="search-btn" onclick="doSearch()">🔍</button>
     </div>
   </div>
   <div class="nav-right">
-    <button class="lang-btn" id="langBtn" onclick="toggleLang()">\u0639\u0631\u0628\u064a</button>
-    <button class="nav-btn" id="wishNavBtn" onclick="openWish()">\u2764\ufe0f <span id="wishCount">0</span></button>
-    <button class="nav-btn" id="authNavBtn" onclick="openAuth()">\ud83d\udc64 <span id="authLabel">Sign In</span></button>
-    <button class="nav-btn" onclick="openAdmin()" title="Admin">\u2699\ufe0f</button>
-    <button class="cart-nav-btn" onclick="openCart()">\ud83d\uded2 <span class="badge" id="cartCount">0</span></button>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">عربي</button>
+    <button class="nav-btn" id="wishNavBtn" onclick="openWish()">❤️ <span id="wishCount">0</span></button>
+    <button class="nav-btn" id="authNavBtn" onclick="openAuth()">👤 <span id="authLabel">Sign In</span></button>
+    <button class="nav-btn" onclick="openAdmin()" title="Admin">⚙️</button>
+    <button class="cart-nav-btn" onclick="openCart()">🛒 <span class="badge" id="cartCount">0</span></button>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge" id="heroB">\ud83d\udecd\ufe0f Premium Products \u00b7 UAE Delivered</div>
+  <div class="hero-badge" id="heroB">🛍️ Premium Products · UAE Delivered</div>
   <h1 id="heroH">Exclusive Products,<br><span id="heroSpan">Delivered Across UAE & GCC</span></h1>
-  <p id="heroP">Discover millions of curated products \u2014 electronics, fashion, health & more. We handle customs, duties & last-mile delivery. All prices in AED, nothing hidden.</p>
+  <p id="heroP">Discover millions of curated products — electronics, fashion, health & more. We handle customs, duties & last-mile delivery. All prices in AED, nothing hidden.</p>
   <div class="hero-stats">
     <div class="hero-stat"><div class="num">50M+</div><div class="lbl" id="s1">Products</div></div>
-    <div class="hero-stat"><div class="num">7\u201314</div><div class="lbl" id="s2">Days Delivery</div></div>
+    <div class="hero-stat"><div class="num">7–14</div><div class="lbl" id="s2">Days Delivery</div></div>
     <div class="hero-stat"><div class="num">0</div><div class="lbl" id="s3">Hidden Duties</div></div>
     <div class="hero-stat"><div class="num">AED</div><div class="lbl" id="s4">All Prices</div></div>
   </div>
@@ -327,34 +327,34 @@ footer strong{color:rgba(255,255,255,.65)}
 
 <!-- CATS -->
 <div class="cat-strip">
-  <div class="cat-chip active" onclick="loadCat(this,'featured')">\u2b50 <span class="ct">Featured</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'ayurveda')">\ud83c\udf3f <span class="ct">Ayurveda</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'spices')">\ud83c\udf36\ufe0f <span class="ct">Spices & Food</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'fashion')">\ud83d\udc57 <span class="ct">Fashion</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'electronics')">\ud83d\udcf1 <span class="ct">Electronics</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'home')">\ud83c\udfe0 <span class="ct">Home & Kitchen</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'books')">\ud83d\udcda <span class="ct">Books</span></div>
-  <div class="cat-chip" onclick="loadCat(this,'beauty')">\ud83d\udc84 <span class="ct">Beauty</span></div>
+  <div class="cat-chip active" onclick="loadCat(this,'featured')">⭐ <span class="ct">Featured</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'ayurveda')">🌿 <span class="ct">Ayurveda</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'spices')">🌶️ <span class="ct">Spices & Food</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'fashion')">👗 <span class="ct">Fashion</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'electronics')">📱 <span class="ct">Electronics</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'home')">🏠 <span class="ct">Home & Kitchen</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'books')">📚 <span class="ct">Books</span></div>
+  <div class="cat-chip" onclick="loadCat(this,'beauty')">💄 <span class="ct">Beauty</span></div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
-  <div class="ai-bar"><div class="ai-dot" style="background:var(--green)"></div><span id="aiBarTxt">AI-powered product catalog \u00b7 Prices in AED \u00b7 All import duties & VAT included at checkout</span></div>
+  <div class="ai-bar"><div class="ai-dot" style="background:var(--green)"></div><span id="aiBarTxt">AI-powered product catalog · Prices in AED · All import duties & VAT included at checkout</span></div>
   <div class="sec-hdr">
     <div><div class="sec-title" id="secTitle">Featured Products</div><div class="sec-sub" id="secSub">Loading live products...</div></div>
-    <button class="see-all" onclick="loadMore()">Load more \u2192</button>
+    <button class="see-all" onclick="loadMore()">Load more →</button>
   </div>
   <div id="skelGrid" class="skel-grid">${Array(8).fill('').map(()=>`<div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div>`).join('')}</div>
   <div class="pgrid" id="pGrid" style="display:none"></div>
-  <div style="display:none;text-align:center;padding:3rem;color:var(--muted)" id="emptyState"><div style="font-size:2.5rem;margin-bottom:.75rem">\ud83d\udd0d</div><p id="emptyP">No products found. Try a different search.</p></div>
+  <div style="display:none;text-align:center;padding:3rem;color:var(--muted)" id="emptyState"><div style="font-size:2.5rem;margin-bottom:.75rem">🔍</div><p id="emptyP">No products found. Try a different search.</p></div>
 </div>
 
 <!-- TRUST -->
 <div class="trust">
-  <div class="ti">\ud83d\udec3 <span id="t2">Customs & Import Handled</span></div>
-  <div class="ti">\ud83d\udcb3 <span id="t3">Pay in AED</span></div>
-  <div class="ti">\u21a9\ufe0f <span id="t4">14-Day Returns</span></div>
-  <div class="ti">\ud83d\udd12 <span id="t5">Secure Checkout</span></div>
+  <div class="ti">🛃 <span id="t2">Customs & Import Handled</span></div>
+  <div class="ti">💳 <span id="t3">Pay in AED</span></div>
+  <div class="ti">↩️ <span id="t4">14-Day Returns</span></div>
+  <div class="ti">🔒 <span id="t5">Secure Checkout</span></div>
 </div>
 <footer><strong>ZongDong</strong> — <span id="ftxt">Your gateway to premium products, delivered across UAE &amp; GCC</span> &nbsp;&middot;&nbsp; <a href="dashboard.html" style="color:rgba(255,255,255,.3);font-size:.72rem;text-decoration:none">Admin &#9881;&#65039;</a></footer>
 
@@ -363,21 +363,21 @@ footer strong{color:rgba(255,255,255,.65)}
 
 <!-- CART -->
 <div class="side-panel right" id="cartPanel">
-  <div class="panel-head"><h2 id="cartTitle">\ud83d\uded2 Your Cart</h2><button class="close-btn" onclick="closeAll()">\u2715</button></div>
-  <div class="cart-body" id="cartBody"><div class="cart-empty"><div class="ei">\ud83d\udecd\ufe0f</div><p id="cartEmptyTxt">Your cart is empty</p></div></div>
+  <div class="panel-head"><h2 id="cartTitle">🛒 Your Cart</h2><button class="close-btn" onclick="closeAll()">✕</button></div>
+  <div class="cart-body" id="cartBody"><div class="cart-empty"><div class="ei">🛍️</div><p id="cartEmptyTxt">Your cart is empty</p></div></div>
   <div id="cartFoot" style="display:none" class="cart-foot">
     <div class="sum-row"><span id="subLbl">Subtotal</span><span id="cSub">AED 0</span></div>
     <div class="sum-row"><span id="shipLbl">Shipping</span><span id="cShip">AED 0</span></div>
     <div class="sum-row"><span id="vatLbl">VAT (5%)</span><span id="cVAT">AED 0</span></div>
     <div class="sum-row tot"><span id="totLbl">Total</span><span id="cTot">AED 0</span></div>
-    <button class="co-btn" onclick="checkout()" id="coBtn">Proceed to Checkout \u2192</button>
-    <div class="ship-note" id="shipNote">\ud83d\ude9a Estimated delivery: 7\u201314 days to UAE</div>
+    <button class="co-btn" onclick="checkout()" id="coBtn">Proceed to Checkout →</button>
+    <div class="ship-note" id="shipNote">🚚 Estimated delivery: 7–14 days to UAE</div>
   </div>
 </div>
 
 <!-- AUTH -->
 <div class="side-panel right" id="authPanel">
-  <div class="panel-head"><h2 id="authPanelTitle">My Account</h2><button class="close-btn" onclick="closeAll()">\u2715</button></div>
+  <div class="panel-head"><h2 id="authPanelTitle">My Account</h2><button class="close-btn" onclick="closeAll()">✕</button></div>
   <div id="authContent">
     <div class="auth-tabs">
       <div class="atab active" id="tabSignin" onclick="switchTab('signin')">Sign In</div>
@@ -385,7 +385,7 @@ footer strong{color:rgba(255,255,255,.65)}
     </div>
     <div class="auth-form" id="signinForm">
       <div class="fgroup"><label>Email Address</label><input type="email" id="siEmail" placeholder="you@example.com"></div>
-      <div class="fgroup"><label>Password</label><input type="password" id="siPass" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"></div>
+      <div class="fgroup"><label>Password</label><input type="password" id="siPass" placeholder="••••••••"></div>
       <button class="auth-btn" onclick="doSignIn()">Sign In</button>
       <p class="auth-note">Demo: ahmed@example.com / demo123</p>
     </div>
@@ -393,7 +393,7 @@ footer strong{color:rgba(255,255,255,.65)}
       <div class="fgroup"><label>Full Name</label><input type="text" id="suName" placeholder="Ahmed Al-Rashid"></div>
       <div class="fgroup"><label>Email</label><input type="email" id="suEmail" placeholder="you@example.com"></div>
       <div class="fgroup"><label>Phone (UAE)</label><input type="tel" id="suPhone" placeholder="+971 50 000 0000"></div>
-      <div class="fgroup"><label>Password</label><input type="password" id="suPass" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"></div>
+      <div class="fgroup"><label>Password</label><input type="password" id="suPass" placeholder="••••••••"></div>
       <button class="auth-btn" onclick="doSignUp()">Create Account</button>
     </div>
   </div>
@@ -401,14 +401,14 @@ footer strong{color:rgba(255,255,255,.65)}
 
 <!-- WISHLIST -->
 <div class="side-panel right" id="wishPanel">
-  <div class="panel-head"><h2 id="wishTitle">\u2764\ufe0f Wishlist</h2><button class="close-btn" onclick="closeAll()">\u2715</button></div>
-  <div class="wish-body" id="wishBody"><div class="wish-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">\ud83d\udc9b</div><p id="wishEmptyTxt">Save products you love</p></div></div>
+  <div class="panel-head"><h2 id="wishTitle">❤️ Wishlist</h2><button class="close-btn" onclick="closeAll()">✕</button></div>
+  <div class="wish-body" id="wishBody"><div class="wish-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">💛</div><p id="wishEmptyTxt">Save products you love</p></div></div>
 </div>
 
 <!-- PRODUCT MODAL -->
 <div class="modal-ov" id="modalOv" onclick="closeModal(event)">
   <div class="modal" id="modal">
-    <button class="modal-x" onclick="closeMd()">\u2715</button>
+    <button class="modal-x" onclick="closeMd()">✕</button>
     <div id="modalContent"></div>
   </div>
 </div>
@@ -416,15 +416,15 @@ footer strong{color:rgba(255,255,255,.65)}
 <!-- ADMIN -->
 <div class="admin-overlay" id="adminDash">
   <div class="admin-nav">
-    <div class="admin-nav-title">\u2699\ufe0f ZongDong Admin</div>
-    <button class="admin-close" onclick="closeAdmin()">\u2190 Back to Store</button>
+    <div class="admin-nav-title">⚙️ ZongDong Admin</div>
+    <button class="admin-close" onclick="closeAdmin()">← Back to Store</button>
   </div>
   <div class="admin-body">
     <div class="admin-tabs">
-      <button class="admin-tab active" onclick="adminTab(this,'overview')">\ud83d\udcca Overview</button>
-      <button class="admin-tab" onclick="adminTab(this,'orders')">\ud83d\udce6 Orders</button>
-      <button class="admin-tab" onclick="adminTab(this,'products')">\ud83d\udecd\ufe0f Products</button>
-      <button class="admin-tab" onclick="adminTab(this,'customers')">\ud83d\udc65 Customers</button>
+      <button class="admin-tab active" onclick="adminTab(this,'overview')">📊 Overview</button>
+      <button class="admin-tab" onclick="adminTab(this,'orders')">📦 Orders</button>
+      <button class="admin-tab" onclick="adminTab(this,'products')">🛍️ Products</button>
+      <button class="admin-tab" onclick="adminTab(this,'customers')">👥 Customers</button>
     </div>
     <div id="adminContent"></div>
   </div>
@@ -437,7 +437,7 @@ footer strong{color:rgba(255,255,255,.65)}
 const R=0.044,SHIP=25;
 let cart=[],wishlist=[],products=[],currentUser=null,isArabic=false;
 
-// \u2500\u2500 WATERMARK helper \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── WATERMARK helper ──────────────────────────────────────────────
 function wmGrid(rows,cols,size,opacity,rotate){
   let h='';
   for(let i=0;i<rows*cols;i++){
@@ -446,32 +446,32 @@ function wmGrid(rows,cols,size,opacity,rotate){
   return h;
 }
 
-// \u2500\u2500 LANG \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── LANG ──────────────────────────────────────────────────────────
 const T={
-  en:{heroB:'\ud83d\udecd\ufe0f Premium Products \u00b7 UAE Delivered',heroH:'Exclusive Products,',heroSpan:'Delivered Across UAE & GCC',
-      heroP:'Discover millions of curated products \u2014 electronics, fashion, health & more. We handle customs, duties & last-mile delivery. All prices in AED, nothing hidden.',
+  en:{heroB:'🛍️ Premium Products · UAE Delivered',heroH:'Exclusive Products,',heroSpan:'Delivered Across UAE & GCC',
+      heroP:'Discover millions of curated products — electronics, fashion, health & more. We handle customs, duties & last-mile delivery. All prices in AED, nothing hidden.',
       s1:'Products',s2:'Days Delivery',s3:'Hidden Duties',s4:'All Prices',
-      aiBar:'AI-powered product catalog \u00b7 Prices in AED \u00b7 All import duties & VAT included at checkout',
+      aiBar:'AI-powered product catalog · Prices in AED · All import duties & VAT included at checkout',
       secTitle:'Featured Products',secSub:'Handpicked for UAE buyers',
-      authLabel:'Sign In',cartTitle:'\ud83d\uded2 Your Cart',wishTitle:'\u2764\ufe0f Wishlist',
+      authLabel:'Sign In',cartTitle:'🛒 Your Cart',wishTitle:'❤️ Wishlist',
       cartEmptyTxt:'Your cart is empty',wishEmptyTxt:'Save products you love',
       subLbl:'Subtotal',shipLbl:'Shipping',vatLbl:'VAT (5%)',totLbl:'Total',
-      coBtn:'Proceed to Checkout \u2192',shipNote:'\ud83d\ude9a Estimated delivery: 7\u201314 days to UAE',
+      coBtn:'Proceed to Checkout →',shipNote:'🚚 Estimated delivery: 7–14 days to UAE',
       t2:'Customs & Import Handled',t3:'Pay in AED',t4:'14-Day Returns',t5:'Secure Checkout',
       ftxt:'Your gateway to premium products, delivered across UAE & GCC',
-      addCart:'Add to Cart',added:'\u2713 Added'},
-  ar:{heroB:'\ud83d\udecd\ufe0f \u0645\u0646\u062a\u062c\u0627\u062a \u0645\u0645\u064a\u0632\u0629 \u00b7 \u062a\u0648\u0635\u064a\u0644 \u0644\u0644\u0625\u0645\u0627\u0631\u0627\u062a',heroH:'\u0645\u0646\u062a\u062c\u0627\u062a \u062d\u0635\u0631\u064a\u0629\u060c',heroSpan:'\u062a\u064f\u0648\u0635\u064e\u0651\u0644 \u0641\u064a \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a \u0648\u062f\u0648\u0644 \u0627\u0644\u062e\u0644\u064a\u062c',
-      heroP:'\u0627\u0643\u062a\u0634\u0641 \u0645\u0644\u0627\u064a\u064a\u0646 \u0627\u0644\u0645\u0646\u062a\u062c\u0627\u062a \u0627\u0644\u0645\u062e\u062a\u0627\u0631\u0629 \u2014 \u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a\u0627\u062a \u0648\u0623\u0632\u064a\u0627\u0621 \u0648\u0635\u062d\u0629 \u0648\u0623\u0643\u062b\u0631. \u0646\u062a\u0648\u0644\u0649 \u0627\u0644\u062c\u0645\u0627\u0631\u0643 \u0648\u0627\u0644\u0627\u0633\u062a\u064a\u0631\u0627\u062f \u0648\u0627\u0644\u062a\u0648\u0635\u064a\u0644. \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0628\u0627\u0644\u062f\u0631\u0647\u0645 \u0628\u0644\u0627 \u0631\u0633\u0648\u0645 \u062e\u0641\u064a\u0629.',
-      s1:'\u0645\u0646\u062a\u062c',s2:'\u0623\u064a\u0627\u0645 \u0627\u0644\u062a\u0648\u0635\u064a\u0644',s3:'\u0631\u0633\u0648\u0645 \u0645\u062e\u0641\u064a\u0629',s4:'\u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0628\u0627\u0644\u062f\u0631\u0647\u0645',
-      aiBar:'\u0643\u062a\u0627\u0644\u0648\u062c \u0645\u062f\u0639\u0648\u0645 \u0628\u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a \u00b7 \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0628\u0627\u0644\u062f\u0631\u0647\u0645 \u00b7 \u062a\u0634\u0645\u0644 \u0627\u0644\u062c\u0645\u0627\u0631\u0643 \u0648\u0636\u0631\u064a\u0628\u0629 \u0627\u0644\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u0636\u0627\u0641\u0629',
-      secTitle:'\u0627\u0644\u0645\u0646\u062a\u062c\u0627\u062a \u0627\u0644\u0645\u0645\u064a\u0632\u0629',secSub:'\u0645\u0646\u062a\u062e\u0628\u0629 \u0644\u0645\u062a\u0633\u0648\u0642\u064a \u0627\u0644\u062e\u0644\u064a\u062c',
-      authLabel:'\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644',cartTitle:'\ud83d\uded2 \u0633\u0644\u0629 \u0627\u0644\u062a\u0633\u0648\u0642',wishTitle:'\u2764\ufe0f \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0623\u0645\u0646\u064a\u0627\u062a',
-      cartEmptyTxt:'\u0633\u0644\u062a\u0643 \u0641\u0627\u0631\u063a\u0629',wishEmptyTxt:'\u0627\u062d\u0641\u0638 \u0627\u0644\u0645\u0646\u062a\u062c\u0627\u062a \u0627\u0644\u062a\u064a \u062a\u062d\u0628\u0647\u0627',
-      subLbl:'\u0627\u0644\u0645\u062c\u0645\u0648\u0639 \u0627\u0644\u0641\u0631\u0639\u064a',shipLbl:'\u0627\u0644\u0634\u062d\u0646',vatLbl:'\u0636\u0631\u064a\u0628\u0629 \u0627\u0644\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u0636\u0627\u0641\u0629 (5\u066a)',totLbl:'\u0627\u0644\u0645\u062c\u0645\u0648\u0639',
-      coBtn:'\u0627\u0644\u0645\u062a\u0627\u0628\u0639\u0629 \u0644\u0644\u062f\u0641\u0639 \u2190',shipNote:'\ud83d\ude9a \u0627\u0644\u062a\u0648\u0635\u064a\u0644 \u0627\u0644\u0645\u062a\u0648\u0642\u0639: 7-14 \u064a\u0648\u0645',
-      t2:'\u0627\u0644\u062c\u0645\u0627\u0631\u0643 \u0639\u0644\u0649 \u0639\u0627\u062a\u0642\u0646\u0627',t3:'\u0627\u0644\u062f\u0641\u0639 \u0628\u0627\u0644\u062f\u0631\u0647\u0645',t4:'\u0625\u0631\u062c\u0627\u0639 \u062e\u0644\u0627\u0644 14 \u064a\u0648\u0645',t5:'\u062f\u0641\u0639 \u0622\u0645\u0646',
-      ftxt:'\u0628\u0648\u0627\u0628\u062a\u0643 \u0644\u0644\u0645\u0646\u062a\u062c\u0627\u062a \u0627\u0644\u0645\u0645\u064a\u0632\u0629\u060c \u062a\u064f\u0648\u0635\u064e\u0651\u0644 \u0641\u064a \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a \u0648\u062f\u0648\u0644 \u0627\u0644\u062e\u0644\u064a\u062c',
-      addCart:'\u0623\u0636\u0641 \u0644\u0644\u0633\u0644\u0629',added:'\u2713 \u0623\u064f\u0636\u064a\u0641'}
+      addCart:'Add to Cart',added:'✓ Added'},
+  ar:{heroB:'🛍️ منتجات مميزة · توصيل للإمارات',heroH:'منتجات حصرية،',heroSpan:'تُوصَّل في الإمارات ودول الخليج',
+      heroP:'اكتشف ملايين المنتجات المختارة — إلكترونيات وأزياء وصحة وأكثر. نتولى الجمارك والاستيراد والتوصيل. الأسعار بالدرهم بلا رسوم خفية.',
+      s1:'منتج',s2:'أيام التوصيل',s3:'رسوم مخفية',s4:'الأسعار بالدرهم',
+      aiBar:'كتالوج مدعوم بالذكاء الاصطناعي · الأسعار بالدرهم · تشمل الجمارك وضريبة القيمة المضافة',
+      secTitle:'المنتجات المميزة',secSub:'منتخبة لمتسوقي الخليج',
+      authLabel:'تسجيل الدخول',cartTitle:'🛒 سلة التسوق',wishTitle:'❤️ قائمة الأمنيات',
+      cartEmptyTxt:'سلتك فارغة',wishEmptyTxt:'احفظ المنتجات التي تحبها',
+      subLbl:'المجموع الفرعي',shipLbl:'الشحن',vatLbl:'ضريبة القيمة المضافة (5٪)',totLbl:'المجموع',
+      coBtn:'المتابعة للدفع ←',shipNote:'🚚 التوصيل المتوقع: 7-14 يوم',
+      t2:'الجمارك على عاتقنا',t3:'الدفع بالدرهم',t4:'إرجاع خلال 14 يوم',t5:'دفع آمن',
+      ftxt:'بوابتك للمنتجات المميزة، تُوصَّل في الإمارات ودول الخليج',
+      addCart:'أضف للسلة',added:'✓ أُضيف'}
 };
 function t(k){return(isArabic?T.ar:T.en)[k]||k;}
 function applyLang(){
@@ -479,13 +479,13 @@ function applyLang(){
   d.setAttribute('lang',isArabic?'ar':'en');
   d.setAttribute('dir',isArabic?'rtl':'ltr');
   Object.keys(T.en).forEach(k=>{const el=document.getElementById(k);if(el&&el.tagName!=='INPUT')el.textContent=t(k);});
-  document.getElementById('langBtn').textContent=isArabic?'English':'\u0639\u0631\u0628\u064a';
+  document.getElementById('langBtn').textContent=isArabic?'English':'عربي';
   document.getElementById('langBtn').classList.toggle('active',isArabic);
   renderCart();renderWish();
 }
-function toggleLang(){isArabic=!isArabic;applyLang();showToast(isArabic?'\u2713 \u062a\u0645 \u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0625\u0644\u0649 \u0627\u0644\u0639\u0631\u0628\u064a\u0629':'\u2713 Switched to English');}
+function toggleLang(){isArabic=!isArabic;applyLang();showToast(isArabic?'✓ تم التبديل إلى العربية':'✓ Switched to English');}
 
-// \u2500\u2500 PANELS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── PANELS ────────────────────────────────────────────────────────
 function openPanel(id){
   closeAll(false);
   document.getElementById(id).classList.add('open');
@@ -499,11 +499,11 @@ function openCart(){openPanel('cartPanel');}
 function openAuth(){openPanel('authPanel');}
 function openWish(){openPanel('wishPanel');}
 
-// \u2500\u2500 AUTH \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── AUTH ──────────────────────────────────────────────────────────
 const DEMO={name:'Ahmed Al-Rashid',email:'ahmed@example.com',password:'demo123',orders:[
-  {id:'#ZD-2841',name:'Patanjali Ashwagandha Capsules',emoji:'\ud83c\udf3f',aed:89,status:'Delivered'},
-  {id:'#ZD-2712',name:'Kerala Matta Rice 5kg',emoji:'\ud83c\udf3e',aed:145,status:'Shipped'},
-  {id:'#ZD-2603',name:'Nykaa Natural Face Serum',emoji:'\ud83d\udc86',aed:112,status:'Processing'},
+  {id:'#ZD-2841',name:'Patanjali Ashwagandha Capsules',emoji:'🌿',aed:89,status:'Delivered'},
+  {id:'#ZD-2712',name:'Kerala Matta Rice 5kg',emoji:'🌾',aed:145,status:'Shipped'},
+  {id:'#ZD-2603',name:'Nykaa Natural Face Serum',emoji:'💆',aed:112,status:'Processing'},
 ]};
 function switchTab(tab){
   document.getElementById('signinForm').style.display=tab==='signin'?'':'none';
@@ -513,12 +513,12 @@ function switchTab(tab){
 }
 function doSignIn(){
   const em=document.getElementById('siEmail').value.trim(),pw=document.getElementById('siPass').value;
-  if(!em||!pw){showToast('\u26a0\ufe0f Please fill in all fields');return;}
+  if(!em||!pw){showToast('⚠️ Please fill in all fields');return;}
   loginUser(em===DEMO.email&&pw===DEMO.password?DEMO:{name:em.split('@')[0],email:em,orders:[]});
 }
 function doSignUp(){
   const name=document.getElementById('suName').value.trim(),em=document.getElementById('suEmail').value.trim();
-  if(!name||!em){showToast('\u26a0\ufe0f Please fill required fields');return;}
+  if(!name||!em){showToast('⚠️ Please fill required fields');return;}
   loginUser({name,email:em,orders:[]});
 }
 function loginUser(u){
@@ -526,7 +526,7 @@ function loginUser(u){
   document.getElementById('authLabel').textContent=u.name.split(' ')[0];
   document.getElementById('authNavBtn').classList.add('active-user');
   renderProfile();
-  showToast(`\u2705 Welcome, ${u.name.split(' ')[0]}!`);
+  showToast(`✅ Welcome, ${u.name.split(' ')[0]}!`);
 }
 function renderProfile(){
   const initials=currentUser.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
@@ -536,33 +536,33 @@ function renderProfile(){
       <div class="user-name">${currentUser.name}</div>
       <div class="user-email">${currentUser.email}</div>
       <div class="user-stats">
-        <div class="ustat"><div class="n">${cart.length}</div><div class="l">${isArabic?'\u0641\u064a \u0627\u0644\u0633\u0644\u0629':'In Cart'}</div></div>
-        <div class="ustat"><div class="n">${wishlist.length}</div><div class="l">${isArabic?'\u0623\u0645\u0646\u064a\u0627\u062a':'Wishlist'}</div></div>
-        <div class="ustat"><div class="n">${(currentUser.orders||[]).length}</div><div class="l">${isArabic?'\u0627\u0644\u0637\u0644\u0628\u0627\u062a':'Orders'}</div></div>
+        <div class="ustat"><div class="n">${cart.length}</div><div class="l">${isArabic?'في السلة':'In Cart'}</div></div>
+        <div class="ustat"><div class="n">${wishlist.length}</div><div class="l">${isArabic?'أمنيات':'Wishlist'}</div></div>
+        <div class="ustat"><div class="n">${(currentUser.orders||[]).length}</div><div class="l">${isArabic?'الطلبات':'Orders'}</div></div>
       </div>
-      <button class="logout-btn" onclick="logout()">${isArabic?'\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062e\u0631\u0648\u062c':'Sign Out'}</button>
+      <button class="logout-btn" onclick="logout()">${isArabic?'تسجيل الخروج':'Sign Out'}</button>
     </div>
-    ${(currentUser.orders||[]).length?`<div class="order-hist"><div class="oh-title">${isArabic?'\u0637\u0644\u0628\u0627\u062a\u064a \u0627\u0644\u0623\u062e\u064a\u0631\u0629':'Recent Orders'}</div>${currentUser.orders.map(o=>`<div class="order-item"><div class="oi-em">${o.emoji}</div><div class="oi-info"><div class="oi-name">${o.name}</div><div class="oi-meta">${o.id} \u00b7 AED ${o.aed}</div></div><div class="oi-status">${o.status}</div></div>`).join('')}</div>`:''}`;
+    ${(currentUser.orders||[]).length?`<div class="order-hist"><div class="oh-title">${isArabic?'طلباتي الأخيرة':'Recent Orders'}</div>${currentUser.orders.map(o=>`<div class="order-item"><div class="oi-em">${o.emoji}</div><div class="oi-info"><div class="oi-name">${o.name}</div><div class="oi-meta">${o.id} · AED ${o.aed}</div></div><div class="oi-status">${o.status}</div></div>`).join('')}</div>`:''}`;
 }
 function logout(){
   currentUser=null;
   document.getElementById('authLabel').textContent=t('authLabel');
   document.getElementById('authNavBtn').classList.remove('active-user');
-  document.getElementById('authContent').innerHTML=`<div class="auth-tabs"><div class="atab active" id="tabSignin" onclick="switchTab('signin')">Sign In</div><div class="atab" id="tabSignup" onclick="switchTab('signup')">Register</div></div><div class="auth-form" id="signinForm"><div class="fgroup"><label>Email</label><input type="email" id="siEmail" placeholder="you@example.com"></div><div class="fgroup"><label>Password</label><input type="password" id="siPass" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"></div><button class="auth-btn" onclick="doSignIn()">Sign In</button><p class="auth-note">Demo: ahmed@example.com / demo123</p></div><div class="auth-form" id="signupForm" style="display:none"><div class="fgroup"><label>Full Name</label><input type="text" id="suName" placeholder="Ahmed Al-Rashid"></div><div class="fgroup"><label>Email</label><input type="email" id="suEmail"></div><div class="fgroup"><label>Phone</label><input type="tel" id="suPhone" placeholder="+971 50 000 0000"></div><div class="fgroup"><label>Password</label><input type="password" id="suPass"></div><button class="auth-btn" onclick="doSignUp()">Create Account</button></div>`;
-  showToast(isArabic?'\u062a\u0645 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062e\u0631\u0648\u062c':'Signed out');
+  document.getElementById('authContent').innerHTML=`<div class="auth-tabs"><div class="atab active" id="tabSignin" onclick="switchTab('signin')">Sign In</div><div class="atab" id="tabSignup" onclick="switchTab('signup')">Register</div></div><div class="auth-form" id="signinForm"><div class="fgroup"><label>Email</label><input type="email" id="siEmail" placeholder="you@example.com"></div><div class="fgroup"><label>Password</label><input type="password" id="siPass" placeholder="••••••••"></div><button class="auth-btn" onclick="doSignIn()">Sign In</button><p class="auth-note">Demo: ahmed@example.com / demo123</p></div><div class="auth-form" id="signupForm" style="display:none"><div class="fgroup"><label>Full Name</label><input type="text" id="suName" placeholder="Ahmed Al-Rashid"></div><div class="fgroup"><label>Email</label><input type="email" id="suEmail"></div><div class="fgroup"><label>Phone</label><input type="tel" id="suPhone" placeholder="+971 50 000 0000"></div><div class="fgroup"><label>Password</label><input type="password" id="suPass"></div><button class="auth-btn" onclick="doSignUp()">Create Account</button></div>`;
+  showToast(isArabic?'تم تسجيل الخروج':'Signed out');
 }
 
-// \u2500\u2500 WISHLIST \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── WISHLIST ──────────────────────────────────────────────────────
 function toggleWish(i,btn){
   const p=products[i],idx=wishlist.findIndex(w=>w.id===p.id);
-  if(idx>=0){wishlist.splice(idx,1);btn.textContent='\u2661';btn.classList.remove('wished');}
-  else{wishlist.push({...p,idx:i});btn.textContent='\u2764\ufe0f';btn.classList.add('wished');}
+  if(idx>=0){wishlist.splice(idx,1);btn.textContent='♡';btn.classList.remove('wished');}
+  else{wishlist.push({...p,idx:i});btn.textContent='❤️';btn.classList.add('wished');}
   document.getElementById('wishCount').textContent=wishlist.length;
   renderWish();
 }
 function renderWish(){
   const body=document.getElementById('wishBody');
-  if(!wishlist.length){body.innerHTML=`<div class="wish-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">\ud83d\udc9b</div><p>${t('wishEmptyTxt')}</p></div>`;return;}
+  if(!wishlist.length){body.innerHTML=`<div class="wish-empty"><div style="font-size:2.5rem;margin-bottom:.75rem">💛</div><p>${t('wishEmptyTxt')}</p></div>`;return;}
   body.innerHTML=wishlist.map((p,wi)=>`
     <div class="wish-item">
       <div class="wi-img">${p.emoji}<div class="wi-wm"><span>ZONGDONG</span></div></div>
@@ -571,17 +571,17 @@ function renderWish(){
         <div class="wi-price">AED ${Math.round(p.priceINR*R)}</div>
         <div class="wi-btns">
           <button class="wi-add" onclick="addFromWish(${wi})">${t('addCart')}</button>
-          <button class="wi-rm" onclick="rmWish(${wi})">\u2715</button>
+          <button class="wi-rm" onclick="rmWish(${wi})">✕</button>
         </div>
       </div>
     </div>`).join('');
 }
-function addFromWish(wi){addToCartProduct(wishlist[wi]);showToast(`\u2705 ${wishlist[wi].name.slice(0,28)}...`);}
+function addFromWish(wi){addToCartProduct(wishlist[wi]);showToast(`✅ ${wishlist[wi].name.slice(0,28)}...`);}
 function rmWish(wi){wishlist.splice(wi,1);document.getElementById('wishCount').textContent=wishlist.length;renderWish();}
 
-// \u2500\u2500 PRODUCTS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── PRODUCTS ──────────────────────────────────────────────────────
 function inrAed(inr){return Math.round(inr*R);}
-function stars(r){return'\u2605'.repeat(Math.floor(r))+(r%1>=.5?'\u00bd':'')+'\u2606'.repeat(5-Math.floor(r)-(r%1>=.5?1:0));}
+function stars(r){return'★'.repeat(Math.floor(r))+(r%1>=.5?'½':'')+'☆'.repeat(5-Math.floor(r)-(r%1>=.5?1:0));}
 function fmtN(n){return n>=1000?(n/1000).toFixed(1)+'k':n;}
 
 const API_BASE = 'https://zongdong-api-673989170541.us-central1.run.app';
@@ -690,13 +690,13 @@ function productCardHTML(p,i){
         ${wmGrid(2,2,'.6rem','0.25','-35')}
       </div>
       ${p.badge?`<div class="pbadge${p.badge==='New'?' new':''}" style="z-index:3">${p.badge}</div>`:''}
-      <button class="wish-btn${isWished?' wished':''}" onclick="event.stopPropagation();toggleWish(${i},this)">${isWished?'\u2764\ufe0f':'\u2661'}</button>
+      <button class="wish-btn${isWished?' wished':''}" onclick="event.stopPropagation();toggleWish(${i},this)">${isWished?'❤️':'♡'}</button>
     </div>
     <div class="pinfo">
       <div class="pname">${p.name}</div>
       <div class="prating"><span class="stars">${stars(p.rating)}</span><span class="rcount">(${fmtN(p.reviewCount)})</span></div>
       <div class="ppricing"><span class="p-aed">AED ${aed}</span>${disc>0?`<span class="disc">-${disc}%</span>`:''}</div>
-      <div class="ship">${p.freeShipping?`<span class="free-s">\u2713 Free shipping</span>`:'\ud83d\ude9a +AED 25'} \u00b7 7-14 days</div>
+      <div class="ship">${p.freeShipping?`<span class="free-s">✓ Free shipping</span>`:'🚚 +AED 25'} · 7-14 days</div>
       <button class="add-btn" id="ab${i}" onclick="event.stopPropagation();addToCart(${i},this)">${t('addCart')}</button>
     </div>
   </div>`;
@@ -732,7 +732,7 @@ async function doSearch(){
   const q=document.getElementById('searchInput').value.trim();
   if(!q)return;
   document.getElementById('secTitle').textContent=`"${q}"`;
-  document.getElementById('secSub').textContent=isArabic?'\u0646\u062a\u0627\u0626\u062c \u0627\u0644\u0628\u062d\u062b':'Search results';
+  document.getElementById('secSub').textContent=isArabic?'نتائج البحث':'Search results';
   document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
   document.getElementById('skelGrid').style.display='grid';
   document.getElementById('pGrid').style.display='none';
@@ -753,7 +753,7 @@ async function loadMore(){
   }catch(e){}
 }
 
-// \u2500\u2500 MODAL \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── MODAL ─────────────────────────────────────────────────────────
 function openModal(i){
   const p=products[i],aed=inrAed(p.priceINR),ship=p.freeShipping?0:SHIP,vat=Math.round(aed*.05),tot=aed+ship+vat;
   const disc=Math.round((1-p.priceINR/p.originalPriceINR)*100);
@@ -765,29 +765,29 @@ function openModal(i){
       </div>
     </div>
     <div class="mbody">
-      <div class="msrc">\ud83d\udecd\ufe0f ZongDong Verified Product</div>
+      <div class="msrc">🛍️ ZongDong Verified Product</div>
       <div class="mtitle">${p.name}</div>
-      <div class="mrating"><span class="stars">${stars(p.rating)}</span><span>${p.rating} \u00b7 ${fmtN(p.reviewCount)} reviews</span></div>
+      <div class="mrating"><span class="stars">${stars(p.rating)}</span><span>${p.rating} · ${fmtN(p.reviewCount)} reviews</span></div>
       <div class="mpricing">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="maed">AED ${tot}</span>${disc>0?`<span class="disc">-${disc}%</span>`:''}</div>
-        <div class="mbrk"><span>Price:</span> AED ${aed} &nbsp;|&nbsp; <span>Shipping:</span> ${p.freeShipping?'Free':'AED '+SHIP} &nbsp;|&nbsp; <span>VAT (5%):</span> AED ${vat}<br>\u2705 No hidden charges at delivery</div>
+        <div class="mbrk"><span>Price:</span> AED ${aed} &nbsp;|&nbsp; <span>Shipping:</span> ${p.freeShipping?'Free':'AED '+SHIP} &nbsp;|&nbsp; <span>VAT (5%):</span> AED ${vat}<br>✅ No hidden charges at delivery</div>
       </div>
       <div class="mdesc">${p.description}</div>
       ${p.highlights?`<div class="mhl"><div class="mhl-t">Highlights</div>${p.highlights.map(h=>`<div class="mhl-item">${h}</div>`).join('')}</div>`:''}
-      <div style="font-size:.75rem;color:var(--muted);padding:9px;background:var(--sand);border-radius:7px;margin-bottom:12px">\ud83d\ude9a Dispatched in 2-3 days \u00b7 Arrives in UAE within 7-14 days \u00b7 14-day returns</div>
-      <button class="m-add-btn" id="mAddBtn" onclick="addToCart(${i},document.getElementById('mAddBtn'))">${t('addCart')} \u2014 AED ${tot}</button>
+      <div style="font-size:.75rem;color:var(--muted);padding:9px;background:var(--sand);border-radius:7px;margin-bottom:12px">🚚 Dispatched in 2-3 days · Arrives in UAE within 7-14 days · 14-day returns</div>
+      <button class="m-add-btn" id="mAddBtn" onclick="addToCart(${i},document.getElementById('mAddBtn'))">${t('addCart')} — AED ${tot}</button>
     </div>`;
   document.getElementById('modalOv').classList.add('open');
 }
 function closeModal(e){if(e.target===document.getElementById('modalOv'))closeMd();}
 function closeMd(){document.getElementById('modalOv').classList.remove('open');}
 
-// \u2500\u2500 CART \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── CART ─────────────────────────────────────────────────────────
 function addToCart(i,btn){
   addToCartProduct(products[i]);
   btn.textContent=t('added');btn.classList.add('added');
   setTimeout(()=>{btn.textContent=t('addCart');btn.classList.remove('added');},1500);
-  showToast(`\u2705 ${products[i].name.slice(0,28)}...`);
+  showToast(`✅ ${products[i].name.slice(0,28)}...`);
 }
 function addToCartProduct(p){
   const aed=inrAed(p.priceINR),ship=p.freeShipping?0:SHIP,vat=Math.round(aed*.05),tot=aed+ship+vat;
@@ -799,7 +799,7 @@ function addToCartProduct(p){
 }
 function renderCart(){
   const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
-  if(!cart.length){body.innerHTML=`<div class="cart-empty"><div class="ei">\ud83d\udecd\ufe0f</div><p>${t('cartEmptyTxt')}</p></div>`;foot.style.display='none';return;}
+  if(!cart.length){body.innerHTML=`<div class="cart-empty"><div class="ei">🛍️</div><p>${t('cartEmptyTxt')}</p></div>`;foot.style.display='none';return;}
   body.innerHTML=cart.map((item,i)=>`
     <div class="citem">
       <div class="cimg">${item.emoji}<div class="cimg-wm"><span>ZONGDONG</span></div></div>
@@ -807,10 +807,10 @@ function renderCart(){
         <div class="cname">${item.name}</div>
         <div class="cprice">AED ${item.tot}</div>
         <div class="cqty">
-          <button class="qbtn" onclick="upd(${i},-1)">\u2212</button>
+          <button class="qbtn" onclick="upd(${i},-1)">−</button>
           <span class="qnum">${item.qty}</span>
           <button class="qbtn" onclick="upd(${i},1)">+</button>
-          <button class="rm-btn" onclick="rmItem(${i})">${isArabic?'\u062d\u0630\u0641':'Remove'}</button>
+          <button class="rm-btn" onclick="rmItem(${i})">${isArabic?'حذف':'Remove'}</button>
         </div>
       </div>
     </div>`).join('');
@@ -818,30 +818,30 @@ function renderCart(){
   const ship=cart.reduce((s,c)=>s+c.ship*c.qty,0);
   const vat=cart.reduce((s,c)=>s+c.vat*c.qty,0);
   document.getElementById('cSub').textContent='AED '+sub;
-  document.getElementById('cShip').textContent=ship?'AED '+ship:(isArabic?'\u0645\u062c\u0627\u0646\u064a':'Free');
+  document.getElementById('cShip').textContent=ship?'AED '+ship:(isArabic?'مجاني':'Free');
   document.getElementById('cVAT').textContent='AED '+vat;
   document.getElementById('cTot').textContent='AED '+(sub+ship+vat);
   foot.style.display='block';
 }
 function upd(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);document.getElementById('cartCount').textContent=cart.reduce((s,c)=>s+c.qty,0);renderCart();}
 function rmItem(i){cart.splice(i,1);document.getElementById('cartCount').textContent=cart.reduce((s,c)=>s+c.qty,0);renderCart();}
-function checkout(){showToast(isArabic?'\ud83d\udea7 \u0627\u0644\u062f\u0641\u0639 \u0642\u064a\u062f \u0627\u0644\u062a\u0637\u0648\u064a\u0631':'\ud83d\udea7 Checkout integration coming soon');closeAll();}
+function checkout(){showToast(isArabic?'🚧 الدفع قيد التطوير':'🚧 Checkout integration coming soon');closeAll();}
 
-// \u2500\u2500 ADMIN \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── ADMIN ─────────────────────────────────────────────────────────
 const ORDERS=[
-  {id:'#ZD-3041',customer:'Ahmed Al-Rashid',product:'Patanjali Ashwagandha 60 Caps',emoji:'\ud83c\udf3f',aed:89,status:'Delivered',date:'12 Mar 2026'},
-  {id:'#ZD-3040',customer:'Fatima Hassan',product:'Kerala Matta Rice 5kg',emoji:'\ud83c\udf3e',aed:145,status:'Shipped',date:'13 Mar 2026'},
-  {id:'#ZD-3039',customer:'Mohammed Al-Ali',product:'Nykaa Skin Serum 30ml',emoji:'\ud83d\udc86',aed:112,status:'Processing',date:'14 Mar 2026'},
-  {id:'#ZD-3038',customer:'Sara Khan',product:'Haldiram Bhujia 400g',emoji:'\ud83e\udd5c',aed:38,status:'Delivered',date:'11 Mar 2026'},
-  {id:'#ZD-3037',customer:'Omar Khalid',product:'Bisleri Water 12-pack',emoji:'\ud83d\udca7',aed:56,status:'Shipped',date:'13 Mar 2026'},
-  {id:'#ZD-3036',customer:'Aisha Noor',product:'Kama Ayurveda Rose Water',emoji:'\ud83c\udf39',aed:98,status:'Processing',date:'15 Mar 2026'},
+  {id:'#ZD-3041',customer:'Ahmed Al-Rashid',product:'Patanjali Ashwagandha 60 Caps',emoji:'🌿',aed:89,status:'Delivered',date:'12 Mar 2026'},
+  {id:'#ZD-3040',customer:'Fatima Hassan',product:'Kerala Matta Rice 5kg',emoji:'🌾',aed:145,status:'Shipped',date:'13 Mar 2026'},
+  {id:'#ZD-3039',customer:'Mohammed Al-Ali',product:'Nykaa Skin Serum 30ml',emoji:'💆',aed:112,status:'Processing',date:'14 Mar 2026'},
+  {id:'#ZD-3038',customer:'Sara Khan',product:'Haldiram Bhujia 400g',emoji:'🥜',aed:38,status:'Delivered',date:'11 Mar 2026'},
+  {id:'#ZD-3037',customer:'Omar Khalid',product:'Bisleri Water 12-pack',emoji:'💧',aed:56,status:'Shipped',date:'13 Mar 2026'},
+  {id:'#ZD-3036',customer:'Aisha Noor',product:'Kama Ayurveda Rose Water',emoji:'🌹',aed:98,status:'Processing',date:'15 Mar 2026'},
 ];
 const TOP=[
-  {name:'Ashwagandha Capsules',emoji:'\ud83c\udf3f',brand:'Patanjali',sales:142,rev:12638},
-  {name:'MTR Masala Pack Combo',emoji:'\ud83c\udf36\ufe0f',brand:'MTR Foods',sales:98,rev:6860},
-  {name:'Kama Ayurveda Rose Water',emoji:'\ud83c\udf39',brand:'Kama Ayurveda',sales:87,rev:8526},
-  {name:'Matta Rice 5kg',emoji:'\ud83c\udf3e',brand:'India Gate',sales:76,rev:11020},
-  {name:'Natural Face Serum',emoji:'\ud83d\udc84',brand:'Nykaa',sales:71,rev:7952},
+  {name:'Ashwagandha Capsules',emoji:'🌿',brand:'Patanjali',sales:142,rev:12638},
+  {name:'MTR Masala Pack Combo',emoji:'🌶️',brand:'MTR Foods',sales:98,rev:6860},
+  {name:'Kama Ayurveda Rose Water',emoji:'🌹',brand:'Kama Ayurveda',sales:87,rev:8526},
+  {name:'Matta Rice 5kg',emoji:'🌾',brand:'India Gate',sales:76,rev:11020},
+  {name:'Natural Face Serum',emoji:'💄',brand:'Nykaa',sales:71,rev:7952},
 ];
 const CATS_DATA=[{name:'Ayurveda & Health',pct:31},{name:'Spices & Food',pct:24},{name:'Beauty & Skincare',pct:18},{name:'Electronics',pct:12},{name:'Fashion',pct:9},{name:'Others',pct:6}];
 const CUSTOMERS=[
@@ -858,18 +858,18 @@ function renderAdminTab(tab){
   const c=document.getElementById('adminContent');
   if(tab==='overview'){
     c.innerHTML=`<div class="admin-stats">
-      <div class="astat"><div class="astat-icon">\ud83d\udcb0</div><div class="astat-val">AED 48,230</div><div class="astat-lbl">Total Revenue</div><div class="astat-chg">\u2191 +18% this month</div></div>
-      <div class="astat"><div class="astat-icon">\ud83d\udce6</div><div class="astat-val">312</div><div class="astat-lbl">Total Orders</div><div class="astat-chg">\u2191 +24% this month</div></div>
-      <div class="astat"><div class="astat-icon">\ud83d\udc65</div><div class="astat-val">187</div><div class="astat-lbl">Customers</div><div class="astat-chg">\u2191 +31 new</div></div>
-      <div class="astat"><div class="astat-icon">\ud83d\udecd\ufe0f</div><div class="astat-val">2,840</div><div class="astat-lbl">Products Listed</div><div class="astat-chg">\u2191 +120 this week</div></div>
-      <div class="astat"><div class="astat-icon">\u2b50</div><div class="astat-val">4.7</div><div class="astat-lbl">Avg. Rating</div><div class="astat-chg">From 312 reviews</div></div>
-      <div class="astat"><div class="astat-icon">\ud83d\udd04</div><div class="astat-val">3.2%</div><div class="astat-lbl">Return Rate</div><div class="astat-chg">\u2193 Below average</div></div>
+      <div class="astat"><div class="astat-icon">💰</div><div class="astat-val">AED 48,230</div><div class="astat-lbl">Total Revenue</div><div class="astat-chg">↑ +18% this month</div></div>
+      <div class="astat"><div class="astat-icon">📦</div><div class="astat-val">312</div><div class="astat-lbl">Total Orders</div><div class="astat-chg">↑ +24% this month</div></div>
+      <div class="astat"><div class="astat-icon">👥</div><div class="astat-val">187</div><div class="astat-lbl">Customers</div><div class="astat-chg">↑ +31 new</div></div>
+      <div class="astat"><div class="astat-icon">🛍️</div><div class="astat-val">2,840</div><div class="astat-lbl">Products Listed</div><div class="astat-chg">↑ +120 this week</div></div>
+      <div class="astat"><div class="astat-icon">⭐</div><div class="astat-val">4.7</div><div class="astat-lbl">Avg. Rating</div><div class="astat-chg">From 312 reviews</div></div>
+      <div class="astat"><div class="astat-icon">🔄</div><div class="astat-val">3.2%</div><div class="astat-lbl">Return Rate</div><div class="astat-chg">↓ Below average</div></div>
     </div>
     <div class="admin-grid">
-      <div class="admin-card"><h3>\ud83d\udce6 Recent Orders</h3>${ORDERS.slice(0,4).map(o=>`<div class="order-row"><span class="ord-id">${o.id}</span><span class="ord-name">${o.emoji} ${o.product}</span><span class="ord-amt">AED ${o.aed}</span><span class="ord-status st-${o.status.toLowerCase()}">${o.status}</span></div>`).join('')}</div>
-      <div class="admin-card"><h3>\ud83d\udd25 Top Products</h3>${TOP.slice(0,4).map(p=>`<div class="top-prod"><div class="tp-em">${p.emoji}</div><div class="tp-info"><div class="tp-name">${p.name}</div><div class="tp-meta">${p.brand} \u00b7 ${p.sales} sold</div></div><div class="tp-rev">AED ${p.rev.toLocaleString()}</div></div>`).join('')}</div>
-      <div class="admin-card"><h3>\ud83d\udcca Sales by Category</h3>${CATS_DATA.map(cd=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px"><span>${cd.name}</span><span style="font-weight:600">${cd.pct}%</span></div><div class="cat-bar"><div class="cat-fill" style="width:${cd.pct}%"></div></div></div>`).join('')}</div>
-      <div class="admin-card"><h3>\ud83d\ude9a Fulfillment Status</h3>${[{l:'Delivered',n:198,c:'#2E7D32'},{l:'In Transit',n:74,c:'#1565C0'},{l:'Processing',n:31,c:'#E65100'},{l:'Pending',n:9,c:'#7B1FA2'}].map(s=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.8rem"><div style="width:10px;height:10px;border-radius:50%;background:${s.c};flex-shrink:0"></div><span style="flex:1">${s.l}</span><strong>${s.n}</strong></div>`).join('')}<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted)">Avg. delivery: <strong style="color:var(--ink)">9.2 days</strong></div></div>
+      <div class="admin-card"><h3>📦 Recent Orders</h3>${ORDERS.slice(0,4).map(o=>`<div class="order-row"><span class="ord-id">${o.id}</span><span class="ord-name">${o.emoji} ${o.product}</span><span class="ord-amt">AED ${o.aed}</span><span class="ord-status st-${o.status.toLowerCase()}">${o.status}</span></div>`).join('')}</div>
+      <div class="admin-card"><h3>🔥 Top Products</h3>${TOP.slice(0,4).map(p=>`<div class="top-prod"><div class="tp-em">${p.emoji}</div><div class="tp-info"><div class="tp-name">${p.name}</div><div class="tp-meta">${p.brand} · ${p.sales} sold</div></div><div class="tp-rev">AED ${p.rev.toLocaleString()}</div></div>`).join('')}</div>
+      <div class="admin-card"><h3>📊 Sales by Category</h3>${CATS_DATA.map(cd=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px"><span>${cd.name}</span><span style="font-weight:600">${cd.pct}%</span></div><div class="cat-bar"><div class="cat-fill" style="width:${cd.pct}%"></div></div></div>`).join('')}</div>
+      <div class="admin-card"><h3>🚚 Fulfillment Status</h3>${[{l:'Delivered',n:198,c:'#2E7D32'},{l:'In Transit',n:74,c:'#1565C0'},{l:'Processing',n:31,c:'#E65100'},{l:'Pending',n:9,c:'#7B1FA2'}].map(s=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.8rem"><div style="width:10px;height:10px;border-radius:50%;background:${s.c};flex-shrink:0"></div><span style="flex:1">${s.l}</span><strong>${s.n}</strong></div>`).join('')}<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted)">Avg. delivery: <strong style="color:var(--ink)">9.2 days</strong></div></div>
     </div>`;
   }else if(tab==='orders'){
     c.innerHTML=`<div class="full-card"><h3 style="font-size:.9rem;font-weight:700;margin-bottom:1rem">All Orders (${ORDERS.length})</h3><table class="table"><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody>${ORDERS.map(o=>`<tr><td style="font-family:monospace;font-size:.72rem;color:var(--muted)">${o.id}</td><td>${o.customer}</td><td>${o.emoji} ${o.product}</td><td style="font-weight:700;color:var(--saffron)">AED ${o.aed}</td><td style="color:var(--muted);font-size:.75rem">${o.date}</td><td><span class="ord-status st-${o.status.toLowerCase()}">${o.status}</span></td></tr>`).join('')}</tbody></table></div>`;
@@ -880,10 +880,10 @@ function renderAdminTab(tab){
   }
 }
 
-// \u2500\u2500 TOAST \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── TOAST ─────────────────────────────────────────────────────────
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
 
-// \u2500\u2500 INIT \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── INIT ─────────────────────────────────────────────────────────
 loadCat(document.querySelector('.cat-chip.active'),'featured');
 </script>
 </body>
