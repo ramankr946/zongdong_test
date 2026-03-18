@@ -1273,7 +1273,7 @@ async function uploadImgToSlot(pid, n, file, slotId) {
   try {
     const fd = new FormData();
     fd.append('image_'+n, file);
-    const resp = await fetch(document.getElementById('apiUrl').value+'/products/'+pid+'/images/'+n, {method:'POST', headers:{'x-admin-secret':document.getElementById('apiSecret').value}, body:fd});
+    const resp = await fetch(document.getElementById('apiUrl').value+'/products/'+pid+'/images', {method:'POST', headers:{'x-admin-secret':document.getElementById('apiSecret').value}, body:fd});
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error||'Upload failed');
     const url = data.urls?.['image_'+n];
