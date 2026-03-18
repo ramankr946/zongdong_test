@@ -339,12 +339,12 @@ footer strong{color:rgba(255,255,255,.65)}
 
 <!-- MAIN -->
 <div class="main">
-  <div class="ai-bar"><div class="ai-dot" style="background:var(--green)"></div><span id="aiBarTxt">AI-powered product catalog · Prices in AED · All import duties & VAT included at checkout</span></div>
+  <div class="ai-bar"><div class="ai-dot" style="background:var(--green)"></div><span id="aiBarTxt">🟢 Live catalog from BigQuery · Prices in AED · All duties & VAT included</span></div>
   <div class="sec-hdr">
     <div><div class="sec-title" id="secTitle">Featured Products</div><div class="sec-sub" id="secSub">Loading live products...</div></div>
     <button class="see-all" onclick="loadMore()">Load more →</button>
   </div>
-  <div id="skelGrid" class="skel-grid">${Array(8).fill('').map(()=>`<div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div>`).join('')}</div>
+  <div id="skelGrid" class="skel-grid"><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div><div class="skel-card"><div class="skel skel-img"></div><div class="skel-lines"><div class="skel sl"></div><div class="skel sl s"></div><div class="skel sl p"></div><div class="skel sl"></div></div></div></div>
   <div class="pgrid" id="pGrid" style="display:none"></div>
   <div style="display:none;text-align:center;padding:3rem;color:var(--muted)" id="emptyState"><div style="font-size:2.5rem;margin-bottom:.75rem">🔍</div><p id="emptyP">No products found. Try a different search.</p></div>
 </div>
