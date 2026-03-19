@@ -60,7 +60,7 @@ function normHL(h) {
   return String(h).split(/[\n|]/).map(s => s.trim()).filter(Boolean);
 }
 
-app.get('/', (req, res) => res.json({ status: 'ok', service: 'ZongDong API v2.1', project: PROJECT }));
+app.get('/', (req, res) => res.json({ status: 'ok', service: 'ZongDong API v2.2', project: PROJECT }));
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
 // GET /products — public (no auth) for storefront; banned products filtered out
@@ -292,4 +292,4 @@ app.get('/stats', auth, async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log('ZongDong API v2.1 on port ' + PORT));
+app.listen(PORT, () => console.log('ZongDong API v2.2 on port ' + PORT));
