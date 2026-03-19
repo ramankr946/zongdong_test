@@ -233,10 +233,12 @@ app.post('/orders', async (req, res) => { // PUBLIC — customers submit COD ord
       order_id: 'ZD-' + Math.floor(1000 + Math.random()*9000),
       customer_name: String(o.customer_name).trim(), customer_email: String(o.customer_email||'').trim(),
       customer_phone: String(o.customer_phone||'').trim(), delivery_address: String(o.delivery_address||'').trim(),
-      product_name: String(o.product_name).trim(), product_emoji: String(o.product_emoji||'box'),
+      product_name: String(o.product_name).trim(), product_emoji: String(o.product_emoji||'📦'),
       product_asin: String(o.product_asin).trim(), amount_aed: parseFloat(o.amount_aed)||0,
       status: o.status||'pending', tracking_number: String(o.tracking_number||'').trim(),
-      notes: String(o.notes||'').trim(), updated_at: bq.timestamp(new Date()),
+      notes: String(o.notes||'').trim(),
+      order_date: new Date().toISOString().slice(0,10),
+      updated_at: bq.timestamp(new Date()),
     };
     await bq.dataset(DATASET).table('orders').insert([row]);
     res.json({ success: true, order_id: row.order_id });
