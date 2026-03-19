@@ -3,246 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZongDong — Import Products</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>ZongDong &mdash; Product Importer</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F4F1EC;--bg2:#ECEAE3;--bg3:#E2DFD6;
-  --ink:#1A1814;--ink2:#4A4640;--ink3:#8A857E;
-  --accent:#C4401A;--accent2:#E8531A;--accent-dim:rgba(196,64,26,.08);
-  --gold:#B8860B;--gold-dim:rgba(184,134,11,.1);
-  --green:#1A6B3A;--green-dim:rgba(26,107,58,.08);
-  --border:#D4D0C8;--border2:#C8C4BB;
-  --white:#FFFEFB;--radius:10px;
-  --font:'Epilogue',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --bg:#0B0D11;--bg2:#12151C;--bg3:#1A1E28;--bg4:#222736;
+  --border:#2A2F3D;--border2:#353B4D;
+  --txt:#E8EAF0;--txt2:#8B92A8;--txt3:#5A6078;
+  --accent:#E8531A;--accent2:#FF7043;--accent-dim:rgba(232,83,26,.12);
+  --gold:#F5C842;--green:#22C55E;--green-dim:rgba(34,197,94,.1);
+  --red:#EF4444;--red-dim:rgba(239,68,68,.1);
+  --blue:#3B82F6;--blue-dim:rgba(59,130,246,.1);
+  --radius:10px;--font:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;
 }
-body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh}
-
-/* HEADER */
-header{background:var(--ink);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
-.logo-txt{font-family:var(--mono);font-size:.88rem;font-weight:600;color:#fff}
-.logo-txt span{color:#F5C842}
-.header-badge{background:var(--accent-dim);border:1px solid rgba(196,64,26,.3);color:#E8531A;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;font-family:var(--mono)}
-
-/* MAIN */
-.main{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
-
-/* CONFIG */
-.config-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.config-card label{font-size:.72rem;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
-.config-input{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--ink);font-family:var(--mono);font-size:.78rem;outline:none;transition:border .2s}
-.config-input:focus{border-color:var(--accent)}
-.config-input.url{flex:1;min-width:260px}
-.config-input.secret{width:160px}
-.conn-pill{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;border:1px solid;white-space:nowrap}
-.conn-pill.ok{background:var(--green-dim);border-color:rgba(26,107,58,.25);color:var(--green)}
-.conn-pill.fail{background:rgba(196,64,26,.08);border-color:rgba(196,64,26,.2);color:var(--accent)}
-.conn-pill.idle{background:var(--bg2);border-color:var(--border);color:var(--ink3)}
-.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:var(--font);font-size:.78rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:var(--accent2)}
-.btn-ghost{background:var(--bg2);border:1px solid var(--border);color:var(--ink2)}.btn-ghost:hover{border-color:var(--border2);color:var(--ink)}
-.btn-green{background:var(--green);color:#fff}.btn-green:hover{opacity:.9}
+body{font-family:var(--font);background:var(--bg);color:var(--txt);min-height:100vh;font-size:14px}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--accent),var(--gold));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.logo-txt{font-family:var(--mono);font-size:.85rem;font-weight:600;color:var(--txt)}
+.logo-txt span{color:var(--gold)}
+.back-btn{background:var(--bg3);border:1px solid var(--border);color:var(--txt2);padding:6px 13px;border-radius:7px;cursor:pointer;font-family:var(--font);font-size:.75rem;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:all .2s}
+.back-btn:hover{border-color:var(--accent);color:var(--txt)}
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+.tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:1.75rem;width:fit-content}
+.tab{padding:8px 20px;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:all .2s;white-space:nowrap}
+.tab.active{background:var(--accent);color:#fff}
+.tab:hover:not(.active){background:var(--bg3);color:var(--txt)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.25rem;overflow:hidden}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.card-title{font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.card-body{padding:18px}
+.config-bar{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.config-bar label{font-size:.7rem;color:var(--txt3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.ci{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 11px;color:var(--txt);font-family:var(--mono);font-size:.75rem;outline:none;transition:border .2s}
+.ci:focus{border-color:var(--accent)}
+.ci.url{width:320px}.ci.secret{width:150px}
+.conn-badge{display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;padding:5px 11px;border-radius:20px;border:1px solid}
+.conn-badge.ok{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.conn-badge.fail{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.conn-badge.idle{background:var(--bg3);border-color:var(--border);color:var(--txt3)}
+.btn{padding:7px 15px;border-radius:7px;border:none;cursor:pointer;font-family:var(--font);font-size:.78rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* SECTION TITLES */
-.sec{margin-bottom:1.5rem}
-.sec-title{font-size:.78rem;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* DROP ZONE */
-.dropzone{background:var(--white);border:2px dashed var(--border2);border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.dropzone:hover,.dropzone.drag{border-color:var(--accent);background:var(--accent-dim)}
-.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-icon{font-size:2.5rem;margin-bottom:.75rem;opacity:.4}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover:not(:disabled){background:var(--accent2)}
+.btn-green{background:var(--green-dim);border:1px solid var(--green);color:var(--green)}.btn-green:hover:not(:disabled){background:var(--green);color:#000}
+.btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--txt2)}.btn-ghost:hover:not(:disabled){border-color:var(--border2);color:var(--txt)}
+.btn-blue{background:var(--blue-dim);border:1px solid var(--blue);color:var(--blue)}.btn-blue:hover:not(:disabled){background:var(--blue);color:#fff}
+.btn-sm{padding:4px 10px;font-size:.7rem}
+.dropzone{border:2px dashed var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;transition:all .25s;cursor:pointer;position:relative}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:var(--accent-dim)}
+.dz-icon{font-size:2.5rem;margin-bottom:.75rem;opacity:.5}
 .dz-title{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
-.dz-sub{font-size:.78rem;color:var(--ink3)}
-.dz-types{display:flex;justify-content:center;gap:8px;margin-top:.75rem;flex-wrap:wrap}
-.dz-type{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:2px 9px;font-size:.68rem;font-weight:600;color:var(--ink3);font-family:var(--mono)}
-
-/* TEMPLATE */
-.template-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
-.template-info{font-size:.78rem;color:var(--ink3);flex:1}
-
-/* TABLE PREVIEW */
-.preview-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem}
-.preview-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.preview-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:8px}
-.row-count{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(196,64,26,.2);border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700;font-family:var(--mono)}
-.tbl-scroll{overflow-x:auto;max-height:360px;overflow-y:auto}
+.dz-sub{font-size:.78rem;color:var(--txt3)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-types{display:flex;gap:6px;justify-content:center;margin-top:.75rem}
+.ft{background:var(--bg3);border:1px solid var(--border);color:var(--txt3);font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:4px;font-family:var(--mono)}
+.mapping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:8px}
+.map-row{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:8px 12px}
+.map-label{font-size:.75rem;font-weight:600;min-width:130px;flex-shrink:0}
+.map-label .req{color:var(--accent);font-size:.65rem;margin-left:3px}
+.map-select{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 8px;color:var(--txt);font-family:var(--font);font-size:.75rem;outline:none;flex:1;cursor:pointer}
+.map-select:focus{border-color:var(--accent)}
+.progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:3px;transition:width .3s;width:0}
+.log-box{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px;max-height:240px;overflow-y:auto;font-family:var(--mono);font-size:.72rem;line-height:1.7}
+.log-ok{color:var(--green)}.log-err{color:var(--red)}.log-info{color:var(--txt3)}.log-warn{color:var(--gold)}
+.result-banner{display:none;padding:12px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:500;margin-top:12px;border:1px solid}
+.result-banner.success{display:block;background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.result-banner.error{display:block;background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.preview-wrap{overflow-x:auto;max-height:280px}
 table{width:100%;border-collapse:collapse;font-size:.75rem}
-thead{position:sticky;top:0;background:var(--bg2);z-index:1}
-th{padding:8px 12px;text-align:left;font-size:.65rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
-th.required::after{content:' *';color:var(--accent)}
-tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--bg)}
-td{padding:9px 12px;vertical-align:middle;white-space:nowrap}
-td.err{background:rgba(196,64,26,.06);color:var(--accent)}
-td.ok{color:var(--green)}
-.mono{font-family:var(--mono);font-size:.72rem}
-
-/* FIELD MAPPING */
-.mapping-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:1.5rem}
-.map-row{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
-.map-label{font-size:.65rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
-.map-req{color:var(--accent)}
-.map-sel{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-family:var(--font);font-size:.75rem;color:var(--ink);outline:none;cursor:pointer;transition:border .15s;width:100%}
-.map-sel:focus{border-color:var(--accent)}
-.map-sel option{background:var(--bg)}
-
-/* PROGRESS */
-.progress-bar{background:var(--bg2);border-radius:20px;height:10px;overflow:hidden;margin-bottom:.5rem}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:20px;transition:width .3s}
-.progress-txt{font-size:.75rem;color:var(--ink3);text-align:center}
-
-/* LOG */
-.log-box{background:var(--ink);border-radius:var(--radius);padding:14px 16px;max-height:240px;overflow-y:auto;font-family:var(--mono);font-size:.72rem;line-height:1.7}
-.log-entry{padding:1px 0}
-.log-ok{color:#22C55E}.log-err{color:#EF4444}.log-info{color:#F5C842}.log-dim{color:#5A6078}
-
-/* RESULT BANNER */
-.result-banner{border-radius:var(--radius);padding:14px 18px;margin-top:1rem;font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:10px;display:none}
-.result-banner.show{display:flex}
-.result-banner.success{background:var(--green-dim);border:1px solid rgba(26,107,58,.25);color:var(--green)}
-.result-banner.error{background:rgba(196,64,26,.08);border:1px solid rgba(196,64,26,.2);color:var(--accent)}
-
-/* TOOLTIP */
-.tip{font-size:.68rem;color:var(--ink3);margin-top:3px;line-height:1.5}
+th{padding:8px 10px;background:var(--bg3);color:var(--txt3);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;text-align:left;white-space:nowrap;border-bottom:2px solid var(--border);position:sticky;top:0}
+td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--txt2);white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+tr:hover td{background:var(--bg3);color:var(--txt)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-grid.one{grid-template-columns:1fr}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:.7rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
+.fg label .req{color:var(--accent)}
+.fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:8px 11px;color:var(--txt);font-family:var(--font);font-size:.82rem;outline:none;transition:border .2s;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:72px}
+.fg .hint{font-size:.68rem;color:var(--txt3);margin-top:2px}
+.fsec{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.fsec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.fsec-title{font-size:.78rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.aed-calc{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:10px 12px;font-size:.75rem;color:var(--txt2);margin-top:6px}
+.aed-calc strong{color:var(--gold)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px}
+.stat-val{font-family:var(--mono);font-size:1.25rem;font-weight:700;margin-bottom:2px}
+.stat-lbl{font-size:.65rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);padding:10px 16px;border-radius:9px;font-size:.78rem;font-weight:500;z-index:999;transform:translateY(50px);opacity:0;transition:all .28s;max-width:300px;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--green);color:var(--green)}
+.toast.err{border-color:var(--red);color:var(--red)}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr}.ci.url{width:180px}.mapping-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-mark">🪔</div>
+  <a class="logo" href="dashboard.html">
+    <div class="logo-mark">&#129684;</div>
     <div class="logo-txt">Zong<span>Dong</span></div>
-  </div>
-  <div class="header-badge">📦 Products Importer</div>
+  </a>
+  <a class="back-btn" href="dashboard.html">&#8592; Dashboard</a>
 </header>
 
-<div class="main">
+<div class="container">
 
-  <!-- CONFIG -->
-  <div class="sec">
-    <div class="sec-title">API Connection</div>
-    <div class="config-card">
-      <label>API URL</label>
-      <input class="config-input url" type="text" id="apiUrl" placeholder="https://zongdong-api-xxxxx-uc.a.run.app" oninput="saveConfig()">
-      <label>Secret</label>
-      <input class="config-input secret" type="password" id="apiSecret" placeholder="your-secret" oninput="saveConfig()">
-      <button class="btn btn-accent" onclick="testConn()">Test</button>
-      <div class="conn-pill idle" id="connPill"><div class="dot"></div><span id="connTxt">Not tested</span></div>
+  <div class="config-bar">
+    <label>API URL</label>
+    <input class="ci url" type="text" id="apiUrl" placeholder="https://zongdong-api-xxx.run.app" oninput="saveConfig()">
+    <label>Secret</label>
+    <input class="ci secret" type="password" id="apiSecret" placeholder="admin secret" oninput="saveConfig()">
+    <button class="btn btn-accent btn-sm" onclick="testConn()">Test Connection</button>
+    <div class="conn-badge idle" id="connBadge">&#9679; Not connected</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('bulk')">&#128196; Bulk Import (CSV / Excel)</div>
+    <div class="tab" onclick="switchTab('manual')">&#10010; Add Single Product</div>
+    <div class="tab" onclick="switchTab('template')">&#11015; Download Template</div>
+  </div>
+
+  <!-- TAB: BULK -->
+  <div class="panel active" id="panel-bulk">
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">&#128196; Step 1 &mdash; Upload File</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="switchTab('template')">&#11015; Get template</button>
+          <button class="btn btn-ghost btn-sm" onclick="resetImport()">&#8635; Reset</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="dropzone" id="dropzone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+          <div class="dz-icon">&#128196;</div>
+          <div class="dz-title">Drop your CSV or Excel file here</div>
+          <div class="dz-sub">or click to browse &mdash; first row must be column headers</div>
+          <div class="file-types"><span class="ft">.csv</span><span class="ft">.xlsx</span><span class="ft">.xls</span></div>
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" onchange="handleFile(this.files[0])">
+        </div>
+        <div id="fileInfo" style="display:none;margin-top:10px;font-size:.78rem;color:var(--txt2)"></div>
+      </div>
+    </div>
+
+    <div class="card" id="mappingCard" style="display:none">
+      <div class="card-head">
+        <div class="card-title">&#128279; Step 2 &mdash; Map Columns</div>
+        <button class="btn btn-ghost btn-sm" onclick="autoMap()">&#9889; Auto-detect</button>
+      </div>
+      <div class="card-body">
+        <p style="font-size:.78rem;color:var(--txt2);margin-bottom:12px">Match your file's column headers to product fields. <span style="color:var(--accent)">* Required</span></p>
+        <div class="mapping-grid" id="mappingGrid"></div>
+      </div>
+    </div>
+
+    <div class="card" id="previewCard" style="display:none">
+      <div class="card-head">
+        <div class="card-title">&#128065; Step 3 &mdash; Preview</div>
+        <div id="previewCount" style="font-size:.75rem;color:var(--txt2)"></div>
+      </div>
+      <div class="card-body">
+        <div class="preview-wrap"><table id="previewTable"></table></div>
+        <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-green" id="importBtn" onclick="startImport()" disabled>&#11014; Import to BigQuery</button>
+          <span style="font-size:.75rem;color:var(--txt3)">Connect API above to enable</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="progressCard" style="display:none">
+      <div class="card-head"><div class="card-title" id="progressTitle">&#9654; Importing&hellip;</div></div>
+      <div class="card-body">
+        <div class="stats-row" id="importStats">
+          <div class="stat"><div class="stat-val" style="color:var(--green)" id="s-ok">0</div><div class="stat-lbl">Imported</div></div>
+          <div class="stat"><div class="stat-val" style="color:var(--gold)" id="s-skip">0</div><div class="stat-lbl">Skipped</div></div>
+          <div class="stat"><div class="stat-val" style="color:var(--red)" id="s-err">0</div><div class="stat-lbl">Errors</div></div>
+          <div class="stat"><div class="stat-val" id="s-rem">0</div><div class="stat-lbl">Remaining</div></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div style="font-size:.75rem;color:var(--txt2);font-family:var(--mono);margin-bottom:10px" id="progressTxt">0 / 0</div>
+        <div class="log-box" id="logBox"></div>
+        <div class="result-banner" id="resultBanner"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: MANUAL -->
+  <div class="panel" id="panel-manual">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">&#10010; Add Single Product</div>
+        <button class="btn btn-ghost btn-sm" onclick="clearManual()">&#8635; Clear form</button>
+      </div>
+      <div class="card-body">
+
+        <div class="fsec">
+          <div class="fsec-title">&#128230; Identity</div>
+          <div class="form-grid">
+            <div class="fg"><label>Product Name <span class="req">*</span></label><input type="text" id="m-name" placeholder="e.g. Patanjali Ashwagandha Capsules 60ct"></div>
+            <div class="fg"><label>Brand</label><input type="text" id="m-brand" placeholder="e.g. Patanjali"></div>
+            <div class="fg"><label>Amazon ASIN <span class="req">*</span></label><input type="text" id="m-asin" placeholder="B07X3K9VZQ" style="font-family:var(--mono)"></div>
+            <div class="fg"><label>Category</label>
+              <select id="m-category">
+                <option value="">-- Select category --</option>
+                <option>Ayurveda &amp; Health</option><option>Spices &amp; Food</option>
+                <option>Fashion</option><option>Electronics</option>
+                <option>Home &amp; Kitchen</option><option>Books</option>
+                <option>Beauty &amp; Skincare</option><option>Toys &amp; Kids</option>
+              </select>
+            </div>
+            <div class="fg"><label>Emoji</label><input type="text" id="m-emoji" placeholder="&#127807;" maxlength="4"></div>
+            <div class="fg"><label>Stock Status</label>
+              <select id="m-stock">
+                <option value="in">In Stock</option>
+                <option value="limited">Limited</option>
+                <option value="out">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">&#128176; Pricing</div>
+          <div class="form-grid">
+            <div class="fg"><label>Source Price &#8377; INR <span class="req">*</span></label><input type="number" id="m-price" placeholder="299" oninput="calcAED()"><div class="hint">Price you pay on Amazon India</div></div>
+            <div class="fg"><label>Original / MRP &#8377; INR</label><input type="number" id="m-orig" placeholder="399"><div class="hint">Leave blank = 120% of source price</div></div>
+            <div class="fg"><label>Weight (grams)</label><input type="number" id="m-weight" placeholder="350" oninput="calcAED()"><div class="hint">For shipping cost calculation</div></div>
+            <div class="fg"><label>Custom AED Override</label><input type="number" id="m-custom-aed" placeholder="Leave blank = auto-calculated"></div>
+          </div>
+          <div class="aed-calc" id="aedCalc">Enter INR price and weight to preview AED price</div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">&#128247; Content</div>
+          <div class="form-grid">
+            <div class="fg"><label>Image URL</label><input type="url" id="m-img" placeholder="https://m.media-amazon.com/..."></div>
+            <div class="fg"><label>Tags (comma separated)</label><input type="text" id="m-tags" placeholder="organic, herbal, ayurvedic"></div>
+          </div>
+          <div class="form-grid one" style="margin-top:12px">
+            <div class="fg"><label>Description</label><textarea id="m-desc" placeholder="Short product description..."></textarea></div>
+            <div class="fg"><label>Highlights (one per line)</label><textarea id="m-hl" placeholder="100% Natural&#10;GMP Certified&#10;No artificial additives"></textarea></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-accent" id="mSaveBtn" onclick="saveManual()">&#128190; Save Product</button>
+          <span style="font-size:.75rem;color:var(--txt3)">Requires API connection</span>
+          <span id="mResult" style="font-size:.78rem;display:none"></span>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  <!-- TEMPLATE DOWNLOAD -->
-  <div class="sec">
-    <div class="sec-title">Step 1 — Download Template</div>
-    <div class="template-row">
-      <button class="btn btn-ghost" onclick="downloadTemplate()">⬇ Download products_template.csv</button>
-      <span class="template-info">Fill the CSV with your product data, then upload below. Required fields are marked *</span>
-    </div>
-
-    <!-- FIELD REFERENCE -->
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
-      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:700;color:var(--ink2)">Field Reference</div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr>
-            <th class="required">name</th><th>brand</th><th class="required">asin</th>
-            <th>category</th><th class="required">price_inr</th><th>original_price_inr</th>
-            <th>weight_grams</th><th>stock_status</th><th>emoji</th><th>description</th><th>tags</th>
-          </tr></thead>
-          <tbody><tr>
-            <td class="mono">Patanjali Ashwagandha 60ct</td>
-            <td class="mono">Patanjali</td>
-            <td class="mono">B07X3K9VZQ</td>
-            <td class="mono">Ayurveda & Health</td>
-            <td class="mono">299</td>
-            <td class="mono">399</td>
-            <td class="mono">150</td>
-            <td class="mono">in</td>
-            <td class="mono">🌿</td>
-            <td class="mono">Pure ashwagandha extract</td>
-            <td class="mono">ayurvedic,herbal</td>
-          </tr></tbody>
+  <!-- TAB: TEMPLATE -->
+  <div class="panel" id="panel-template">
+    <div class="card">
+      <div class="card-head"><div class="card-title">&#11015; Download Import Template</div></div>
+      <div class="card-body">
+        <p style="font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem;line-height:1.7">Pre-formatted template with all columns. Fill it in and upload on the Bulk Import tab.</p>
+        <table style="margin-bottom:1.5rem">
+          <thead><tr><th>Column</th><th>Required</th><th>Example</th><th>Notes</th></tr></thead>
+          <tbody id="fieldTable"></tbody>
         </table>
-      </div>
-      <div style="padding:8px 14px;font-size:.7rem;color:var(--ink3);background:var(--bg)">
-        stock_status: <b>in</b> / <b>out</b> / <b>limited</b> &nbsp;·&nbsp; weight_grams default = 500 &nbsp;·&nbsp; * = required
-      </div>
-    </div>
-  </div>
-
-  <!-- UPLOAD -->
-  <div class="sec">
-    <div class="sec-title">Step 2 — Upload CSV or Excel</div>
-    <div class="dropzone" id="dropzone" ondragover="doDragOver(event)" ondragleave="doDragLeave(event)" ondrop="doDrop(event)">
-      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" onchange="handleFile(this.files[0])">
-      <div class="dz-icon">📂</div>
-      <div class="dz-title">Drop your file here or click to browse</div>
-      <div class="dz-sub">Supports CSV and Excel formats</div>
-      <div class="dz-types"><span class="dz-type">.csv</span><span class="dz-type">.xlsx</span><span class="dz-type">.xls</span></div>
-    </div>
-  </div>
-
-  <!-- PREVIEW + MAPPING -->
-  <div id="previewSection" style="display:none">
-    <div class="sec">
-      <div class="sec-title">Step 3 — Map Columns</div>
-      <div class="mapping-grid" id="mappingGrid"></div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Step 4 — Preview Data</div>
-      <div class="preview-wrap">
-        <div class="preview-head">
-          <div class="preview-title">
-            Parsed rows
-            <span class="row-count" id="rowCount">0 rows</span>
-          </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-ghost" onclick="resetImport()">✕ Clear</button>
-            <button class="btn btn-green" id="importBtn" onclick="startImport()" disabled>⬆ Import to BigQuery</button>
-          </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="dlCSV()">&#11015; CSV Template</button>
+          <button class="btn btn-blue" onclick="dlXLSX()">&#11015; Excel Template</button>
         </div>
-        <div class="tbl-scroll">
-          <table>
-            <thead id="previewHead"></thead>
-            <tbody id="previewBody"></tbody>
-          </table>
+        <div style="margin-top:1.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px">
+          <div style="font-size:.78rem;font-weight:700;margin-bottom:8px">&#128204; Tips</div>
+          <ul style="font-size:.75rem;color:var(--txt2);line-height:2.2;padding-left:16px">
+            <li><code style="color:var(--accent)">name</code>, <code style="color:var(--accent)">asin</code>, <code style="color:var(--accent)">price_inr</code> are the only required fields</li>
+            <li><code style="color:var(--accent)">highlights</code>: separate multiple points with a pipe <code style="color:var(--gold)">|</code> e.g. <code>100% Natural|GMP Certified</code></li>
+            <li><code style="color:var(--accent)">tags</code>: comma-separated e.g. <code>organic,herbal</code></li>
+            <li><code style="color:var(--accent)">stock_status</code>: <code>in</code>, <code>out</code>, or <code>limited</code></li>
+            <li>Leave <code style="color:var(--accent)">original_price_inr</code> blank &mdash; defaults to 120% of price_inr</li>
+            <li>Leave <code style="color:var(--accent)">custom_price_aed</code> blank &mdash; auto-calculated from INR + logistics</li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <!-- PROGRESS -->
-    <div id="progressSection" style="display:none" class="sec">
-      <div class="sec-title">Importing...</div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <div class="progress-txt" id="progressTxt">0 / 0</div>
-      <div class="log-box" id="logBox" style="margin-top:1rem"></div>
-    </div>
-
-    <div class="result-banner" id="resultBanner"></div>
   </div>
 
 </div>
+<div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
-let parsedRows = [], csvHeaders = [], mappings = {};
+const DEFAULT_API = 'https://zongdong-api-673989170541.us-central1.run.app';
+const RATE = 0.044, SHIP_PER_KG = 16, MARGIN_CAP = 20;
 let API_BASE = '', API_SECRET = '';
+let parsedRows = [], csvHeaders = [], mappings = {};
 
-// ── CONFIG ──
+const FIELDS = [
+  {key:'name',               label:'Product Name',         req:true,  ex:'Patanjali Ashwagandha 60ct',     note:'Full product name'},
+  {key:'asin',               label:'ASIN',                 req:true,  ex:'B07X3K9VZQ',                     note:'Amazon India ASIN'},
+  {key:'price_inr',          label:'Price INR',            req:true,  ex:'299',                            note:'Source price in Rupees'},
+  {key:'brand',              label:'Brand',                req:false, ex:'Patanjali',                      note:'Brand name'},
+  {key:'category',           label:'Category',             req:false, ex:'Ayurveda & Health',              note:'Product category'},
+  {key:'original_price_inr', label:'Original Price INR',   req:false, ex:'399',                           note:'MRP; blank = 120% of price'},
+  {key:'weight_grams',       label:'Weight (grams)',       req:false, ex:'150',                            note:'Gross weight in grams'},
+  {key:'emoji',              label:'Emoji',                req:false, ex:'\uD83C\uDF3F',                   note:'Single emoji icon'},
+  {key:'description',        label:'Description',          req:false, ex:'Pure ashwagandha extract...',    note:'2-3 sentence description'},
+  {key:'highlights',         label:'Highlights',           req:false, ex:'100% Natural|GMP Certified',     note:'Pipe-separated bullet points'},
+  {key:'tags',               label:'Tags',                 req:false, ex:'herbal,immunity,organic',        note:'Comma-separated keywords'},
+  {key:'image_url',          label:'Image URL',            req:false, ex:'https://m.media-amazon.com/...', note:'Product image URL'},
+  {key:'stock_status',       label:'Stock Status',         req:false, ex:'in',                            note:'in / out / limited'},
+  {key:'custom_price_aed',   label:'Custom Price AED',     req:false, ex:'',                              note:'Override; blank = auto-calc'},
+];
+
+// CONFIG
 function loadConfig() {
-  API_BASE   = localStorage.getItem('zd_api_url')    || '';
+  API_BASE   = localStorage.getItem('zd_api_url')    || DEFAULT_API;
   API_SECRET = localStorage.getItem('zd_api_secret') || '';
-  if (API_BASE)   document.getElementById('apiUrl').value    = API_BASE;
-  if (API_SECRET) document.getElementById('apiSecret').value = API_SECRET;
+  document.getElementById('apiUrl').value    = API_BASE;
+  document.getElementById('apiSecret').value = API_SECRET;
 }
 function saveConfig() {
   API_BASE   = document.getElementById('apiUrl').value.trim().replace(/\/$/,'');
@@ -251,222 +333,335 @@ function saveConfig() {
   localStorage.setItem('zd_api_secret', API_SECRET);
 }
 async function testConn() {
-  const pill = document.getElementById('connPill');
-  const txt  = document.getElementById('connTxt');
-  pill.className = 'conn-pill idle'; txt.textContent = 'Testing...';
+  const b = document.getElementById('connBadge');
+  b.className = 'conn-badge idle'; b.textContent = '\u25CF Testing\u2026';
   try {
-    const r = await fetch(API_BASE + '/', { headers: { 'x-admin-secret': API_SECRET } });
-    if (r.ok) { pill.className = 'conn-pill ok'; txt.textContent = 'Connected'; }
-    else throw new Error(r.status);
-  } catch(e) { pill.className = 'conn-pill fail'; txt.textContent = 'Failed — check URL + secret'; }
+    const r = await fetch(API_BASE + '/', {headers:{'x-admin-secret':API_SECRET}});
+    const d = await r.json();
+    b.className = 'conn-badge ok';
+    b.textContent = '\u2713 ' + (d.service || 'Connected');
+    document.getElementById('importBtn').disabled = false;
+    toast('\u2713 ' + (d.service || 'Connected'), 'ok');
+  } catch(e) {
+    b.className = 'conn-badge fail'; b.textContent = '\u2715 Failed';
+    toast('\u274C ' + e.message, 'err');
+  }
 }
 
-// ── TEMPLATE ──
-const PRODUCTS_FIELDS = [
-  { key:'name',              label:'Name',               required:true  },
-  { key:'brand',             label:'Brand',              required:false },
-  { key:'asin',              label:'ASIN',               required:true  },
-  { key:'category',          label:'Category',           required:false },
-  { key:'price_inr',         label:'Price INR',          required:true  },
-  { key:'original_price_inr',label:'Original Price INR', required:false },
-  { key:'weight_grams',      label:'Weight (grams)',     required:false },
-  { key:'stock_status',      label:'Stock Status',       required:false },
-  { key:'emoji',             label:'Emoji',              required:false },
-  { key:'image_url',         label:'Image URL',          required:false },
-  { key:'description',       label:'Description',        required:false },
-  { key:'highlights',        label:'Highlights',         required:false },
-  { key:'tags',              label:'Tags',               required:false },
-];
-
-function downloadTemplate() {
-  const headers = PRODUCTS_FIELDS.map(f => f.key);
-  const example = ['Patanjali Ashwagandha 60ct','Patanjali','B07X3K9VZQ','Ayurveda & Health','299','399','150','in','🌿','','Pure ashwagandha extract','100% Natural|GMP Certified','ayurvedic,herbal'];
-  const csv = [headers.join(','), example.join(',')].join('\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'products_template.csv';
-  a.click();
+// TABS
+function switchTab(n) {
+  ['bulk','manual','template'].forEach((t,i) => {
+    document.querySelectorAll('.tab')[i].classList.toggle('active', t===n);
+    document.getElementById('panel-'+t).classList.toggle('active', t===n);
+  });
 }
 
-// ── DRAG + DROP ──
-function doDragOver(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('drag'); }
-function doDragLeave()  { document.getElementById('dropzone').classList.remove('drag'); }
-function doDrop(e) { e.preventDefault(); doDragLeave(); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }
+// DRAG/DROP
+function onDragOver(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('drag-over'); }
+function onDragLeave()  { document.getElementById('dropzone').classList.remove('drag-over'); }
+function onDrop(e) {
+  e.preventDefault(); document.getElementById('dropzone').classList.remove('drag-over');
+  const f = e.dataTransfer.files[0]; if (f) handleFile(f);
+}
 
-// ── FILE PARSE ──
 function handleFile(file) {
   if (!file) return;
+  document.getElementById('fileInfo').style.display='block';
+  document.getElementById('fileInfo').textContent='\uD83D\uDCC4 '+file.name+' ('+(file.size/1024).toFixed(1)+' KB)';
   const ext = file.name.split('.').pop().toLowerCase();
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      let rows;
-      if (ext === 'csv') {
-        rows = parseCSV(e.target.result);
-      } else {
-        const wb = XLSX.read(e.target.result, { type:'array' });
-        const ws = wb.Sheets[wb.SheetNames[0]];
-        rows = XLSX.utils.sheet_to_json(ws, { defval:'' });
-      }
-      if (!rows.length) { alert('No data found in file'); return; }
-      csvHeaders = Object.keys(rows[0]);
-      parsedRows = rows;
-      buildMapping();
-      renderPreview();
-      document.getElementById('previewSection').style.display = 'block';
-      document.getElementById('importBtn').disabled = false;
-    } catch(err) { alert('Error parsing file: ' + err.message); }
-  };
-  if (ext === 'csv') reader.readAsText(file);
-  else reader.readAsArrayBuffer(file);
+  const r = new FileReader();
+  r.onload = e => ext==='csv' ? parseCSV(e.target.result) : parseExcel(e.target.result);
+  ext==='csv' ? r.readAsText(file,'UTF-8') : r.readAsArrayBuffer(file);
 }
 
 function parseCSV(text) {
-  const lines = text.trim().split('\n').filter(Boolean);
-  if (lines.length < 2) return [];
-  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
-  return lines.slice(1).map(line => {
-    const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g,''));
-    const obj = {};
-    headers.forEach((h,i) => obj[h] = vals[i] || '');
-    return obj;
+  const lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim());
+  if (lines.length < 2) { toast('CSV has no data rows','err'); return; }
+  csvHeaders = splitCSVLine(lines[0]);
+  parsedRows = lines.slice(1).filter(l=>l.trim()).map(l => {
+    const v = splitCSVLine(l), o = {};
+    csvHeaders.forEach((h,i) => o[h] = (v[i]||'').trim());
+    return o;
   });
+  afterParse();
 }
 
-// ── MAPPING ──
-function buildMapping() {
-  const grid = document.getElementById('mappingGrid');
-  grid.innerHTML = '';
-  mappings = {};
-  PRODUCTS_FIELDS.forEach(f => {
-    const autoMatch = csvHeaders.find(h => h.toLowerCase().replace(/[^a-z0-9]/g,'') === f.key.toLowerCase().replace(/[^a-z0-9]/g,''));
-    mappings[f.key] = autoMatch || '';
-    const div = document.createElement('div');
-    div.className = 'map-row';
-    div.innerHTML = `
-      <div class="map-label">${f.label}${f.required?'<span class="map-req"> *</span>':''}</div>
-      <select class="map-sel" onchange="mappings['${f.key}']=this.value;renderPreview()">
-        <option value="">— skip —</option>
-        ${csvHeaders.map(h => `<option value="${h}" ${h===autoMatch?'selected':''}>${h}</option>`).join('')}
-      </select>
-      <div class="tip">${f.required?'Required':'Optional'} · BQ field: <span style="font-family:monospace;font-size:.68rem;color:var(--accent)">${f.key}</span></div>`;
-    grid.appendChild(div);
-  });
-}
-
-// ── PREVIEW ──
-function renderPreview() {
-  const mappedFields = PRODUCTS_FIELDS.filter(f => mappings[f.key]);
-  const head = document.getElementById('previewHead');
-  head.innerHTML = '<tr>' + mappedFields.map(f => `<th${f.required?' class="required"':''}>${f.label}</th>`).join('') + '<th>Status</th></tr>';
-  document.getElementById('rowCount').textContent = parsedRows.length + ' rows';
-  const tbody = document.getElementById('previewBody');
-  tbody.innerHTML = parsedRows.slice(0,50).map((row,i) => {
-    const missing = PRODUCTS_FIELDS.filter(f => f.required && !row[mappings[f.key]]);
-    const status = missing.length ? `<td class="err">⚠ Missing: ${missing.map(f=>f.label).join(', ')}</td>` : '<td class="ok mono">✓ Ready</td>';
-    return '<tr>' + mappedFields.map(f => `<td class="mono">${row[mappings[f.key]]||'—'}</td>`).join('') + status + '</tr>';
-  }).join('');
-  if (parsedRows.length > 50) {
-    tbody.innerHTML += `<tr><td colspan="${mappedFields.length+1}" style="text-align:center;color:var(--ink3);padding:10px;font-size:.75rem">... and ${parsedRows.length-50} more rows</td></tr>`;
+function splitCSVLine(line) {
+  const res=[]; let cur='', inQ=false;
+  for (let i=0;i<line.length;i++) {
+    if (line[i]==='"') { inQ=!inQ; }
+    else if (line[i]===','&&!inQ) { res.push(cur); cur=''; }
+    else cur+=line[i];
   }
+  res.push(cur);
+  return res.map(s=>s.replace(/^"|"$/g,''));
 }
 
-// ── IMPORT ──
-async function startImport() {
-  if (!API_BASE) { alert('Please set your API URL first'); return; }
-  const btn = document.getElementById('importBtn');
-  btn.disabled = true;
-  document.getElementById('progressSection').style.display = 'block';
-  document.getElementById('resultBanner').className = 'result-banner';
-  const logBox = document.getElementById('logBox');
-  logBox.innerHTML = '';
-  let success = 0, errors = 0;
-  const BATCH = 10;
-
-  for (let i = 0; i < parsedRows.length; i++) {
-    const row = parsedRows[i];
-    // Map fields
-    const product = {};
-    PRODUCTS_FIELDS.forEach(f => {
-      if (mappings[f.key]) product[f.key] = row[mappings[f.key]] || '';
+function parseExcel(buf) {
+  try {
+    const wb = XLSX.read(buf,{type:'arraybuffer'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    if (data.length<2) { toast('Spreadsheet has no data','err'); return; }
+    csvHeaders = data[0].map(String);
+    parsedRows = data.slice(1).filter(r=>r.some(c=>String(c).trim())).map(r => {
+      const o={}; csvHeaders.forEach((h,i)=>o[h]=String(r[i]||'').trim()); return o;
     });
-    // Type coerce
-    if (product.price_inr) product.price_inr = parseFloat(product.price_inr) || 0;
-    if (product.original_price_inr) product.original_price_inr = parseFloat(product.original_price_inr) || 0;
-    if (product.weight_grams) product.weight_grams = parseInt(product.weight_grams) || 500;
-    if (product.highlights) product.highlights = product.highlights.split('|').filter(Boolean);
-    if (!product.stock_status) product.stock_status = 'in';
+    afterParse();
+  } catch(e) { toast('Excel parse error: '+e.message,'err'); }
+}
 
-    // Validate
-    if (!product.name || !product.asin || !product.price_inr) {
-      errors++;
-      log(logBox, `err`, `Row ${i+1}: SKIPPED — missing required field (name/asin/price_inr)`);
-      updateProgress(i+1, parsedRows.length, success, errors);
-      continue;
+function afterParse() {
+  toast('\u2713 Loaded '+parsedRows.length+' rows','ok');
+  buildMappingUI(); autoMap(); buildPreview();
+  document.getElementById('mappingCard').style.display='block';
+  document.getElementById('previewCard').style.display='block';
+}
+
+function buildMappingUI() {
+  document.getElementById('mappingGrid').innerHTML = FIELDS.map(f=>`
+    <div class="map-row">
+      <div class="map-label">${f.label}${f.req?'<span class="req"> *</span>':''}</div>
+      <select class="map-select" id="map-${f.key}" onchange="buildPreview()">
+        <option value="">-- skip --</option>
+        ${csvHeaders.map(h=>`<option value="${h}">${h}</option>`).join('')}
+      </select>
+    </div>`).join('');
+}
+
+function autoMap() {
+  const aliases = {
+    name:['product name','title','product title','product'],
+    asin:['asin code','amazon asin'],
+    price_inr:['price','inr price','source price','price (inr)','cost'],
+    original_price_inr:['original price','mrp','list price','orig price'],
+    weight_grams:['weight','grams','weight (g)','weight (grams)'],
+    brand:['brand name','manufacturer'],
+    category:['cat','type','product category'],
+    description:['desc','product description','about'],
+    highlights:['features','bullet points','key features'],
+    tags:['tag','keywords','labels'],
+    image_url:['image','photo','picture','image link','img url'],
+    stock_status:['stock','availability','status'],
+    emoji:['icon'],
+  };
+  FIELDS.forEach(f => {
+    const sel = document.getElementById('map-'+f.key); if (!sel) return;
+    const exact = csvHeaders.find(h=>h.toLowerCase()===f.key.toLowerCase());
+    if (exact) { sel.value=exact; return; }
+    const fuzzy = (aliases[f.key]||[]).concat([f.key]);
+    const match = csvHeaders.find(h=>fuzzy.some(a=>h.toLowerCase().includes(a)));
+    if (match) sel.value=match;
+  });
+  buildPreview();
+}
+
+function buildPreview() {
+  FIELDS.forEach(f=>{ const s=document.getElementById('map-'+f.key); if(s) mappings[f.key]=s.value; });
+  if (!parsedRows.length) return;
+  const show = FIELDS.filter(f=>mappings[f.key]);
+  const rows = parsedRows.slice(0,5);
+  document.getElementById('previewTable').innerHTML =
+    `<thead><tr><th>#</th>${show.map(f=>`<th>${f.label}${f.req?' *':''}</th>`).join('')}<th>Status</th></tr></thead>
+     <tbody>${rows.map((row,i)=>{
+       const m={}; FIELDS.forEach(f=>{if(mappings[f.key])m[f.key]=row[mappings[f.key]]||'';});
+       const ok = m.name&&m.asin&&m.price_inr;
+       return `<tr><td style="color:var(--txt3)">${i+1}</td>
+         ${show.map(f=>`<td title="${m[f.key]||''}">${(m[f.key]||'').slice(0,22)||'<span style="color:var(--txt3)">—</span>'}</td>`).join('')}
+         <td>${ok?'<span style="color:var(--green)">\u2713 OK</span>':'<span style="color:var(--red)">\u2715 Missing</span>'}</td></tr>`;
+     }).join('')}</tbody>`;
+  document.getElementById('previewCount').textContent = parsedRows.length+' rows \u2022 5 shown';
+}
+
+// IMPORT
+async function startImport() {
+  if (!API_BASE) { toast('Set API URL first','err'); return; }
+  FIELDS.forEach(f=>{ const s=document.getElementById('map-'+f.key); if(s) mappings[f.key]=s.value; });
+  document.getElementById('importBtn').disabled=true;
+  document.getElementById('progressCard').style.display='block';
+  document.getElementById('progressCard').scrollIntoView({behavior:'smooth'});
+  document.getElementById('resultBanner').className='result-banner';
+  const log = document.getElementById('logBox');
+  log.innerHTML='';
+  let ok=0,skip=0,err=0;
+  const total=parsedRows.length;
+
+  for (let i=0;i<total;i++) {
+    const raw=parsedRows[i], p={};
+    FIELDS.forEach(f=>{ if(mappings[f.key]&&raw[mappings[f.key]]!==undefined) p[f.key]=raw[mappings[f.key]]; });
+    if (p.price_inr) p.price_inr=parseFloat(p.price_inr)||0;
+    if (p.original_price_inr) p.original_price_inr=parseFloat(p.original_price_inr)||0;
+    if (p.weight_grams) p.weight_grams=parseInt(p.weight_grams)||500;
+    if (p.highlights) p.highlights=p.highlights.split('|').filter(Boolean);
+    if (!p.stock_status) p.stock_status='in';
+    if (!p.weight_grams) p.weight_grams=500;
+
+    if (!p.name||!p.asin||!p.price_inr) {
+      skip++;
+      addLog(log,'warn','Row '+(i+1)+': SKIPPED \u2014 missing name/asin/price_inr');
+      updProg(i+1,total,ok,skip,err); continue;
     }
-
     try {
-      const res = await fetch(API_BASE + '/products', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'x-admin-secret': API_SECRET },
-        body: JSON.stringify(product)
+      const res = await fetch(API_BASE+'/products',{
+        method:'POST',headers:{'Content-Type':'application/json','x-admin-secret':API_SECRET},
+        body:JSON.stringify(p)
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        success++;
-        log(logBox, 'ok', `Row ${i+1}: ✓ ${product.name} → ${data.product_id}`);
-      } else {
-        errors++;
-        log(logBox, 'err', `Row ${i+1}: ✗ ${data.error || 'Unknown error'}`);
-      }
-    } catch(e) {
-      errors++;
-      log(logBox, 'err', `Row ${i+1}: ✗ Network error — ${e.message}`);
-    }
-
-    updateProgress(i+1, parsedRows.length, success, errors);
-    // Small delay every batch to avoid rate limiting
-    if ((i+1) % BATCH === 0) await sleep(200);
+      const d=await res.json();
+      if (res.ok&&d.success) { ok++; addLog(log,'ok','Row '+(i+1)+': \u2713 '+p.name.slice(0,40)+' \u2192 '+d.product_id); }
+      else { err++; addLog(log,'err','Row '+(i+1)+': \u2715 '+(d.error||JSON.stringify(d)).slice(0,80)); }
+    } catch(e) { err++; addLog(log,'err','Row '+(i+1)+': \u2715 '+e.message); }
+    updProg(i+1,total,ok,skip,err);
+    if ((i+1)%5===0) await sleep(150);
   }
 
-  // Done
-  const banner = document.getElementById('resultBanner');
-  if (errors === 0) {
-    banner.className = 'result-banner success show';
-    banner.innerHTML = `✅ All ${success} products imported to BigQuery! ⏱ Wait 30–60 seconds then click Refresh in the dashboard — BigQuery streaming has a short delay before data appears in SELECT queries.`;
+  addLog(log,'info','\u2500\u2500\u2500 Done: '+ok+' imported, '+skip+' skipped, '+err+' errors \u2500\u2500\u2500');
+  document.getElementById('progressTitle').textContent='\u2713 Import Complete';
+  const b=document.getElementById('resultBanner');
+  if (err===0&&ok>0) {
+    b.className='result-banner success';
+    b.innerHTML='\u2705 '+ok+' products imported! Allow 30\u201360s before they appear in BigQuery (streaming buffer delay).';
   } else {
-    banner.className = 'result-banner error show';
-    banner.innerHTML = `⚠️ Completed: ${success} imported, ${errors} failed. Check the log above for details.`;
+    b.className='result-banner error';
+    b.innerHTML='\u26A0\uFE0F Completed: '+ok+' imported, '+skip+' skipped, '+err+' failed. Check log above.';
   }
-  btn.disabled = false;
-  log(logBox, 'info', `─── Import complete: ${success} success, ${errors} errors ───`);
+  document.getElementById('importBtn').disabled=false;
 }
 
-function log(box, type, msg) {
-  const div = document.createElement('div');
-  div.className = `log-entry log-${type}`;
-  div.textContent = msg;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
+function addLog(box,type,msg) {
+  const d=document.createElement('div');
+  d.className='log-'+type;
+  d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
 }
-
-function updateProgress(done, total, success, errors) {
-  const pct = Math.round((done/total)*100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressTxt').textContent = `${done} / ${total}  (✓ ${success}  ✗ ${errors})`;
+function updProg(done,total,ok,skip,err) {
+  document.getElementById('progressFill').style.width=Math.round(done/total*100)+'%';
+  document.getElementById('progressTxt').textContent=done+' / '+total;
+  document.getElementById('s-ok').textContent=ok;
+  document.getElementById('s-skip').textContent=skip;
+  document.getElementById('s-err').textContent=err;
+  document.getElementById('s-rem').textContent=total-done;
 }
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
 function resetImport() {
-  parsedRows = []; csvHeaders = []; mappings = {};
-  document.getElementById('previewSection').style.display = 'none';
-  document.getElementById('progressSection').style.display = 'none';
-  document.getElementById('resultBanner').className = 'result-banner';
-  document.getElementById('fileInput').value = '';
+  parsedRows=[]; csvHeaders=[]; mappings={};
+  ['mappingCard','previewCard','progressCard'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('fileInput').value='';
+  document.getElementById('fileInfo').style.display='none';
+  document.getElementById('resultBanner').className='result-banner';
+  document.getElementById('logBox').innerHTML='';
+  document.getElementById('progressTitle').textContent='\u25B6 Importing\u2026';
 }
+
+// MANUAL
+function calcAED() {
+  const inr=parseFloat(document.getElementById('m-price').value)||0;
+  const wt=parseInt(document.getElementById('m-weight').value)||500;
+  if (!inr) { document.getElementById('aedCalc').textContent='Enter INR price and weight to preview AED price'; return; }
+  const base=inr*RATE;
+  const effKg=Math.max(wt,500)/1000;
+  const log=effKg*SHIP_PER_KG;
+  const margin=Math.min((base+log)*0.10,MARGIN_CAP);
+  const preVAT=base+log+margin;
+  const vat=preVAT*0.05;
+  const total=Math.round(preVAT+vat);
+  document.getElementById('aedCalc').innerHTML=
+    '<strong>AED '+total+'</strong> = Base: '+base.toFixed(0)+
+    ' + Logistics: '+log.toFixed(0)+
+    ' + Margin: '+margin.toFixed(0)+
+    ' + VAT: '+vat.toFixed(0);
+}
+
+async function saveManual() {
+  const name=document.getElementById('m-name').value.trim();
+  const asin=document.getElementById('m-asin').value.trim();
+  const price=parseFloat(document.getElementById('m-price').value);
+  if (!name||!asin||!price) { toast('\u26A0\uFE0F Name, ASIN and Price INR required','err'); return; }
+  const product={
+    name,asin,price_inr:price,
+    brand:document.getElementById('m-brand').value.trim(),
+    category:document.getElementById('m-category').value,
+    original_price_inr:parseFloat(document.getElementById('m-orig').value)||0,
+    weight_grams:parseInt(document.getElementById('m-weight').value)||500,
+    emoji:document.getElementById('m-emoji').value||'\uD83D\uDCE6',
+    stock_status:document.getElementById('m-stock').value,
+    image_url:document.getElementById('m-img').value.trim(),
+    description:document.getElementById('m-desc').value.trim(),
+    highlights:document.getElementById('m-hl').value.split('\n').filter(Boolean),
+    tags:document.getElementById('m-tags').value.trim(),
+    custom_price_aed:parseFloat(document.getElementById('m-custom-aed').value)||null,
+  };
+  const btn=document.getElementById('mSaveBtn');
+  const res=document.getElementById('mResult');
+  btn.disabled=true; btn.textContent='Saving\u2026';
+  res.style.display='none';
+  try {
+    const r=await fetch(API_BASE+'/products',{
+      method:'POST',headers:{'Content-Type':'application/json','x-admin-secret':API_SECRET},
+      body:JSON.stringify(product)
+    });
+    const d=await r.json();
+    if (r.ok&&d.success) {
+      toast('\u2713 Saved! '+d.product_id,'ok');
+      res.style.display='inline'; res.style.color='var(--green)';
+      res.textContent='\u2713 '+d.product_id;
+      clearManual();
+    } else {
+      toast('\u274C '+(d.error||'Failed'),'err');
+      res.style.display='inline'; res.style.color='var(--red)';
+      res.textContent='\u274C '+(d.error||'Save failed');
+    }
+  } catch(e) { toast('\u274C '+e.message,'err'); }
+  btn.disabled=false; btn.textContent='\uD83D\uDCBE Save Product';
+}
+
+function clearManual() {
+  ['m-name','m-brand','m-asin','m-price','m-orig','m-weight','m-emoji',
+   'm-img','m-tags','m-desc','m-hl','m-custom-aed'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-category').value='';
+  document.getElementById('m-stock').value='in';
+  document.getElementById('aedCalc').textContent='Enter INR price and weight to preview AED price';
+  document.getElementById('mResult').style.display='none';
+}
+
+// TEMPLATE
+function buildFieldTable() {
+  document.getElementById('fieldTable').innerHTML = FIELDS.map(f=>
+    `<tr>
+      <td style="font-family:var(--mono);color:var(--accent2)">${f.key}</td>
+      <td>${f.req?'<span style="color:var(--accent)">Required</span>':'<span style="color:var(--txt3)">Optional</span>'}</td>
+      <td style="font-family:var(--mono);font-size:.7rem;color:var(--txt3)">${f.ex}</td>
+      <td style="color:var(--txt2)">${f.note}</td>
+    </tr>`).join('');
+}
+
+function dlCSV() {
+  const h=FIELDS.map(f=>f.key).join(',');
+  const ex='"Patanjali Ashwagandha Caps","B07X3K9VZQ",299,"Patanjali","Ayurveda & Health",399,150,"\uD83C\uDF3F","Pure ashwagandha extract for stress relief.","100% Natural|GMP Certified","ayurvedic,herbal","https://m.media-amazon.com/images/example.jpg",in,';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([h+'\n'+ex],{type:'text/csv'}));
+  a.download='zongdong-products-template.csv';
+  a.click();
+  toast('\u2193 CSV template downloaded','ok');
+}
+
+function dlXLSX() {
+  const ws=XLSX.utils.aoa_to_sheet([FIELDS.map(f=>f.key),FIELDS.map(f=>f.ex)]);
+  ws['!cols']=FIELDS.map(()=>({wch:22}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Products');
+  XLSX.writeFile(wb,'zongdong-products-template.xlsx');
+  toast('\u2193 Excel template downloaded','ok');
+}
+
+function toast(msg,type) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type||''); t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
 
 loadConfig();
+buildFieldTable();
+testConn();
 </script>
 </body>
 </html>
