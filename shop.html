@@ -324,6 +324,78 @@ footer a:hover{color:rgba(255,255,255,.5)}
   </div>
 </div>
 
+<!-- COD CHECKOUT MODAL -->
+<div class="modal-ov" id="checkoutOv" onclick="closeCheckoutClick(event)">
+  <div class="modal" id="checkoutModal" style="max-width:520px">
+    <button class="modal-x" onclick="closeCheckout()">&#10005;</button>
+    <div style="padding:1.5rem">
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;margin-bottom:.25rem">Complete Your Order</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem">Cash on Delivery &mdash; Pay when your order arrives</div>
+
+      <!-- Order summary -->
+      <div style="background:var(--sand);border-radius:10px;padding:12px;margin-bottom:1.25rem">
+        <div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Order Summary</div>
+        <div id="coSummaryItems" style="font-size:.8rem;margin-bottom:8px"></div>
+        <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:3px"><span>Subtotal</span><span id="coSumSub"></span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:3px"><span>Shipping</span><span id="coSumShip"></span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:3px"><span>VAT (5%)</span><span id="coSumVat"></span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.95rem;font-weight:700;margin-top:5px"><span>Total</span><span style="color:var(--saffron)" id="coSumTotal"></span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:10px;padding:8px;background:#fff;border-radius:7px;border:1px solid var(--border)">
+          <span style="font-size:1.2rem">&#128181;</span>
+          <div><div style="font-size:.78rem;font-weight:600">Cash on Delivery</div><div style="font-size:.7rem;color:var(--muted)">Pay in AED when your order arrives</div></div>
+        </div>
+      </div>
+
+      <!-- Customer details form -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Full Name *</label>
+          <input type="text" id="coName" placeholder="Ahmed Al-Rashid" style="padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Phone (UAE) *</label>
+          <input type="tel" id="coPhone" placeholder="+971 50 000 0000" style="padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+        <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Email Address</label>
+        <input type="email" id="coEmail" placeholder="you@example.com" style="padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+        <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Delivery Address (UAE) *</label>
+        <input type="text" id="coAddr" placeholder="Dubai Marina, Tower 1, Apt 802" style="padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:1.25rem">
+        <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Notes (optional)</label>
+        <input type="text" id="coNotes" placeholder="Special instructions..." style="padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+
+      <button onclick="submitOrder()" id="coSubmitBtn" style="width:100%;padding:14px;background:var(--saffron);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px">
+        &#128181; Place Order (Cash on Delivery)
+      </button>
+      <div style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:8px">&#128666; Estimated delivery: 7&ndash;14 days &middot; Pay when order arrives</div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal-ov" id="successOv">
+  <div class="modal" id="successModal" style="max-width:420px;text-align:center">
+    <div style="padding:2.5rem 1.5rem">
+      <div style="font-size:3.5rem;margin-bottom:1rem">&#127881;</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:.5rem">Order Placed!</div>
+      <div style="font-size:.85rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Your order has been received. Our team will contact you within 24 hours to confirm delivery details.</div>
+      <div style="background:var(--sand);border-radius:10px;padding:14px;margin-bottom:1.25rem;text-align:left">
+        <div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Order Details</div>
+        <div id="successDetails" style="font-size:.82rem;line-height:1.8"></div>
+      </div>
+      <button onclick="closeSuccess()" style="width:100%;padding:13px;background:var(--saffron);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
 <!-- PRODUCT MODAL -->
 <div class="modal-ov" id="modalOv" onclick="closeModalClick(event)">
   <div class="modal" id="modal">
@@ -525,7 +597,6 @@ function renderProducts(prods) {
         '<div class="pname">' + p.name + '</div>' +
         '<div class="prating"><span class="stars">' + starsHtml(p.rating) + '</span><span class="rcount">(' + fmtN(p.reviewCount) + ')</span></div>' +
         '<div class="ppricing"><span class="p-aed">AED ' + aed + '</span>' + (disc>0?'<span class="disc">-'+disc+'%</span>':'') + '</div>' +
-        '<div class="p-inr">\u20B9' + p.priceINR.toLocaleString() + ' India price</div>' +
         '<div class="ship">' + (p.freeShipping?'<span class="free-s">\u2713 Free shipping</span>':'\uD83D\uDE9A +AED 25') + ' &middot; 7-14 days</div>' +
         '<button class="add-btn" id="ab'+i+'" onclick="event.stopPropagation();addToCart(' + i + ',this)">' + T('addCart') + '</button>' +
       '</div>' +
@@ -597,7 +668,6 @@ async function loadMore() {
           '<div class="pname">' + p.name + '</div>' +
           '<div class="prating"><span class="stars">' + starsHtml(p.rating) + '</span><span class="rcount">('+fmtN(p.reviewCount)+')</span></div>' +
           '<div class="ppricing"><span class="p-aed">AED '+aed+'</span>'+(disc>0?'<span class="disc">-'+disc+'%</span>':'')+'</div>' +
-          '<div class="p-inr">\u20B9'+p.priceINR.toLocaleString()+' India price</div>' +
           '<div class="ship">'+(p.freeShipping?'<span class="free-s">\u2713 Free</span>':'\uD83D\uDE9A +AED 25')+' &middot; 7-14d</div>' +
           '<button class="add-btn" id="ab'+idx+'" onclick="event.stopPropagation();addToCart('+idx+',this)">'+T('addCart')+'</button>' +
         '</div>' +
@@ -629,7 +699,7 @@ function openModal(i) {
       '<div class="mrating"><span class="stars">' + starsHtml(p.rating) + '</span><span>' + p.rating + ' &middot; ' + fmtN(p.reviewCount) + ' reviews</span></div>' +
       '<div class="mpricing">' +
         '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="maed">AED ' + tot + '</span>' + (disc>0?'<span class="disc">-'+disc+'%</span>':'') + '</div>' +
-        '<div class="mbrk"><span>Price:</span> AED ' + aed + ' &nbsp;|&nbsp; <span>Shipping:</span> ' + (p.freeShipping?'Free':'AED '+SHIP) + ' &nbsp;|&nbsp; <span>VAT 5%:</span> AED ' + vat + '<br>\u2705 No hidden charges at delivery</div>' +
+        '<div class="mbrk"><span>Shipping:</span> ' + (p.freeShipping?'Free':'AED '+SHIP) + ' &nbsp;|&nbsp; <span>VAT 5%:</span> AED ' + vat + '<br>\u2705 No hidden charges at delivery</div>' +
       '</div>' +
       '<div class="mdesc">' + p.description + '</div>' +
       hlHtml +
@@ -733,7 +803,106 @@ function rmItem(i) {
   document.getElementById('cartCount').textContent = cart.reduce(function(s,c){return s+c.qty;},0);
   renderCart();
 }
-function checkout() { showToast('\uD83D\uDEA7 Checkout integration coming soon'); closeAll(); }
+function checkout() {
+  if (!cart.length) { showToast('Your cart is empty'); return; }
+  // Populate summary
+  var sub = cart.reduce(function(s,c){return s+c.aed*c.qty;},0);
+  var ship = cart.reduce(function(s,c){return s+c.ship*c.qty;},0);
+  var vat = cart.reduce(function(s,c){return s+c.vat*c.qty;},0);
+  var total = sub + ship + vat;
+  document.getElementById('coSumSub').textContent = 'AED ' + sub;
+  document.getElementById('coSumShip').textContent = ship ? 'AED ' + ship : 'Free';
+  document.getElementById('coSumVat').textContent = 'AED ' + vat;
+  document.getElementById('coSumTotal').textContent = 'AED ' + total;
+  document.getElementById('coSummaryItems').innerHTML = cart.map(function(c) {
+    return '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>' + c.emoji + ' ' + c.name.slice(0,32) + (c.name.length>32?'\u2026':'') + ' x' + c.qty + '</span><span style="font-weight:600">AED ' + (c.tot * c.qty) + '</span></div>';
+  }).join('');
+  closeAll();
+  document.getElementById('checkoutOv').classList.add('open');
+}
+
+function closeCheckoutClick(e) { if (e.target === document.getElementById('checkoutOv')) closeCheckout(); }
+function closeCheckout() { document.getElementById('checkoutOv').classList.remove('open'); }
+
+async function submitOrder() {
+  var name = document.getElementById('coName').value.trim();
+  var phone = document.getElementById('coPhone').value.trim();
+  var addr = document.getElementById('coAddr').value.trim();
+  var email = document.getElementById('coEmail').value.trim();
+  var notes = document.getElementById('coNotes').value.trim();
+
+  if (!name || !phone || !addr) {
+    showToast('\u26a0\uFE0F Please fill in Name, Phone and Address');
+    return;
+  }
+
+  var btn = document.getElementById('coSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Placing order\u2026';
+
+  var sub = cart.reduce(function(s,c){return s+c.aed*c.qty;},0);
+  var ship = cart.reduce(function(s,c){return s+c.ship*c.qty;},0);
+  var vat = cart.reduce(function(s,c){return s+c.vat*c.qty;},0);
+  var total = sub + ship + vat;
+
+  // Submit each cart item as a separate order (BigQuery orders table)
+  var orderId = 'ZD-' + Date.now().toString().slice(-6);
+  var successItems = [];
+
+  try {
+    for (var i = 0; i < cart.length; i++) {
+      var item = cart[i];
+      var itemTotal = item.tot * item.qty;
+      var payload = {
+        customer_name: name,
+        customer_email: email || '',
+        customer_phone: phone,
+        delivery_address: addr,
+        product_name: item.name + (item.qty > 1 ? ' x' + item.qty : ''),
+        product_emoji: item.emoji,
+        product_asin: item.asin || '',
+        amount_aed: itemTotal,
+        notes: (notes ? notes + ' | ' : '') + 'COD | Order: ' + orderId
+      };
+      try {
+        await fetch(API + '/orders', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        });
+      } catch(e) { /* silently continue */ }
+      successItems.push(item.emoji + ' ' + item.name.slice(0,30) + ' \u00d7' + item.qty + ' \u2014 AED ' + itemTotal);
+    }
+
+    // Show success
+    closeCheckout();
+    document.getElementById('successDetails').innerHTML =
+      '<div><strong>Order ID:</strong> ' + orderId + '</div>' +
+      '<div><strong>Customer:</strong> ' + name + '</div>' +
+      '<div><strong>Phone:</strong> ' + phone + '</div>' +
+      '<div><strong>Delivery:</strong> ' + addr + '</div>' +
+      '<div style="margin-top:6px"><strong>Items:</strong></div>' +
+      successItems.map(function(s){ return '<div style="color:var(--muted)">' + s + '</div>'; }).join('') +
+      '<div style="margin-top:6px;font-weight:700;color:var(--saffron)">Total: AED ' + total + ' (Cash on Delivery)</div>';
+    document.getElementById('successOv').classList.add('open');
+
+    // Clear cart
+    cart = [];
+    document.getElementById('cartCount').textContent = '0';
+    renderCart();
+
+    // Clear form
+    ['coName','coPhone','coEmail','coAddr','coNotes'].forEach(function(id){ document.getElementById(id).value = ''; });
+
+  } catch(e) {
+    showToast('\u274c Order failed: ' + e.message);
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '&#128181; Place Order (Cash on Delivery)';
+}
+
+function closeSuccess() { document.getElementById('successOv').classList.remove('open'); }
 
 // ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg) {
