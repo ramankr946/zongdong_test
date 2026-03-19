@@ -297,4 +297,14 @@ app.get('/stats', auth, async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
+
+app.get('/debug/schema', auth, async (req, res) => {
+  try {
+    const [rows] = await bq.query(
+      "SELECT column_name, data_type, is_nullable FROM `zongdong-backend.zongdong.INFORMATION_SCHEMA.COLUMNS` WHERE table_name = 'orders' ORDER BY ordinal_position"
+    );
+    res.json(rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 app.listen(PORT, () => console.log('ZongDong API v2.2 on port ' + PORT));
