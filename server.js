@@ -60,7 +60,7 @@ function normHL(h) {
   return String(h).split(/[\n|]/).map(s => s.trim()).filter(Boolean);
 }
 
-app.get('/', (req, res) => res.json({ status: 'ok', service: 'ZongDong API v2.2', project: PROJECT }));
+app.get('/', (req, res) => res.json({ status: 'ok', service: 'ZongDong API v2.3', project: PROJECT }));
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────────
 // GET /products — public (no auth) for storefront; banned products filtered out
@@ -212,14 +212,23 @@ app.delete('/products/:id/images/:slot', auth, async (req, res) => {
 app.get('/orders', auth, async (req, res) => {
   try {
     let rows;
-    try {
-      [rows] = await bq.query('SELECT *, CAST(order_date AS STRING) as order_date_str FROM ' + tbl('orders') + ' ORDER BY updated_at DESC LIMIT 1000');
-    } catch {
-      [rows] = await bq.query('SELECT * FROM ' + tbl('orders') + ' ORDER BY updated_at DESC LIMIT 1000');
-    }
+    [rows] = await bq.query('SELECT *, CAST(order_date AS STRING) as order_date_str, CAST(created_at AS STRING) as created_at_str FROM ' + tbl('orders') + ' ORDER BY updated_at DESC LIMIT 1000');
     rows = rows.map(r => ({
       ...r,
-      order_date: r.order_date?.value || r.order_date_str || r.updated_at?.value?.slice(0,10) || ''
+      // Normalise to dashboard expected field names
+      order_id: r.id || r.order_number || '',
+      customer_name: r.customer_name || '',
+      customer_email: r.customer_email || '',
+      customer_phone: r.customer_phone || '',
+      delivery_address: r.shipping_address || '',
+      product_name: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.name || r.items || ''; } catch { return r.items || ''; } })(),
+      product_emoji: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.emoji || '📦'; } catch { return '📦'; } })(),
+      product_asin: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.asin || ''; } catch { return ''; } })(),
+      amount_aed: r.total || r.subtotal || 0,
+      status: r.status || 'pending',
+      tracking_number: r.tracking_number || '',
+      notes: r.notes || '',
+      order_date: r.order_date?.value || r.order_date_str || r.created_at_str?.slice(0,10) || ''
     }));
     res.json(rows);
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -229,19 +238,36 @@ app.post('/orders', async (req, res) => { // PUBLIC — customers submit COD ord
   try {
     const o = req.body;
     if (!o.customer_name || !o.product_name || !o.product_asin) return res.status(400).json({ error: 'customer_name, product_name, product_asin required' });
+    // Build items JSON from cart data or single product
+    const items = o.items ? String(o.items) : JSON.stringify([{
+      name: String(o.product_name||'').trim(),
+      emoji: String(o.product_emoji||'📦'),
+      asin: String(o.product_asin||'').trim(),
+      qty: parseInt(o.qty)||1,
+      price_aed: parseFloat(o.amount_aed)||0
+    }]);
+    const orderId = 'ZD-' + Date.now().toString().slice(-6);
     const row = {
-      order_id: 'ZD-' + Math.floor(1000 + Math.random()*9000),
-      customer_name: String(o.customer_name).trim(), customer_email: String(o.customer_email||'').trim(),
-      customer_phone: String(o.customer_phone||'').trim(), delivery_address: String(o.delivery_address||'').trim(),
-      product_name: String(o.product_name).trim(), product_emoji: String(o.product_emoji||'📦'),
-      product_asin: String(o.product_asin).trim(), amount_aed: parseFloat(o.amount_aed)||0,
-      status: o.status||'pending', tracking_number: String(o.tracking_number||'').trim(),
+      id: orderId,
+      order_number: orderId,
+      customer_name: String(o.customer_name).trim(),
+      customer_email: String(o.customer_email||'').trim(),
+      customer_phone: String(o.customer_phone||'').trim(),
+      shipping_address: String(o.delivery_address || o.shipping_address || '').trim(),
+      items: items,
+      subtotal: parseFloat(o.subtotal || o.amount_aed) || 0,
+      shipping_cost: parseFloat(o.shipping_cost) || 0,
+      total: parseFloat(o.total || o.amount_aed) || 0,
+      status: o.status || 'pending',
+      payment_status: 'cod',
+      tracking_number: String(o.tracking_number||'').trim(),
       notes: String(o.notes||'').trim(),
       order_date: new Date().toISOString().slice(0,10),
+      created_at: bq.timestamp(new Date()),
       updated_at: bq.timestamp(new Date()),
     };
     await bq.dataset(DATASET).table('orders').insert([row]);
-    res.json({ success: true, order_id: row.order_id });
+    res.json({ success: true, order_id: row.id });
   } catch (e) {
     const bqErr = e.errors ? JSON.stringify(e.errors.slice(0,3)) : '';
     const msg = e.message || bqErr || String(e);
@@ -257,7 +283,7 @@ app.patch('/orders/:id', auth, async (req, res) => {
     if (req.body.tracking_number !== undefined) { fields.push('tracking_number = @tracking_number'); params.tracking_number = req.body.tracking_number; }
     if (req.body.notes !== undefined)           { fields.push('notes = @notes');                      params.notes           = req.body.notes; }
     if (!fields.length) return res.json({ success: true });
-    await bq.query({ query: 'UPDATE ' + tbl('orders') + ' SET ' + fields.join(', ') + ', updated_at = CURRENT_TIMESTAMP() WHERE order_id = @id', params });
+    await bq.query({ query: 'UPDATE ' + tbl('orders') + ' SET ' + fields.join(', ') + ', updated_at = CURRENT_TIMESTAMP() WHERE id = @id', params });
     res.json({ success: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
@@ -307,4 +333,4 @@ app.get('/debug/schema', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-app.listen(PORT, () => console.log('ZongDong API v2.2 on port ' + PORT));
+app.listen(PORT, () => console.log('ZongDong API v2.3 on port ' + PORT));

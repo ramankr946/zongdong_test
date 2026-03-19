@@ -850,29 +850,39 @@ async function submitOrder() {
   var successItems = [];
 
   try {
-    for (var i = 0; i < cart.length; i++) {
-      var item = cart[i];
-      var itemTotal = item.tot * item.qty;
-      var payload = {
-        customer_name: name,
-        customer_email: email || '',
-        customer_phone: phone,
-        delivery_address: addr,
-        product_name: item.name + (item.qty > 1 ? ' x' + item.qty : ''),
-        product_emoji: item.emoji,
-        product_asin: item.asin || '',
-        amount_aed: itemTotal,
-        notes: (notes ? notes + ' | ' : '') + 'COD | Order: ' + orderId
+    // Build items array from cart
+    var itemsArr = cart.map(function(item) {
+      return {
+        name: item.name, emoji: item.emoji,
+        asin: item.asin || '', qty: item.qty,
+        price_aed: item.tot * item.qty
       };
-      try {
-        await fetch(API + '/orders', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
-        });
-      } catch(e) { /* silently continue */ }
-      successItems.push(item.emoji + ' ' + item.name.slice(0,30) + ' \u00d7' + item.qty + ' \u2014 AED ' + itemTotal);
-    }
+    });
+    cart.forEach(function(item) {
+      successItems.push(item.emoji + ' ' + item.name.slice(0,30) + ' \u00d7' + item.qty + ' \u2014 AED ' + (item.tot*item.qty));
+    });
+    // Submit single order with all items
+    var payload = {
+      customer_name: name,
+      customer_email: email || '',
+      customer_phone: phone,
+      delivery_address: addr,
+      items: JSON.stringify(itemsArr),
+      product_name: cart.map(function(c){return c.name;}).join(', '),
+      product_emoji: cart[0]?.emoji || '\uD83D\uDCE6',
+      product_asin: cart[0]?.asin || '',
+      subtotal: sub, shipping_cost: ship, total: total,
+      amount_aed: total,
+      notes: (notes ? notes + ' | ' : '') + 'COD | ZD-Ref: ' + orderId
+    };
+    var r = await fetch(API + '/orders', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    var d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'Order failed (' + r.status + ')');
+    if (d.order_id) orderId = d.order_id;
 
     // Show success
     closeCheckout();
