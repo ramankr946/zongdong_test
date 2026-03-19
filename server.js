@@ -216,15 +216,15 @@ app.get('/orders', auth, async (req, res) => {
     rows = rows.map(r => ({
       ...r,
       // Normalise to dashboard expected field names
-      order_id: r.id || r.order_number || '',
+      order_id: r.order_id || r.id || r.order_number || '',
       customer_name: r.customer_name || '',
       customer_email: r.customer_email || '',
       customer_phone: r.customer_phone || '',
-      delivery_address: r.shipping_address || '',
-      product_name: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.name || r.items || ''; } catch { return r.items || ''; } })(),
-      product_emoji: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.emoji || '📦'; } catch { return '📦'; } })(),
-      product_asin: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.asin || ''; } catch { return ''; } })(),
-      amount_aed: r.total || r.subtotal || 0,
+      delivery_address: r.delivery_address || r.shipping_address || '',
+      product_name: r.product_name || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.name || r.items || ''; } catch { return r.items || ''; } })(),
+      product_emoji: r.product_emoji || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.emoji || '📦'; } catch { return '📦'; } })(),
+      product_asin: r.product_asin || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.asin || ''; } catch { return ''; } })(),
+      amount_aed: r.amount_aed || r.total || r.subtotal || 0,
       status: r.status || 'pending',
       tracking_number: r.tracking_number || '',
       notes: r.notes || '',
@@ -238,34 +238,49 @@ app.post('/orders', async (req, res) => { // PUBLIC — COD orders from storefro
     const o = req.body;
     if (!o.customer_name || !o.product_name) return res.status(400).json({ error: 'customer_name and product_name required' });
     const orderId = 'ZD-' + Date.now().toString().slice(-6);
-    await bq.query({
-      query: `INSERT INTO ${tbl('orders')}
-        (order_id, customer_name, customer_email, customer_phone, delivery_address,
-         product_name, product_emoji, product_asin, amount_aed,
-         status, tracking_number, notes, updated_at)
-        VALUES
-        (@order_id, @customer_name, @customer_email, @customer_phone, @delivery_address,
-         @product_name, @product_emoji, @product_asin, @amount_aed,
-         @status, @tracking_number, @notes, CURRENT_TIMESTAMP())`,
-      params: {
-        order_id:         orderId,
-        customer_name:    String(o.customer_name).trim(),
-        customer_email:   String(o.customer_email||'').trim(),
-        customer_phone:   String(o.customer_phone||'').trim(),
-        delivery_address: String(o.delivery_address||o.shipping_address||'').trim(),
-        product_name:     String(o.product_name).trim(),
-        product_emoji:    String(o.product_emoji||'box'),
-        product_asin:     String(o.product_asin||'').trim(),
-        amount_aed:       parseFloat(o.amount_aed||o.total)||0,
-        status:           'pending',
-        tracking_number:  '',
-        notes:            String(o.notes||'').trim(),
-      }
-    });
+    // Use ADD COLUMN IF NOT EXISTS to ensure the schema is compatible, then insert
+    const row = {
+      order_id:         orderId,
+      customer_name:    String(o.customer_name).trim(),
+      customer_email:   String(o.customer_email||'').trim(),
+      customer_phone:   String(o.customer_phone||'').trim(),
+      delivery_address: String(o.delivery_address||o.shipping_address||'').trim(),
+      product_name:     String(o.product_name).trim(),
+      product_emoji:    String(o.product_emoji||'📦'),
+      product_asin:     String(o.product_asin||'').trim(),
+      amount_aed:       parseFloat(o.amount_aed||o.total)||0,
+      status:           'pending',
+      tracking_number:  '',
+      notes:            String(o.notes||'').trim(),
+      order_date:       new Date().toISOString().slice(0,10),
+      updated_at:       bq.timestamp(new Date()),
+    };
+    // First ensure columns exist, then insert
+    const missingCols = [
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS order_id STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS customer_name STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS customer_email STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS customer_phone STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS delivery_address STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS product_name STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS product_emoji STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS product_asin STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS amount_aed FLOAT64`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS status STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS tracking_number STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS notes STRING`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS order_date DATE`,
+      `ALTER TABLE ${tbl('orders')} ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP`,
+    ];
+    for (const ddl of missingCols) {
+      try { await bq.query(ddl); } catch(_) { /* column may already exist */ }
+    }
+    await bq.dataset(DATASET).table('orders').insert([row]);
     res.json({ success: true, order_id: orderId });
   } catch (e) {
-    console.error('POST /orders:', e.message);
-    res.status(500).json({ error: e.message });
+    const msg = e.message || (e.errors ? JSON.stringify(e.errors.slice(0,2)) : String(e));
+    console.error('POST /orders error:', msg);
+    res.status(500).json({ error: msg });
   }
 });
 
@@ -451,15 +466,15 @@ app.get('/orders', auth, async (req, res) => {
     rows = rows.map(r => ({
       ...r,
       // Normalise to dashboard expected field names
-      order_id: r.id || r.order_number || '',
+      order_id: r.order_id || r.id || r.order_number || '',
       customer_name: r.customer_name || '',
       customer_email: r.customer_email || '',
       customer_phone: r.customer_phone || '',
-      delivery_address: r.shipping_address || '',
-      product_name: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.name || r.items || ''; } catch { return r.items || ''; } })(),
-      product_emoji: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.emoji || '📦'; } catch { return '📦'; } })(),
-      product_asin: (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.asin || ''; } catch { return ''; } })(),
-      amount_aed: r.total || r.subtotal || 0,
+      delivery_address: r.delivery_address || r.shipping_address || '',
+      product_name: r.product_name || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.name || r.items || ''; } catch { return r.items || ''; } })(),
+      product_emoji: r.product_emoji || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.emoji || '📦'; } catch { return '📦'; } })(),
+      product_asin: r.product_asin || (() => { try { const it = JSON.parse(r.items||'[]'); return it[0]?.asin || ''; } catch { return ''; } })(),
+      amount_aed: r.amount_aed || r.total || r.subtotal || 0,
       status: r.status || 'pending',
       tracking_number: r.tracking_number || '',
       notes: r.notes || '',
