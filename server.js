@@ -242,7 +242,12 @@ app.post('/orders', async (req, res) => { // PUBLIC — customers submit COD ord
     };
     await bq.dataset(DATASET).table('orders').insert([row]);
     res.json({ success: true, order_id: row.order_id });
-  } catch (e) { console.error('POST /orders:', e.message); res.status(500).json({ error: e.message }); }
+  } catch (e) {
+    const bqErr = e.errors ? JSON.stringify(e.errors.slice(0,3)) : '';
+    const msg = e.message || bqErr || String(e);
+    console.error('POST /orders:', msg, bqErr);
+    res.status(500).json({ error: msg, bqErrors: e.errors ? e.errors.slice(0,3) : [] });
+  }
 });
 
 app.patch('/orders/:id', auth, async (req, res) => {
