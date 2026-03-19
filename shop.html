@@ -203,6 +203,20 @@ footer a:hover{color:rgba(255,255,255,.5)}
   nav{gap:.4rem}
   .nav-btn span{display:none}
 }
+
+/* ACCOUNT PANEL */
+.acc-tab{transition:all .2s}
+.acc-tab:hover:not(.active){background:var(--sand) !important;color:var(--ink) !important}
+.acc-order-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:9px}
+.acc-order-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.acc-order-id{font-size:.72rem;font-weight:700;font-family:monospace;color:var(--saffron)}
+.acc-order-status{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+.status-pending{background:#FFF3E0;color:#E65100}
+.status-shipped{background:#E3F2FD;color:#1565C0}
+.status-delivered{background:#E8F5E9;color:#2E7D32}
+.status-cancelled{background:#FFEBEE;color:#C62828}
+.acc-addr-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start}
+
 </style>
 </head>
 <body>
@@ -315,13 +329,83 @@ footer a:hover{color:rgba(255,255,255,.5)}
 </div>
 
 <!-- AUTH PANEL -->
-<div class="side-panel right" id="authPanel">
-  <div class="panel-head"><h2>My Account</h2><button class="close-btn" onclick="closeAll()">&#10005;</button></div>
-  <div style="padding:1.5rem;text-align:center;color:var(--muted)">
-    <div style="font-size:2.5rem;margin-bottom:1rem">&#128100;</div>
-    <p style="font-size:.85rem">Sign in &amp; order tracking coming soon.</p>
-    <p style="font-size:.75rem;margin-top:.75rem">Questions? Email us at<br><strong style="color:var(--ink)">hello@zongdong.com</strong></p>
+<div class="side-panel right" id="authPanel" style="width:420px">
+  <div class="panel-head">
+    <h2 id="accPanelTitle">&#128100; My Account</h2>
+    <button class="close-btn" onclick="closeAll()">&#10005;</button>
   </div>
+
+  <!-- LOGIN VIEW -->
+  <div id="accLoginView" style="padding:1.5rem">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="font-size:2.8rem;margin-bottom:.6rem">&#128100;</div>
+      <div style="font-size:.95rem;font-weight:600;margin-bottom:.25rem">Track your orders</div>
+      <div style="font-size:.78rem;color:var(--muted)">Enter your phone number to view past orders &amp; saved addresses</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
+      <label style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Phone Number (UAE)</label>
+      <input type="tel" id="accPhone" placeholder="+971 50 000 0000"
+        style="padding:10px 13px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.9rem;outline:none;transition:border .2s;width:100%"
+        onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'"
+        onkeydown="if(event.key==='Enter')lookupOrders()">
+    </div>
+    <button onclick="lookupOrders()" id="accLookupBtn"
+      style="width:100%;padding:12px;background:var(--saffron);color:#fff;border:none;border-radius:9px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px">
+      &#128269; Find My Orders
+    </button>
+    <p style="font-size:.7rem;color:var(--muted);text-align:center">We use your phone number only to look up your orders. No password needed.</p>
+  </div>
+
+  <!-- ACCOUNT MAIN VIEW (after lookup) -->
+  <div id="accMainView" style="display:none;flex-direction:column;height:calc(100% - 57px)">
+    <!-- User header -->
+    <div style="padding:14px 16px;background:var(--sand);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:.85rem;font-weight:700" id="accUserName">&#128100; Guest</div>
+        <div style="font-size:.72rem;color:var(--muted)" id="accUserPhone"></div>
+      </div>
+      <button onclick="accLogout()" style="background:none;border:1px solid var(--border);border-radius:7px;padding:5px 11px;font-family:inherit;font-size:.72rem;cursor:pointer;color:var(--muted)">Sign out</button>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;border-bottom:1px solid var(--border)">
+      <button class="acc-tab active" id="accTab-orders" onclick="switchAccTab('orders')" style="flex:1;padding:11px;background:none;border:none;border-bottom:2px solid var(--saffron);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--saffron)">&#128230; Orders</button>
+      <button class="acc-tab" id="accTab-addresses" onclick="switchAccTab('addresses')" style="flex:1;padding:11px;background:none;border:none;border-bottom:2px solid transparent;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--muted)">&#128205; Addresses</button>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div id="accTabOrders" style="flex:1;overflow-y:auto;padding:12px">
+      <div id="accOrdersList"></div>
+    </div>
+
+    <!-- ADDRESSES TAB -->
+    <div id="accTabAddresses" style="display:none;flex:1;overflow-y:auto;padding:12px">
+      <div id="accAddressList"></div>
+      <!-- Add address form -->
+      <div style="margin-top:12px;background:var(--sand);border-radius:10px;padding:12px;border:1px solid var(--border)">
+        <div style="font-size:.75rem;font-weight:700;margin-bottom:9px;color:var(--ink)">&#10010; Add New Address</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <input type="text" id="addrLabel" placeholder='Label (e.g. "Home", "Office")'
+            style="padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none"
+            onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+          <input type="text" id="addrName" placeholder="Recipient name"
+            style="padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none"
+            onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+          <input type="text" id="addrLine" placeholder="Full address (building, area, city)"
+            style="padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none"
+            onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+          <input type="tel" id="addrPhone" placeholder="Phone (if different)"
+            style="padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none"
+            onfocus="this.style.borderColor='var(--saffron)'" onblur="this.style.borderColor='var(--border)'">
+          <button onclick="saveAddress()"
+            style="padding:9px;background:var(--saffron);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer">
+            &#128190; Save Address
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- COD CHECKOUT MODAL -->
@@ -923,6 +1007,170 @@ function showToast(msg) {
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 loadCat(document.querySelector('.cat-chip.active'), 'featured');
+
+
+// ── ACCOUNT ────────────────────────────────────────────────────────────────────
+var accCurrentPhone = '';
+var accCurrentName  = '';
+
+async function lookupOrders() {
+  var phone = document.getElementById('accPhone').value.trim();
+  if (!phone) { showToast('\u26A0\uFE0F Enter your phone number'); return; }
+  var btn = document.getElementById('accLookupBtn');
+  btn.textContent = 'Looking up\u2026'; btn.disabled = true;
+
+  try {
+    var r = await fetch(API + '/orders');
+    var all = await r.json();
+    // Filter orders by phone
+    var myOrders = Array.isArray(all) ? all.filter(function(o) {
+      return o.customer_phone && o.customer_phone.replace(/\s/g,'').includes(phone.replace(/\s/g,''));
+    }) : [];
+
+    accCurrentPhone = phone;
+    accCurrentName  = myOrders.length > 0 ? myOrders[0].customer_name : 'Guest';
+
+    document.getElementById('accUserName').textContent = '\uD83D\uDC64 ' + accCurrentName;
+    document.getElementById('accUserPhone').textContent = phone;
+    document.getElementById('accLoginView').style.display  = 'none';
+    document.getElementById('accMainView').style.display   = 'flex';
+
+    renderOrders(myOrders);
+    renderAddresses();
+    showToast(myOrders.length ? ('\u2713 Found ' + myOrders.length + ' order' + (myOrders.length>1?'s':'')) : 'No orders found for this number');
+  } catch(e) {
+    showToast('\u274C Error: ' + e.message);
+  }
+  btn.textContent = '\uD83D\uDD0D Find My Orders'; btn.disabled = false;
+}
+
+function renderOrders(orders) {
+  var el = document.getElementById('accOrdersList');
+  if (!orders || !orders.length) {
+    el.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted)"><div style="font-size:2rem;margin-bottom:.75rem">\uD83D\uDCE6</div><div style="font-size:.82rem">No orders found for this number.<br>Place your first order!</div></div>';
+    return;
+  }
+  el.innerHTML = orders.map(function(o) {
+    var status = (o.status || 'pending').toLowerCase();
+    var statusClass = 'status-' + status;
+    var date = o.order_date || (o.updated_at && o.updated_at.value ? o.updated_at.value.slice(0,10) : '');
+    return '<div class="acc-order-card">' +
+      '<div class="acc-order-hdr">' +
+        '<div>' +
+          '<div class="acc-order-id">' + (o.order_id || 'ZD-???') + '</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);margin-top:1px">' + date + '</div>' +
+        '</div>' +
+        '<span class="acc-order-status ' + statusClass + '">' + status + '</span>' +
+      '</div>' +
+      '<div style="font-size:.82rem;font-weight:500;margin-bottom:4px">' + (o.product_emoji||'\uD83D\uDCE6') + ' ' + (o.product_name||'Product') + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">' +
+        '<div style="font-size:.78rem;color:var(--muted)">\uD83D\uDE9A ' + (o.delivery_address ? o.delivery_address.slice(0,35)+'\u2026' : 'No address') + '</div>' +
+        '<div style="font-size:.9rem;font-weight:700;color:var(--saffron)">AED ' + (o.amount_aed||0) + '</div>' +
+      '</div>' +
+      (o.tracking_number ? '<div style="margin-top:6px;font-size:.72rem;background:var(--sand);border-radius:5px;padding:4px 8px;font-family:monospace">\uD83D\uDE9A Tracking: ' + o.tracking_number + '</div>' : '') +
+      (o.notes ? '<div style="margin-top:5px;font-size:.7rem;color:var(--muted)">' + o.notes.replace(/COD \| /g,'').slice(0,60) + '</div>' : '') +
+    '</div>';
+  }).join('');
+}
+
+function switchAccTab(tab) {
+  var isOrders = tab === 'orders';
+  document.getElementById('accTabOrders').style.display    = isOrders ? 'block' : 'none';
+  document.getElementById('accTabAddresses').style.display = isOrders ? 'none'  : 'block';
+  ['orders','addresses'].forEach(function(t) {
+    var btn = document.getElementById('accTab-' + t);
+    var active = t === tab;
+    btn.style.borderBottomColor = active ? 'var(--saffron)' : 'transparent';
+    btn.style.color  = active ? 'var(--saffron)' : 'var(--muted)';
+    btn.style.fontWeight = active ? '700' : '500';
+  });
+}
+
+// ── ADDRESS BOOK ──────────────────────────────────────────────────────────────
+function getAddresses() {
+  try { return JSON.parse(localStorage.getItem('zd_addresses') || '[]'); } catch(e) { return []; }
+}
+function saveAddressBook(arr) {
+  localStorage.setItem('zd_addresses', JSON.stringify(arr));
+}
+
+function renderAddresses() {
+  var addresses = getAddresses().filter(function(a) { return a.phone === accCurrentPhone; });
+  var el = document.getElementById('accAddressList');
+  if (!addresses.length) {
+    el.innerHTML = '<div style="font-size:.78rem;color:var(--muted);text-align:center;padding:1rem 0;margin-bottom:4px">No saved addresses yet</div>';
+    return;
+  }
+  el.innerHTML = addresses.map(function(a, i) {
+    return '<div class="acc-addr-card">' +
+      '<div>' +
+        '<div style="font-size:.78rem;font-weight:700;margin-bottom:2px">\uD83C\uDFE0 ' + (a.label||'Address') + '</div>' +
+        '<div style="font-size:.78rem;font-weight:600">' + (a.name||'') + '</div>' +
+        '<div style="font-size:.75rem;color:var(--muted)">' + (a.line||'') + '</div>' +
+        (a.addrPhone ? '<div style="font-size:.72rem;color:var(--muted)">' + a.addrPhone + '</div>' : '') +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:5px">' +
+        '<button onclick="useAddress(' + i + ')" style="padding:5px 10px;background:var(--saffron);color:#fff;border:none;border-radius:6px;font-family:inherit;font-size:.7rem;font-weight:700;cursor:pointer">Use</button>' +
+        '<button onclick="deleteAddress(' + i + ')" style="padding:5px 10px;background:none;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.7rem;cursor:pointer;color:var(--muted)">Delete</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function saveAddress() {
+  var label = document.getElementById('addrLabel').value.trim();
+  var name  = document.getElementById('addrName').value.trim();
+  var line  = document.getElementById('addrLine').value.trim();
+  var aPhone= document.getElementById('addrPhone').value.trim();
+  if (!line) { showToast('\u26A0\uFE0F Enter a delivery address'); return; }
+  var all = getAddresses();
+  all.push({ phone: accCurrentPhone, label: label||'Address', name: name||accCurrentName, line, addrPhone: aPhone });
+  saveAddressBook(all);
+  ['addrLabel','addrName','addrLine','addrPhone'].forEach(function(id){ document.getElementById(id).value=''; });
+  renderAddresses();
+  showToast('\u2713 Address saved');
+}
+
+function deleteAddress(i) {
+  var all = getAddresses().filter(function(a){ return a.phone === accCurrentPhone; });
+  var rest = getAddresses().filter(function(a){ return a.phone !== accCurrentPhone; });
+  all.splice(i,1);
+  saveAddressBook(rest.concat(all));
+  renderAddresses();
+  showToast('Address removed');
+}
+
+function useAddress(i) {
+  var mine = getAddresses().filter(function(a){ return a.phone === accCurrentPhone; });
+  var a = mine[i];
+  if (!a) return;
+  // Pre-fill checkout form if open, or store for next checkout
+  if (document.getElementById('coAddr')) document.getElementById('coAddr').value = a.line;
+  if (document.getElementById('coName') && a.name) document.getElementById('coName').value = a.name;
+  if (document.getElementById('coPhone') && a.addrPhone) document.getElementById('coPhone').value = a.addrPhone;
+  closeAll();
+  showToast('\u2713 Address applied to checkout');
+}
+
+function accLogout() {
+  accCurrentPhone = ''; accCurrentName = '';
+  document.getElementById('accLoginView').style.display  = 'block';
+  document.getElementById('accMainView').style.display   = 'none';
+  document.getElementById('accPhone').value = '';
+}
+
+// When opening cart checkout, pre-fill phone if logged in
+var _origCheckout = checkout;
+checkout = function() {
+  _origCheckout();
+  if (accCurrentPhone && document.getElementById('coPhone')) {
+    document.getElementById('coPhone').value = accCurrentPhone;
+  }
+  if (accCurrentName && document.getElementById('coName')) {
+    document.getElementById('coName').value = accCurrentName;
+  }
+};
+
 </script>
 </body>
 </html>
